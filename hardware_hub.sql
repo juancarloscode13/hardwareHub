@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS placa_base(
     ranuras_almacenamiento TINYINT,
     puertos_usb TINYINT,
     conectividad_interna JSON,
-    wifi_soportado ENUM('WI-FI 1', 'WI-FI 2', 'WI-FI 3', 'WI-FI 4', 'WI-FI 5', 'WI-FI 6', 'WI-FI 6E', 'WI-FI 7')
+    wifi_soportado VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS fabricante(
