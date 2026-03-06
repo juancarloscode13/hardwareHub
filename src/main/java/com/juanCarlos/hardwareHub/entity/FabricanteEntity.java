@@ -1,0 +1,4 @@
+package com.juanCarlos.hardwareHub.entity;
+
+public class FabricanteEntity {
+}
