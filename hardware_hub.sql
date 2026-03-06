@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS cpu(
     id_fabricante INTEGER UNSIGNED NOT NULL,
     cpu_socket VARCHAR(15) NOT NULL,
     cores JSON NOT NULL,
-    3dvcache BOOLEAN,
+    cache_apilada BOOLEAN, -- 3d-v cache
     arquitectura varchar(25) NOT NULL,
     precio DECIMAL(7, 2),
     hilos TINYINT,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS cpu(
     frecuencia_max DECIMAL(5, 3),
     frecuencia_min DECIMAL(5, 3),
     cantidad_cache SMALLINT,
-    tdp INTEGER,
+    tdp SMALLINT NULL,
     temperatura_max TINYINT,
     conectividad_pcie TINYINT,
     graficos_integrados VARCHAR(40) NULL
