@@ -1,0 +1,18 @@
+package com.juanCarlos.hardwareHub.dto.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ComentarioResponseDto {
+
+    private Long id;
+    private String textoContenido;
+    private Long usuarioId;
+    private Long comentarioId;
+    private Long publicacionId;
+    private Long publicacionMontajeId;
+}
