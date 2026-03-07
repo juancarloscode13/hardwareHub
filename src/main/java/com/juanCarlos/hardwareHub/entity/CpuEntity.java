@@ -14,12 +14,9 @@ import org.hibernate.type.SqlTypes;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import static org.hibernate.type.SqlTypes.*;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name = "cpu")
 public class CpuEntity {
@@ -33,7 +30,8 @@ public class CpuEntity {
     private String modelo;
 
     @NonNull
-    //Establecer relación
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_fabricante")
     private FabricanteEntity fabricante;
 
     @NonNull
