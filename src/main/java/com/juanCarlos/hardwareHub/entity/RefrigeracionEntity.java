@@ -1,6 +1,6 @@
 package com.juanCarlos.hardwareHub.entity;
 
-import com.juanCarlos.hardwareHub.entity.enums.RefrigeracionSocketCompatible;
+import com.juanCarlos.hardwareHub.entity.enums.CpuSocket;
 import com.juanCarlos.hardwareHub.entity.enums.RefrigeracionTipo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Null;
@@ -41,7 +41,7 @@ public class RefrigeracionEntity {
     @NonNull
     @Enumerated(value = EnumType.STRING)
     @Column(name = "socket_compatible")
-    private RefrigeracionSocketCompatible socketCompatible;
+    private CpuSocket socketCompatible;
 
     @NonNull
     @Enumerated(value = EnumType.STRING)
