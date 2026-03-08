@@ -1,8 +1,7 @@
 package com.juanCarlos.hardwareHub.dto.response;
 
 import com.juanCarlos.hardwareHub.entity.enums.CajaFormato;
-import com.juanCarlos.hardwareHub.entity.enums.CajaPlacasBaseCompatibles;
-import com.juanCarlos.hardwareHub.entity.enums.CajaTipoPsuCompatible;
+import com.juanCarlos.hardwareHub.entity.enums.PsuFactorForma;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,10 +19,10 @@ public class CajaResponseDto {
     private Long fabricanteId;
     private BigDecimal precio;
     private CajaFormato formato;
-    private CajaPlacasBaseCompatibles placasBaseCompatibles;
+    private CajaFormato placasBaseCompatibles;
     private String color;
     private Map<String, Object> dimensiones;
-    private CajaTipoPsuCompatible psuCompatible;
+    private PsuFactorForma psuCompatible;
     private Map<String, Object> espacioMaxGpu;
     private Integer bahias25;
     private Integer bahias35;

@@ -1,8 +1,7 @@
 package com.juanCarlos.hardwareHub.entity;
 
 import com.juanCarlos.hardwareHub.entity.enums.CajaFormato;
-import com.juanCarlos.hardwareHub.entity.enums.CajaPlacasBaseCompatibles;
-import com.juanCarlos.hardwareHub.entity.enums.CajaTipoPsuCompatible;
+import com.juanCarlos.hardwareHub.entity.enums.PsuFactorForma;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
@@ -47,7 +46,7 @@ public class CajaEntity {
     @NonNull
     @Enumerated(value = EnumType.STRING)
     @Column(name = "placas_base_compatibles")
-    private CajaPlacasBaseCompatibles placasBaseCompatibles;
+    private CajaFormato placasBaseCompatibles;
 
     @Null
     @Column(name = "color")
@@ -61,7 +60,7 @@ public class CajaEntity {
     @Null
     @Enumerated(value = EnumType.STRING)
     @Column(name = "psu_compatible")
-    private CajaTipoPsuCompatible psuCompatible;
+    private PsuFactorForma psuCompatible;
 
     @Null
     @JdbcTypeCode(value = SqlTypes.JSON)
