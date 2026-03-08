@@ -1,10 +1,10 @@
 package com.juanCarlos.hardwareHub.entity;
 
+import com.juanCarlos.hardwareHub.entity.enums.CpuSocket;
 import com.juanCarlos.hardwareHub.entity.enums.PlacaBaseChipset;
 import com.juanCarlos.hardwareHub.entity.enums.PlacaBaseFormato;
-import com.juanCarlos.hardwareHub.entity.enums.PlacaBaseRamSoportada;
-import com.juanCarlos.hardwareHub.entity.enums.PlacaBaseSocketCompatible;
 import com.juanCarlos.hardwareHub.entity.enums.PlacaBaseWifiSoportado;
+import com.juanCarlos.hardwareHub.entity.enums.RamTipo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
@@ -44,7 +44,7 @@ public class PlacaBaseEntity {
     @NonNull
     @Enumerated(value = EnumType.STRING)
     @Column(name = "socket_compatible")
-    private PlacaBaseSocketCompatible socketCompatible;
+    private CpuSocket socketCompatible;
 
     @NonNull
     @Enumerated(value = EnumType.STRING)
@@ -62,7 +62,7 @@ public class PlacaBaseEntity {
     @Null
     @Enumerated(value = EnumType.STRING)
     @Column(name = "tipo_ram_soportada")
-    private PlacaBaseRamSoportada tipoRamSoportada;
+    private RamTipo tipoRamSoportada;
 
     @NonNull
     @Enumerated(value = EnumType.STRING)

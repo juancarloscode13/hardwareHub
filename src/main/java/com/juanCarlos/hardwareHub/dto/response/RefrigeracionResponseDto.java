@@ -1,6 +1,6 @@
 package com.juanCarlos.hardwareHub.dto.response;
 
-import com.juanCarlos.hardwareHub.entity.enums.RefrigeracionSocketCompatible;
+import com.juanCarlos.hardwareHub.entity.enums.CpuSocket;
 import com.juanCarlos.hardwareHub.entity.enums.RefrigeracionTipo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class RefrigeracionResponseDto {
     private String modelo;
     private Long fabricanteId;
     private BigDecimal precio;
-    private RefrigeracionSocketCompatible socketCompatible;
+    private CpuSocket socketCompatible;
     private RefrigeracionTipo tipo;
     private Map<String, Object> atributos;
 }
