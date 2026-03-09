@@ -20,4 +20,6 @@ public interface PublicacionService {
     List<PublicacionResponseDto> getAllOrderByFechaDesc();
 
     List<PublicacionResponseDto> getByUsuarioId(Long usuarioId);
+
+    List<PublicacionResponseDto> getByMontajeId(Long montajeId);
 }

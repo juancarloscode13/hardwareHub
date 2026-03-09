@@ -29,6 +29,11 @@ public class PublicacionEntity {
     @Column(name = "multimedia")
     private byte[] multimedia;
 
+    @Null
+    @ManyToOne
+    @JoinColumn(name = "id_montaje")
+    private MontajeEntity montaje;
+
     @NonNull
     @Column(name = "likes")
     private Integer likes;

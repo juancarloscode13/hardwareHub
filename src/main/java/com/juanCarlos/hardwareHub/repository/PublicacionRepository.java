@@ -9,4 +9,6 @@ public interface PublicacionRepository extends JpaRepository<PublicacionEntity, 
     List<PublicacionEntity> findAllByOrderByFechaDesc();
 
     List<PublicacionEntity> getByUsuarioId(Long usuarioId);
+
+    List<PublicacionEntity> getByMontajeId(Long montajeId);
 }

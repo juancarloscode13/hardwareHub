@@ -10,7 +10,6 @@ import com.juanCarlos.hardwareHub.entity.MontajeEntity;
 import com.juanCarlos.hardwareHub.entity.PlacaBaseEntity;
 import com.juanCarlos.hardwareHub.entity.PsuEntity;
 import com.juanCarlos.hardwareHub.entity.PublicacionEntity;
-import com.juanCarlos.hardwareHub.entity.PublicacionMontajeEntity;
 import com.juanCarlos.hardwareHub.entity.RamEntity;
 import com.juanCarlos.hardwareHub.entity.RefrigeracionEntity;
 import com.juanCarlos.hardwareHub.entity.UsuarioEntity;
@@ -133,15 +132,6 @@ public final class EntityReferenceMapper {
             return null;
         }
         PublicacionEntity entity = new PublicacionEntity();
-        entity.setId(id);
-        return entity;
-    }
-
-    public static PublicacionMontajeEntity toPublicacionMontajeEntity(Long id) {
-        if (id == null) {
-            return null;
-        }
-        PublicacionMontajeEntity entity = new PublicacionMontajeEntity();
         entity.setId(id);
         return entity;
     }
