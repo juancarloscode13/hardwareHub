@@ -11,6 +11,7 @@ public class PublicacionRequestDto {
 
     private String contenidoTexto;
     private byte[] multimedia;
+    private Long montajeId;
     private Integer likes;
     private Long usuarioId;
 }

@@ -18,5 +18,4 @@ public class ComentarioResponseDto {
     private Long usuarioId;
     private Long comentarioId;
     private Long publicacionId;
-    private Long publicacionMontajeId;
 }

@@ -164,16 +164,7 @@ CREATE TABLE IF NOT EXISTS publicacion(
     multimedia MEDIUMBLOB,
     likes INTEGER UNSIGNED NOT NULL DEFAULT 0,
     fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    id_usuario INTEGER UNSIGNED NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS publicacion_montaje(
-	id INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    contenido_texto VARCHAR(300),
-    multimedia MEDIUMBLOB,
-    likes INTEGER UNSIGNED NOT NULL DEFAULT 0,
-    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    id_montaje INTEGER UNSIGNED NOT NULL,
+    id_montaje INTEGER UNSIGNED NULL,
     id_usuario INTEGER UNSIGNED NOT NULL
 );
 
@@ -184,8 +175,7 @@ CREATE TABLE IF NOT EXISTS comentario(
     fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_usuario INTEGER UNSIGNED NOT NULL,
     id_comentario INTEGER UNSIGNED NULL,
-    id_publicacion INTEGER UNSIGNED NULL,
-    id_publicacion_montaje INTEGER UNSIGNED NULL
+    id_publicacion INTEGER UNSIGNED NULL
 );
 
 -- ################################################################
@@ -226,16 +216,14 @@ ADD CONSTRAINT fk_montaje_usuario
 ALTER TABLE publicacion
 ADD CONSTRAINT fk_publicacion_usuario
     FOREIGN KEY (id_usuario) REFERENCES usuario(id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
-
--- Tabla publicacion_montaje
-ALTER TABLE publicacion_montaje
-ADD CONSTRAINT fk_publicacion_montaje_usuario
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT fk_publicacion_montaje_montaje
+ADD CONSTRAINT fk_publicacion_montaje
     FOREIGN KEY (id_montaje) REFERENCES montaje(id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
+    ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT ck_publicacion_montaje_xor_multimedia
+    CHECK (
+        (id_montaje IS NULL OR multimedia IS NULL)
+    );
 
 -- Tabla comentario
 ALTER TABLE comentario
@@ -247,9 +235,6 @@ ADD CONSTRAINT fk_comentario_respuesta
     ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT fk_comentario_publicacion
 	FOREIGN KEY (id_publicacion) REFERENCES publicacion(id)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT fk_comentario_publicacion_montaje
-	FOREIGN KEY (id_publicacion_montaje) REFERENCES publicacion_montaje(id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- Tabla fabricante
@@ -281,7 +266,7 @@ ADD CONSTRAINT fk_fabricante_placa_base
 ADD CONSTRAINT uq_fabricante_nombre
     UNIQUE (nombre);
 
--- Agregar constraints UNIQUE para modelo en tablas de componentes
+-- Constraints unique
 ALTER TABLE cpu
 ADD CONSTRAINT uq_cpu_modelo
     UNIQUE (modelo);
@@ -314,7 +299,6 @@ ALTER TABLE placa_base
 ADD CONSTRAINT uq_placa_base_modelo
     UNIQUE (modelo);
 
--- Agregar constraint UNIQUE para email en tabla usuario
 ALTER TABLE usuario
 ADD CONSTRAINT uq_usuario_email
     UNIQUE (email);

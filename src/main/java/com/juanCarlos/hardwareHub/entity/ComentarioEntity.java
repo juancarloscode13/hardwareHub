@@ -46,9 +46,4 @@ public class ComentarioEntity {
     @ManyToOne
     @JoinColumn(name = "id_publicacion")
     private PublicacionEntity publicacion;
-
-    @Null
-    @ManyToOne
-    @JoinColumn(name = "id_publicacion_montaje")
-    private PublicacionMontajeEntity publicacionMontaje;
 }

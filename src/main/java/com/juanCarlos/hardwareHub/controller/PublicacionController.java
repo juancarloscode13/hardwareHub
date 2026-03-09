@@ -53,4 +53,9 @@ public class PublicacionController {
     public ResponseEntity<List<PublicacionResponseDto>> getByUsuarioId(@PathVariable Long usuarioId) {
         return ResponseEntity.ok(publicacionService.getByUsuarioId(usuarioId));
     }
+
+    @GetMapping("/montaje/{montajeId}")
+    public ResponseEntity<List<PublicacionResponseDto>> getByMontajeId(@PathVariable Long montajeId) {
+        return ResponseEntity.ok(publicacionService.getByMontajeId(montajeId));
+    }
 }

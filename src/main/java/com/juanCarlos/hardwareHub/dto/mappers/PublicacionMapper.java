@@ -13,9 +13,11 @@ public interface PublicacionMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "fecha", ignore = true)
+    @Mapping(target = "montaje", source = "montajeId")
     @Mapping(target = "usuario", source = "usuarioId")
     PublicacionEntity toEntity(PublicacionRequestDto requestDto);
 
+    @Mapping(target = "montajeId", source = "montaje.id")
     @Mapping(target = "usuarioId", source = "usuario.id")
     PublicacionResponseDto toResponseDto(PublicacionEntity entity);
 
