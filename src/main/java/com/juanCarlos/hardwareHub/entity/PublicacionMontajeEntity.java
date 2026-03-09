@@ -30,6 +30,10 @@ public class PublicacionMontajeEntity {
     private byte[] multimedia;
 
     @NonNull
+    @Column(name = "likes")
+    private Integer likes;
+
+    @NonNull
     @Column(name = "fecha")
     private LocalDateTime fecha;
 

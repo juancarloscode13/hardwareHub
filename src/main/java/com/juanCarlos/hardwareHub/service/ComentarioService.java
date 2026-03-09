@@ -18,4 +18,10 @@ public interface ComentarioService {
     void deleteById(Long id);
 
     List<ComentarioResponseDto> getAllOrderByFechaDesc();
+
+    List<ComentarioResponseDto> getByUsuarioId(Long usuarioId);
+
+    List<ComentarioResponseDto> getByPublicacionId(Long publicacionId);
+
+    List<ComentarioResponseDto> getByComentarioId(Long comentarioId);
 }

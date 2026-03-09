@@ -25,6 +25,10 @@ public class ComentarioEntity {
     private String textoContenido;
 
     @NonNull
+    @Column(name = "likes")
+    private Integer likes;
+
+    @NonNull
     @Column(name = "fecha")
     private LocalDateTime fecha;
 

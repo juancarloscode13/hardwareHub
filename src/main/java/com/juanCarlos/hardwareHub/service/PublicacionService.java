@@ -18,4 +18,6 @@ public interface PublicacionService {
     void deleteById(Long id);
 
     List<PublicacionResponseDto> getAllOrderByFechaDesc();
+
+    List<PublicacionResponseDto> getByUsuarioId(Long usuarioId);
 }

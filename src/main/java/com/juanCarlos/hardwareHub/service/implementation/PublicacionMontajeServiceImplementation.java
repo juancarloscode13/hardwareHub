@@ -26,6 +26,9 @@ public class PublicacionMontajeServiceImplementation implements PublicacionMonta
     @Override
     public PublicacionMontajeResponseDto create(PublicacionMontajeRequestDto requestDto) {
         PublicacionMontajeEntity entity = publicacionMontajeMapper.toEntity(requestDto);
+        if (entity.getLikes() == null) {
+            entity.setLikes(0);
+        }
         entity.setFecha(LocalDateTime.now());
         PublicacionMontajeEntity savedEntity = publicacionMontajeRepository.save(entity);
         return publicacionMontajeMapper.toResponseDto(savedEntity);
@@ -52,6 +55,7 @@ public class PublicacionMontajeServiceImplementation implements PublicacionMonta
         PublicacionMontajeEntity entity = publicacionMontajeMapper.toEntity(requestDto);
         entity.setId(id);
         entity.setFecha(existingEntity.getFecha());
+        entity.setLikes(entity.getLikes() == null ? existingEntity.getLikes() : entity.getLikes());
         PublicacionMontajeEntity savedEntity = publicacionMontajeRepository.save(entity);
         return publicacionMontajeMapper.toResponseDto(savedEntity);
     }
@@ -67,6 +71,12 @@ public class PublicacionMontajeServiceImplementation implements PublicacionMonta
     @Override
     public List<PublicacionMontajeResponseDto> getAllOrderByFechaDesc() {
         List<PublicacionMontajeEntity> entities = publicacionMontajeRepository.findAllByOrderByFechaDesc();
+        return publicacionMontajeMapper.toResponseDtoList(entities);
+    }
+
+    @Override
+    public List<PublicacionMontajeResponseDto> getByUsuarioId(Long usuarioId) {
+        List<PublicacionMontajeEntity> entities = publicacionMontajeRepository.getByUsuarioId(usuarioId);
         return publicacionMontajeMapper.toResponseDtoList(entities);
     }
 }
