@@ -92,4 +92,8 @@ public class CpuEntity {
     @Null
     @Column(name = "graficos_integrados")
     private String graficosIntegrados;
+
+    @Null
+    @Column(name = "puntuacion_passmark")
+    private Integer puntuacionPassmark;
 }

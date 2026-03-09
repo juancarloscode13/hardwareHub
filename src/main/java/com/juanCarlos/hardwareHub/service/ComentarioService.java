@@ -16,4 +16,6 @@ public interface ComentarioService {
     ComentarioResponseDto update(Long id, ComentarioRequestDto requestDto);
 
     void deleteById(Long id);
+
+    List<ComentarioResponseDto> getAllOrderByFechaDesc();
 }

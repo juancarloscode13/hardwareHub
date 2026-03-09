@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +28,10 @@ public class PublicacionMontajeEntity {
     @Lob
     @Column(name = "multimedia")
     private byte[] multimedia;
+
+    @NonNull
+    @Column(name = "fecha")
+    private LocalDateTime fecha;
 
     @NonNull
     @ManyToOne(optional = false)

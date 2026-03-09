@@ -10,4 +10,8 @@ public interface CpuRepository extends JpaRepository<CpuEntity, Long> {
     List<CpuEntity> getByCpuSocket(CpuSocket cpuSocket);
 
     List<CpuEntity> getByConectividadPcie(Integer conectividadPcie);
+
+    List<CpuEntity> getByPuntuacionPassmarkGreaterThanEqual(Integer puntuacionPassmark);
+
+    List<CpuEntity> findAllByOrderByPuntuacionPassmarkDesc();
 }

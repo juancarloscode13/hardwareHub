@@ -21,4 +21,8 @@ public interface CpuService {
     List<CpuResponseDto> getByCpuSocket(CpuSocket cpuSocket);
 
     List<CpuResponseDto> getByConectividadPcie(Integer conectividadPcie);
+
+    List<CpuResponseDto> getByPuntuacionPassmarkGreaterThanEqual(Integer puntuacionPassmark);
+
+    List<CpuResponseDto> getAllOrderByPuntuacionPassmarkDesc();
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -25,6 +26,7 @@ public class ComentarioServiceImplementation implements ComentarioService {
     @Override
     public ComentarioResponseDto create(ComentarioRequestDto requestDto) {
         ComentarioEntity entity = comentarioMapper.toEntity(requestDto);
+        entity.setFecha(LocalDateTime.now());
         ComentarioEntity savedEntity = comentarioRepository.save(entity);
         return comentarioMapper.toResponseDto(savedEntity);
     }
@@ -44,12 +46,12 @@ public class ComentarioServiceImplementation implements ComentarioService {
 
     @Override
     public ComentarioResponseDto update(Long id, ComentarioRequestDto requestDto) {
-        if (!comentarioRepository.existsById(id)) {
-            throw new EntityNotFoundException("No se pudo encontrar ningun comentario con ese id");
-        }
+        ComentarioEntity existingEntity = comentarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se pudo encontrar ningun comentario con ese id"));
 
         ComentarioEntity entity = comentarioMapper.toEntity(requestDto);
         entity.setId(id);
+        entity.setFecha(existingEntity.getFecha());
         ComentarioEntity savedEntity = comentarioRepository.save(entity);
         return comentarioMapper.toResponseDto(savedEntity);
     }
@@ -60,5 +62,11 @@ public class ComentarioServiceImplementation implements ComentarioService {
             throw new EntityNotFoundException("No se pudo encontrar ningun comentario con ese id");
         }
         comentarioRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ComentarioResponseDto> getAllOrderByFechaDesc() {
+        List<ComentarioEntity> entities = comentarioRepository.findAllByOrderByFechaDesc();
+        return comentarioMapper.toResponseDtoList(entities);
     }
 }

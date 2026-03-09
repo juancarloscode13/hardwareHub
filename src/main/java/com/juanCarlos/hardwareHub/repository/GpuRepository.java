@@ -9,4 +9,8 @@ public interface GpuRepository extends JpaRepository<GpuEntity, Long> {
     List<GpuEntity> getByConectividadPcie(Integer conectividadPcie);
 
     List<GpuEntity> getByAltoGpuLessThanEqual(Integer altoGpu);
+
+    List<GpuEntity> getByPuntuacionPassmarkGreaterThanEqual(Integer puntuacionPassmark);
+
+    List<GpuEntity> findAllByOrderByPuntuacionPassmarkDesc();
 }

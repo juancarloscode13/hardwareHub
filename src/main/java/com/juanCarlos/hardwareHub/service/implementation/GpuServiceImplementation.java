@@ -73,4 +73,16 @@ public class GpuServiceImplementation implements GpuService {
         List<GpuEntity> entities = gpuRepository.getByAltoGpuLessThanEqual(altoGpu);
         return gpuMapper.toResponseDtoList(entities);
     }
+
+    @Override
+    public List<GpuResponseDto> getByPuntuacionPassmarkGreaterThanEqual(Integer puntuacionPassmark) {
+        List<GpuEntity> entities = gpuRepository.getByPuntuacionPassmarkGreaterThanEqual(puntuacionPassmark);
+        return gpuMapper.toResponseDtoList(entities);
+    }
+
+    @Override
+    public List<GpuResponseDto> getAllOrderByPuntuacionPassmarkDesc() {
+        List<GpuEntity> entities = gpuRepository.findAllByOrderByPuntuacionPassmarkDesc();
+        return gpuMapper.toResponseDtoList(entities);
+    }
 }

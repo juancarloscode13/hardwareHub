@@ -96,4 +96,8 @@ public class GpuEntity {
     @Null
     @Column(name = "alto_gpu")
     private Integer altoGpu;
+
+    @Null
+    @Column(name = "puntuacion_passmark")
+    private Integer puntuacionPassmark;
 }

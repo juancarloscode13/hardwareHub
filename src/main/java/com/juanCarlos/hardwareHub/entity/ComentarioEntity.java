@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +23,10 @@ public class ComentarioEntity {
     @NonNull
     @Column(name = "texto_contenido")
     private String textoContenido;
+
+    @NonNull
+    @Column(name = "fecha")
+    private LocalDateTime fecha;
 
     @NonNull
     @ManyToOne(optional = false)

@@ -16,4 +16,6 @@ public interface PublicacionService {
     PublicacionResponseDto update(Long id, PublicacionRequestDto requestDto);
 
     void deleteById(Long id);
+
+    List<PublicacionResponseDto> getAllOrderByFechaDesc();
 }
