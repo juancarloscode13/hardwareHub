@@ -12,6 +12,7 @@ import java.util.List;
 public interface ComentarioMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "fecha", ignore = true)
     @Mapping(target = "usuario", source = "usuarioId")
     @Mapping(target = "comentario", source = "comentarioId")
     @Mapping(target = "publicacion", source = "publicacionId")

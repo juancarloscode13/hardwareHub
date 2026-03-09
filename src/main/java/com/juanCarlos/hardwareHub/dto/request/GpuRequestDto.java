@@ -32,4 +32,5 @@ public class GpuRequestDto {
     private BigDecimal precio;
     private GpuGeneracion generacion;
     private Integer altoGpu;
+    private Integer puntuacionPassmark;
 }

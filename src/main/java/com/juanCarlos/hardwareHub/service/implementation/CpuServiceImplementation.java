@@ -74,4 +74,16 @@ public class CpuServiceImplementation implements CpuService {
         List<CpuEntity> entities = cpuRepository.getByConectividadPcie(conectividadPcie);
         return cpuMapper.toResponseDtoList(entities);
     }
+
+    @Override
+    public List<CpuResponseDto> getByPuntuacionPassmarkGreaterThanEqual(Integer puntuacionPassmark) {
+        List<CpuEntity> entities = cpuRepository.getByPuntuacionPassmarkGreaterThanEqual(puntuacionPassmark);
+        return cpuMapper.toResponseDtoList(entities);
+    }
+
+    @Override
+    public List<CpuResponseDto> getAllOrderByPuntuacionPassmarkDesc() {
+        List<CpuEntity> entities = cpuRepository.findAllByOrderByPuntuacionPassmarkDesc();
+        return cpuMapper.toResponseDtoList(entities);
+    }
 }

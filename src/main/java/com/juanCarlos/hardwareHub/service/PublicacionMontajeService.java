@@ -16,4 +16,6 @@ public interface PublicacionMontajeService {
     PublicacionMontajeResponseDto update(Long id, PublicacionMontajeRequestDto requestDto);
 
     void deleteById(Long id);
+
+    List<PublicacionMontajeResponseDto> getAllOrderByFechaDesc();
 }

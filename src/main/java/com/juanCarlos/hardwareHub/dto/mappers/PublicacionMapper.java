@@ -12,6 +12,7 @@ import java.util.List;
 public interface PublicacionMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "fecha", ignore = true)
     @Mapping(target = "usuario", source = "usuarioId")
     PublicacionEntity toEntity(PublicacionRequestDto requestDto);
 

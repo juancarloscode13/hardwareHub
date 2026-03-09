@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -25,6 +26,7 @@ public class PublicacionMontajeServiceImplementation implements PublicacionMonta
     @Override
     public PublicacionMontajeResponseDto create(PublicacionMontajeRequestDto requestDto) {
         PublicacionMontajeEntity entity = publicacionMontajeMapper.toEntity(requestDto);
+        entity.setFecha(LocalDateTime.now());
         PublicacionMontajeEntity savedEntity = publicacionMontajeRepository.save(entity);
         return publicacionMontajeMapper.toResponseDto(savedEntity);
     }
@@ -44,12 +46,12 @@ public class PublicacionMontajeServiceImplementation implements PublicacionMonta
 
     @Override
     public PublicacionMontajeResponseDto update(Long id, PublicacionMontajeRequestDto requestDto) {
-        if (!publicacionMontajeRepository.existsById(id)) {
-            throw new EntityNotFoundException("No se pudo encontrar ninguna publicacion de montaje con ese id");
-        }
+        PublicacionMontajeEntity existingEntity = publicacionMontajeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se pudo encontrar ninguna publicacion de montaje con ese id"));
 
         PublicacionMontajeEntity entity = publicacionMontajeMapper.toEntity(requestDto);
         entity.setId(id);
+        entity.setFecha(existingEntity.getFecha());
         PublicacionMontajeEntity savedEntity = publicacionMontajeRepository.save(entity);
         return publicacionMontajeMapper.toResponseDto(savedEntity);
     }
@@ -60,5 +62,11 @@ public class PublicacionMontajeServiceImplementation implements PublicacionMonta
             throw new EntityNotFoundException("No se pudo encontrar ninguna publicacion de montaje con ese id");
         }
         publicacionMontajeRepository.deleteById(id);
+    }
+
+    @Override
+    public List<PublicacionMontajeResponseDto> getAllOrderByFechaDesc() {
+        List<PublicacionMontajeEntity> entities = publicacionMontajeRepository.findAllByOrderByFechaDesc();
+        return publicacionMontajeMapper.toResponseDtoList(entities);
     }
 }

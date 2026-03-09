@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -25,6 +26,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
     @Override
     public PublicacionResponseDto create(PublicacionRequestDto requestDto) {
         PublicacionEntity entity = publicacionMapper.toEntity(requestDto);
+        entity.setFecha(LocalDateTime.now());
         PublicacionEntity savedEntity = publicacionRepository.save(entity);
         return publicacionMapper.toResponseDto(savedEntity);
     }
@@ -44,12 +46,12 @@ public class PublicacionServiceImplementation implements PublicacionService {
 
     @Override
     public PublicacionResponseDto update(Long id, PublicacionRequestDto requestDto) {
-        if (!publicacionRepository.existsById(id)) {
-            throw new EntityNotFoundException("No se pudo encontrar ninguna publicacion con ese id");
-        }
+        PublicacionEntity existingEntity = publicacionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se pudo encontrar ninguna publicacion con ese id"));
 
         PublicacionEntity entity = publicacionMapper.toEntity(requestDto);
         entity.setId(id);
+        entity.setFecha(existingEntity.getFecha());
         PublicacionEntity savedEntity = publicacionRepository.save(entity);
         return publicacionMapper.toResponseDto(savedEntity);
     }
@@ -60,5 +62,11 @@ public class PublicacionServiceImplementation implements PublicacionService {
             throw new EntityNotFoundException("No se pudo encontrar ninguna publicacion con ese id");
         }
         publicacionRepository.deleteById(id);
+    }
+
+    @Override
+    public List<PublicacionResponseDto> getAllOrderByFechaDesc() {
+        List<PublicacionEntity> entities = publicacionRepository.findAllByOrderByFechaDesc();
+        return publicacionMapper.toResponseDtoList(entities);
     }
 }
