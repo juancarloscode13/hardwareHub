@@ -14,6 +14,7 @@ public class PublicacionResponseDto {
     private Long id;
     private String contenidoTexto;
     private byte[] multimedia;
+    private Integer likes;
     private LocalDateTime fecha;
     private Long usuarioId;
 }

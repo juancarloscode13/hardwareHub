@@ -26,6 +26,9 @@ public class PublicacionServiceImplementation implements PublicacionService {
     @Override
     public PublicacionResponseDto create(PublicacionRequestDto requestDto) {
         PublicacionEntity entity = publicacionMapper.toEntity(requestDto);
+        if (entity.getLikes() == null) {
+            entity.setLikes(0);
+        }
         entity.setFecha(LocalDateTime.now());
         PublicacionEntity savedEntity = publicacionRepository.save(entity);
         return publicacionMapper.toResponseDto(savedEntity);
@@ -52,6 +55,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
         PublicacionEntity entity = publicacionMapper.toEntity(requestDto);
         entity.setId(id);
         entity.setFecha(existingEntity.getFecha());
+        entity.setLikes(entity.getLikes() == null ? existingEntity.getLikes() : entity.getLikes());
         PublicacionEntity savedEntity = publicacionRepository.save(entity);
         return publicacionMapper.toResponseDto(savedEntity);
     }
@@ -67,6 +71,12 @@ public class PublicacionServiceImplementation implements PublicacionService {
     @Override
     public List<PublicacionResponseDto> getAllOrderByFechaDesc() {
         List<PublicacionEntity> entities = publicacionRepository.findAllByOrderByFechaDesc();
+        return publicacionMapper.toResponseDtoList(entities);
+    }
+
+    @Override
+    public List<PublicacionResponseDto> getByUsuarioId(Long usuarioId) {
+        List<PublicacionEntity> entities = publicacionRepository.getByUsuarioId(usuarioId);
         return publicacionMapper.toResponseDtoList(entities);
     }
 }

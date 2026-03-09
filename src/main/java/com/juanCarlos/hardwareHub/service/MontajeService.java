@@ -16,4 +16,6 @@ public interface MontajeService {
     MontajeResponseDto update(Long id, MontajeRequestDto requestDto);
 
     void deleteById(Long id);
+
+    List<MontajeResponseDto> getByUsuarioId(Long usuarioId);
 }

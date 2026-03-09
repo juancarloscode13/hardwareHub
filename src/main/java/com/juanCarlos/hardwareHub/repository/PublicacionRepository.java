@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PublicacionRepository extends JpaRepository<PublicacionEntity, Long> {
     List<PublicacionEntity> findAllByOrderByFechaDesc();
+
+    List<PublicacionEntity> getByUsuarioId(Long usuarioId);
 }
