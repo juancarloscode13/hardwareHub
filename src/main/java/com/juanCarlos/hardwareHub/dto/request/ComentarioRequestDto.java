@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ComentarioRequestDto {
 
     private String textoContenido;
+    private Integer likes;
     private Long usuarioId;
     private Long comentarioId;
     private Long publicacionId;

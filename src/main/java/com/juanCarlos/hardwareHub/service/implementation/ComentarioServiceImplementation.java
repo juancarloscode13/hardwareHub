@@ -26,6 +26,9 @@ public class ComentarioServiceImplementation implements ComentarioService {
     @Override
     public ComentarioResponseDto create(ComentarioRequestDto requestDto) {
         ComentarioEntity entity = comentarioMapper.toEntity(requestDto);
+        if (entity.getLikes() == null) {
+            entity.setLikes(0);
+        }
         entity.setFecha(LocalDateTime.now());
         ComentarioEntity savedEntity = comentarioRepository.save(entity);
         return comentarioMapper.toResponseDto(savedEntity);
@@ -52,6 +55,7 @@ public class ComentarioServiceImplementation implements ComentarioService {
         ComentarioEntity entity = comentarioMapper.toEntity(requestDto);
         entity.setId(id);
         entity.setFecha(existingEntity.getFecha());
+        entity.setLikes(entity.getLikes() == null ? existingEntity.getLikes() : entity.getLikes());
         ComentarioEntity savedEntity = comentarioRepository.save(entity);
         return comentarioMapper.toResponseDto(savedEntity);
     }
@@ -67,6 +71,24 @@ public class ComentarioServiceImplementation implements ComentarioService {
     @Override
     public List<ComentarioResponseDto> getAllOrderByFechaDesc() {
         List<ComentarioEntity> entities = comentarioRepository.findAllByOrderByFechaDesc();
+        return comentarioMapper.toResponseDtoList(entities);
+    }
+
+    @Override
+    public List<ComentarioResponseDto> getByUsuarioId(Long usuarioId) {
+        List<ComentarioEntity> entities = comentarioRepository.getByUsuarioId(usuarioId);
+        return comentarioMapper.toResponseDtoList(entities);
+    }
+
+    @Override
+    public List<ComentarioResponseDto> getByPublicacionId(Long publicacionId) {
+        List<ComentarioEntity> entities = comentarioRepository.getByPublicacionId(publicacionId);
+        return comentarioMapper.toResponseDtoList(entities);
+    }
+
+    @Override
+    public List<ComentarioResponseDto> getByComentarioId(Long comentarioId) {
+        List<ComentarioEntity> entities = comentarioRepository.getByComentarioId(comentarioId);
         return comentarioMapper.toResponseDtoList(entities);
     }
 }

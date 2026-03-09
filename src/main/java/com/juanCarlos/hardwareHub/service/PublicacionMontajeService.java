@@ -18,4 +18,6 @@ public interface PublicacionMontajeService {
     void deleteById(Long id);
 
     List<PublicacionMontajeResponseDto> getAllOrderByFechaDesc();
+
+    List<PublicacionMontajeResponseDto> getByUsuarioId(Long usuarioId);
 }

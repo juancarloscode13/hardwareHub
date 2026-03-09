@@ -13,6 +13,7 @@ public class ComentarioResponseDto {
 
     private Long id;
     private String textoContenido;
+    private Integer likes;
     private LocalDateTime fecha;
     private Long usuarioId;
     private Long comentarioId;

@@ -61,4 +61,10 @@ public class MontajeServiceImplementation implements MontajeService {
         }
         montajeRepository.deleteById(id);
     }
+
+    @Override
+    public List<MontajeResponseDto> getByUsuarioId(Long usuarioId) {
+        List<MontajeEntity> entities = montajeRepository.getByUsuarioId(usuarioId);
+        return montajeMapper.toResponseDtoList(entities);
+    }
 }
