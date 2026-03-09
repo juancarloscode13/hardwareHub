@@ -16,13 +16,11 @@ public interface ComentarioMapper {
     @Mapping(target = "usuario", source = "usuarioId")
     @Mapping(target = "comentario", source = "comentarioId")
     @Mapping(target = "publicacion", source = "publicacionId")
-    @Mapping(target = "publicacionMontaje", source = "publicacionMontajeId")
     ComentarioEntity toEntity(ComentarioRequestDto requestDto);
 
     @Mapping(target = "usuarioId", source = "usuario.id")
     @Mapping(target = "comentarioId", source = "comentario.id")
     @Mapping(target = "publicacionId", source = "publicacion.id")
-    @Mapping(target = "publicacionMontajeId", source = "publicacionMontaje.id")
     ComentarioResponseDto toResponseDto(ComentarioEntity entity);
 
     List<ComentarioResponseDto> toResponseDtoList(List<ComentarioEntity> entities);

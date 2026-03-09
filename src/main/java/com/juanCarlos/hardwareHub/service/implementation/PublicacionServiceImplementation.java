@@ -9,11 +9,13 @@ import com.juanCarlos.hardwareHub.service.PublicacionService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -26,6 +28,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
     @Override
     public PublicacionResponseDto create(PublicacionRequestDto requestDto) {
         PublicacionEntity entity = publicacionMapper.toEntity(requestDto);
+        validateMontajeMultimediaRule(entity);
         if (entity.getLikes() == null) {
             entity.setLikes(0);
         }
@@ -56,6 +59,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
         entity.setId(id);
         entity.setFecha(existingEntity.getFecha());
         entity.setLikes(entity.getLikes() == null ? existingEntity.getLikes() : entity.getLikes());
+        validateMontajeMultimediaRule(entity);
         PublicacionEntity savedEntity = publicacionRepository.save(entity);
         return publicacionMapper.toResponseDto(savedEntity);
     }
@@ -78,5 +82,23 @@ public class PublicacionServiceImplementation implements PublicacionService {
     public List<PublicacionResponseDto> getByUsuarioId(Long usuarioId) {
         List<PublicacionEntity> entities = publicacionRepository.getByUsuarioId(usuarioId);
         return publicacionMapper.toResponseDtoList(entities);
+    }
+
+    @Override
+    public List<PublicacionResponseDto> getByMontajeId(Long montajeId) {
+        List<PublicacionEntity> entities = publicacionRepository.getByMontajeId(montajeId);
+        return publicacionMapper.toResponseDtoList(entities);
+    }
+
+    private void validateMontajeMultimediaRule(PublicacionEntity entity) {
+        boolean hasMontaje = entity.getMontaje() != null;
+        boolean hasMultimedia = entity.getMultimedia() != null;
+
+        if (hasMontaje && hasMultimedia) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Una publicacion no puede tener montaje y multimedia al mismo tiempo"
+            );
+        }
     }
 }
