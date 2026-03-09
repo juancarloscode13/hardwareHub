@@ -20,4 +20,8 @@ public interface GpuService {
     List<GpuResponseDto> getByConectividadPcie(Integer conectividadPcie);
 
     List<GpuResponseDto> getByAltoGpuLessThanEqual(Integer altoGpu);
+
+    List<GpuResponseDto> getByPuntuacionPassmarkGreaterThanEqual(Integer puntuacionPassmark);
+
+    List<GpuResponseDto> getAllOrderByPuntuacionPassmarkDesc();
 }

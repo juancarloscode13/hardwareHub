@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS cpu(
     tdp SMALLINT NULL,
     temperatura_max TINYINT,
     conectividad_pcie TINYINT,
-    graficos_integrados VARCHAR(40) NULL
+    graficos_integrados VARCHAR(40) NULL,
+    puntuacion_passmark INTEGER UNSIGNED
 );
 
 CREATE TABLE IF NOT EXISTS gpu(
@@ -42,7 +43,8 @@ CREATE TABLE IF NOT EXISTS gpu(
     conectividad_pcie TINYINT,
     precio DECIMAL(7, 2),
     generacion VARCHAR(25) NOT NULL,
-    alto_gpu SMALLINT
+    alto_gpu SMALLINT,
+    puntuacion_passmark INTEGER UNSIGNED
 );
 
 CREATE TABLE IF NOT EXISTS psu(
@@ -160,6 +162,7 @@ CREATE TABLE IF NOT EXISTS publicacion(
 	id INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     contenido_texto VARCHAR(300),
     multimedia MEDIUMBLOB,
+    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_usuario INTEGER UNSIGNED NOT NULL
 );
 
@@ -167,6 +170,7 @@ CREATE TABLE IF NOT EXISTS publicacion_montaje(
 	id INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     contenido_texto VARCHAR(300),
     multimedia MEDIUMBLOB,
+    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_montaje INTEGER UNSIGNED NOT NULL,
     id_usuario INTEGER UNSIGNED NOT NULL
 );
@@ -174,6 +178,7 @@ CREATE TABLE IF NOT EXISTS publicacion_montaje(
 CREATE TABLE IF NOT EXISTS comentario(
 	id INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     texto_contenido VARCHAR(200) NOT NULL,
+    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_usuario INTEGER UNSIGNED NOT NULL,
     id_comentario INTEGER UNSIGNED NULL,
     id_publicacion INTEGER UNSIGNED NULL,

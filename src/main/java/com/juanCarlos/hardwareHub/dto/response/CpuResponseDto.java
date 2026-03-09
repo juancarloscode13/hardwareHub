@@ -31,4 +31,5 @@ public class CpuResponseDto {
     private Integer temperaturaMax;
     private Integer conectividadPcie;
     private String graficosIntegrados;
+    private Integer puntuacionPassmark;
 }
