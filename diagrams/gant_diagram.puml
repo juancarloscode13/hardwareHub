@@ -1,0 +1,50 @@
+@startgantt
+' https://plantuml.com/gantt-diagram
+
+' si se desea que se vea más comprimido, descomentar
+'printscale weekly
+
+title Planificacion del proyecto hardwareHub
+
+Project starts 2025-09-26
+
+[Analisis] as [AN] starts at 2025-09-26
+[AN] ends at 2026-01-12
+[AN] is colored in #4F81BD
+
+[Analisis UI-UX] as [UIUX] starts at 2026-01-13
+[UIUX] ends at 2026-02-09
+[UIUX] is colored in #F79646
+
+[Base de datos] as [BD] starts at 2026-02-10
+[BD] ends at 2026-02-25
+[BD] is colored in #9BBB59
+
+[BackEnd] as [BE] starts at 2026-02-26
+[BE] ends at 2026-03-29
+[BE] is colored in #C0504D
+
+[FrontEnd] as [FE] starts at 2026-03-12
+[FE] ends at 2026-04-12
+[FE] is colored in #8064A2
+
+[Integracion] as [INT] starts at 2026-04-12
+[INT] ends at 2026-04-19
+[INT] is colored in #4BACC6
+
+[Pruebas] as [QA] starts at 2026-04-20
+[QA] ends at 2026-04-27
+[QA] is colored in #92D050
+
+[Deployment] as [DEP] starts at 2026-04-28
+[DEP] ends at 2026-05-02
+[DEP] is colored in #948A54
+
+[Documentacion] as [DOC] starts at 2026-04-01
+[DOC] ends at 2026-05-05
+[DOC] is colored in #DA8137
+
+[Fin del proyecto] happens at 2026-05-10
+[Fin del proyecto] is colored in #FFD700
+
+@endgantt
