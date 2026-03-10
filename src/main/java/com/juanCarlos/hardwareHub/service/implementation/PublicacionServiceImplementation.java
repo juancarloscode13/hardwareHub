@@ -1,5 +1,11 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.PublicacionFilterFields;
+import com.juanCarlos.hardwareHub.dsl.model.FilterCriteria;
+import com.juanCarlos.hardwareHub.dsl.parser.QueryDslParser;
+import com.juanCarlos.hardwareHub.dsl.specification.SpecificationBuilder;
+import com.juanCarlos.hardwareHub.dsl.util.PageableUtils;
+import com.juanCarlos.hardwareHub.dsl.validation.FilterValidator;
 import com.juanCarlos.hardwareHub.dto.mappers.PublicacionMapper;
 import com.juanCarlos.hardwareHub.dto.request.PublicacionRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PublicacionResponseDto;
@@ -12,6 +18,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +33,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
 
     private final PublicacionRepository publicacionRepository;
     private final PublicacionMapper publicacionMapper;
+    private final QueryDslParser parser = new QueryDslParser();
 
     @Override
     public PublicacionResponseDto create(PublicacionRequestDto requestDto) {
@@ -45,9 +55,18 @@ public class PublicacionServiceImplementation implements PublicacionService {
     }
 
     @Override
-    public List<PublicacionResponseDto> getAll() {
-        List<PublicacionEntity> entities = publicacionRepository.findAll();
-        return publicacionMapper.toResponseDtoList(entities);
+    public Page<PublicacionResponseDto> searchAll(String filter, int page, int size, String sort) {
+        List<FilterCriteria> filters = parser.parse(filter);
+
+        FilterValidator.validate(filters, PublicacionFilterFields.ALLOWED_FIELDS);
+
+        Specification<PublicacionEntity> spec = new SpecificationBuilder<PublicacionEntity>().build(filters);
+
+        Pageable pageable = PageableUtils.createPageable(page, size, sort);
+
+        Page<PublicacionEntity> result = publicacionRepository.findAll(spec, pageable);
+
+        return result.map(publicacionMapper::toResponseDto);
     }
 
     @Override
@@ -70,24 +89,6 @@ public class PublicacionServiceImplementation implements PublicacionService {
             throw new EntityNotFoundException("No se pudo encontrar ninguna publicacion con ese id");
         }
         publicacionRepository.deleteById(id);
-    }
-
-    @Override
-    public List<PublicacionResponseDto> getAllOrderByFechaDesc() {
-        List<PublicacionEntity> entities = publicacionRepository.findAllByOrderByFechaDesc();
-        return publicacionMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<PublicacionResponseDto> getByUsuarioId(Long usuarioId) {
-        List<PublicacionEntity> entities = publicacionRepository.getByUsuarioId(usuarioId);
-        return publicacionMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<PublicacionResponseDto> getByMontajeId(Long montajeId) {
-        List<PublicacionEntity> entities = publicacionRepository.getByMontajeId(montajeId);
-        return publicacionMapper.toResponseDtoList(entities);
     }
 
     private void validateMontajeMultimediaRule(PublicacionEntity entity) {

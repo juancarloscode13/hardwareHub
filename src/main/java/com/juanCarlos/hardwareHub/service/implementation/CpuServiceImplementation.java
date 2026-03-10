@@ -1,5 +1,11 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.CpuFilterFields;
+import com.juanCarlos.hardwareHub.dsl.model.FilterCriteria;
+import com.juanCarlos.hardwareHub.dsl.parser.QueryDslParser;
+import com.juanCarlos.hardwareHub.dsl.specification.SpecificationBuilder;
+import com.juanCarlos.hardwareHub.dsl.util.PageableUtils;
+import com.juanCarlos.hardwareHub.dsl.validation.FilterValidator;
 import com.juanCarlos.hardwareHub.dto.mappers.CpuMapper;
 import com.juanCarlos.hardwareHub.dto.request.CpuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.CpuResponseDto;
@@ -10,6 +16,9 @@ import com.juanCarlos.hardwareHub.service.CpuService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +31,7 @@ public class CpuServiceImplementation implements CpuService {
 
     private final CpuRepository cpuRepository;
     private final CpuMapper cpuMapper;
+    private final QueryDslParser parser = new QueryDslParser();
 
     @Override
     public CpuResponseDto create(CpuRequestDto requestDto) {
@@ -38,9 +48,18 @@ public class CpuServiceImplementation implements CpuService {
     }
 
     @Override
-    public List<CpuResponseDto> getAll() {
-        List<CpuEntity> entities = cpuRepository.findAll();
-        return cpuMapper.toResponseDtoList(entities);
+    public Page<CpuResponseDto> searchAll(String filter, int page, int size, String sort) {
+        List<FilterCriteria> filters = parser.parse(filter);
+
+        FilterValidator.validate(filters, CpuFilterFields.ALLOWED_FIELDS);
+
+        Specification<CpuEntity> spec = new SpecificationBuilder<CpuEntity>().build(filters);
+
+        Pageable pageable = PageableUtils.createPageable(page, size, sort);
+
+        Page<CpuEntity> result = cpuRepository.findAll(spec, pageable);
+
+        return result.map(cpuMapper::toResponseDto);
     }
 
     @Override
@@ -61,29 +80,5 @@ public class CpuServiceImplementation implements CpuService {
             throw new EntityNotFoundException("No se pudo encontrar ninguna cpu con ese id");
         }
         cpuRepository.deleteById(id);
-    }
-
-    @Override
-    public List<CpuResponseDto> getByCpuSocket(CpuSocket cpuSocket) {
-        List<CpuEntity> entities = cpuRepository.getByCpuSocket(cpuSocket);
-        return cpuMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<CpuResponseDto> getByConectividadPcie(Integer conectividadPcie) {
-        List<CpuEntity> entities = cpuRepository.getByConectividadPcie(conectividadPcie);
-        return cpuMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<CpuResponseDto> getByPuntuacionPassmarkGreaterThanEqual(Integer puntuacionPassmark) {
-        List<CpuEntity> entities = cpuRepository.getByPuntuacionPassmarkGreaterThanEqual(puntuacionPassmark);
-        return cpuMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<CpuResponseDto> getAllOrderByPuntuacionPassmarkDesc() {
-        List<CpuEntity> entities = cpuRepository.findAllByOrderByPuntuacionPassmarkDesc();
-        return cpuMapper.toResponseDtoList(entities);
     }
 }

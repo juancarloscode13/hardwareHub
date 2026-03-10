@@ -2,8 +2,8 @@ package com.juanCarlos.hardwareHub.controller;
 
 import com.juanCarlos.hardwareHub.dto.request.PsuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PsuResponseDto;
-import com.juanCarlos.hardwareHub.entity.enums.PsuFactorForma;
 import com.juanCarlos.hardwareHub.service.PsuService;
+import org.springframework.data.domain.Page;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,13 @@ public class PsuController {
     private final PsuService psuService;
 
     @GetMapping
-    public ResponseEntity<List<PsuResponseDto>> getAll() {
-        return ResponseEntity.ok(psuService.getAll());
+    public ResponseEntity<Page<PsuResponseDto>> getAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        return ResponseEntity.ok(psuService.searchAll(filter, page, size, sort));
     }
 
     @GetMapping("/{id}")
@@ -45,13 +50,5 @@ public class PsuController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/factor-forma/{factorForma}")
-    public ResponseEntity<List<PsuResponseDto>> getByFactorForma(@PathVariable PsuFactorForma factorForma) {
-        return ResponseEntity.ok(psuService.getByFactorForma(factorForma));
-    }
-
-    @GetMapping("/potencia/min/{potencia}")
-    public ResponseEntity<List<PsuResponseDto>> getByPotenciaGreaterThanEqual(@PathVariable Integer potencia) {
-        return ResponseEntity.ok(psuService.getByPotenciaGreaterThanEqual(potencia));
-    }
+    
 }

@@ -1,5 +1,11 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.UsuarioFilterFields;
+import com.juanCarlos.hardwareHub.dsl.model.FilterCriteria;
+import com.juanCarlos.hardwareHub.dsl.parser.QueryDslParser;
+import com.juanCarlos.hardwareHub.dsl.specification.SpecificationBuilder;
+import com.juanCarlos.hardwareHub.dsl.util.PageableUtils;
+import com.juanCarlos.hardwareHub.dsl.validation.FilterValidator;
 import com.juanCarlos.hardwareHub.dto.mappers.UsuarioMapper;
 import com.juanCarlos.hardwareHub.dto.request.UsuarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
@@ -9,6 +15,9 @@ import com.juanCarlos.hardwareHub.service.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +30,7 @@ public class UsuarioServiceImplementation implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final QueryDslParser parser = new QueryDslParser();
 
     @Override
     public UsuarioResponseDto create(UsuarioRequestDto requestDto) {
@@ -37,9 +47,18 @@ public class UsuarioServiceImplementation implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioResponseDto> getAll() {
-        List<UsuarioEntity> entities = usuarioRepository.findAll();
-        return usuarioMapper.toResponseDtoList(entities);
+    public Page<UsuarioResponseDto> searchAll(String filter, int page, int size, String sort) {
+        List<FilterCriteria> filters = parser.parse(filter);
+
+        FilterValidator.validate(filters, UsuarioFilterFields.ALLOWED_FIELDS);
+
+        Specification<UsuarioEntity> spec = new SpecificationBuilder<UsuarioEntity>().build(filters);
+
+        Pageable pageable = PageableUtils.createPageable(page, size, sort);
+
+        Page<UsuarioEntity> result = usuarioRepository.findAll(spec, pageable);
+
+        return result.map(usuarioMapper::toResponseDto);
     }
 
     @Override

@@ -1,5 +1,11 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.CajaFilterFields;
+import com.juanCarlos.hardwareHub.dsl.model.FilterCriteria;
+import com.juanCarlos.hardwareHub.dsl.parser.QueryDslParser;
+import com.juanCarlos.hardwareHub.dsl.specification.SpecificationBuilder;
+import com.juanCarlos.hardwareHub.dsl.util.PageableUtils;
+import com.juanCarlos.hardwareHub.dsl.validation.FilterValidator;
 import com.juanCarlos.hardwareHub.dto.mappers.CajaMapper;
 import com.juanCarlos.hardwareHub.dto.request.CajaRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.CajaResponseDto;
@@ -11,6 +17,9 @@ import com.juanCarlos.hardwareHub.service.CajaService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +32,7 @@ public class CajaServiceImplementation implements CajaService {
 
     private final CajaRepository cajaRepository;
     private final CajaMapper cajaMapper;
+    private final QueryDslParser parser = new QueryDslParser();
 
     @Override
     public CajaResponseDto create(CajaRequestDto requestDto) {
@@ -39,9 +49,18 @@ public class CajaServiceImplementation implements CajaService {
     }
 
     @Override
-    public List<CajaResponseDto> getAll() {
-        List<CajaEntity> entities = cajaRepository.findAll();
-        return cajaMapper.toResponseDtoList(entities);
+    public Page<CajaResponseDto> searchAll(String filter, int page, int size, String sort) {
+        List<FilterCriteria> filters = parser.parse(filter);
+
+        FilterValidator.validate(filters, CajaFilterFields.ALLOWED_FIELDS);
+
+        Specification<CajaEntity> spec = new SpecificationBuilder<CajaEntity>().build(filters);
+
+        Pageable pageable = PageableUtils.createPageable(page, size, sort);
+
+        Page<CajaEntity> result = cajaRepository.findAll(spec, pageable);
+
+        return result.map(cajaMapper::toResponseDto);
     }
 
     @Override
@@ -62,23 +81,5 @@ public class CajaServiceImplementation implements CajaService {
             throw new EntityNotFoundException("No se pudo encontrar ninguna caja con ese id");
         }
         cajaRepository.deleteById(id);
-    }
-
-    @Override
-    public List<CajaResponseDto> getByPlacasBaseCompatibles(CajaFormato placasBaseCompatibles) {
-        List<CajaEntity> entities = cajaRepository.getByPlacasBaseCompatibles(placasBaseCompatibles);
-        return cajaMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<CajaResponseDto> getByPsuCompatible(PsuFactorForma psuCompatible) {
-        List<CajaEntity> entities = cajaRepository.getByPsuCompatible(psuCompatible);
-        return cajaMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<CajaResponseDto> getByAlturaMaxEnfriadorCpuGreaterThanEqual(Integer alturaMaxEnfriadorCpu) {
-        List<CajaEntity> entities = cajaRepository.getByAlturaMaxEnfriadorCpuGreaterThanEqual(alturaMaxEnfriadorCpu);
-        return cajaMapper.toResponseDtoList(entities);
     }
 }

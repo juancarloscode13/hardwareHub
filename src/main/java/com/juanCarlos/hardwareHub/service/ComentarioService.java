@@ -2,6 +2,7 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.ComentarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.ComentarioResponseDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -11,17 +12,11 @@ public interface ComentarioService {
 
     ComentarioResponseDto getById(Long id);
 
-    List<ComentarioResponseDto> getAll();
+    Page<ComentarioResponseDto> searchAll(String filter, int page, int size, String sort);
 
     ComentarioResponseDto update(Long id, ComentarioRequestDto requestDto);
 
     void deleteById(Long id);
 
-    List<ComentarioResponseDto> getAllOrderByFechaDesc();
-
-    List<ComentarioResponseDto> getByUsuarioId(Long usuarioId);
-
-    List<ComentarioResponseDto> getByPublicacionId(Long publicacionId);
-
-    List<ComentarioResponseDto> getByComentarioId(Long comentarioId);
+    
 }

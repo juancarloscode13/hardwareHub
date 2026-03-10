@@ -6,6 +6,7 @@ import com.juanCarlos.hardwareHub.entity.enums.CpuSocket;
 import com.juanCarlos.hardwareHub.service.CpuService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,13 @@ public class CpuController {
     private final CpuService cpuService;
 
     @GetMapping
-    public ResponseEntity<List<CpuResponseDto>> getAll() {
-        return ResponseEntity.ok(cpuService.getAll());
+    public ResponseEntity<Page<CpuResponseDto>> getAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        return ResponseEntity.ok(cpuService.searchAll(filter, page, size, sort));
     }
 
     @GetMapping("/{id}")
@@ -43,25 +49,5 @@ public class CpuController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         cpuService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/socket/{cpuSocket}")
-    public ResponseEntity<List<CpuResponseDto>> getByCpuSocket(@PathVariable CpuSocket cpuSocket) {
-        return ResponseEntity.ok(cpuService.getByCpuSocket(cpuSocket));
-    }
-
-    @GetMapping("/pcie/{conectividadPcie}")
-    public ResponseEntity<List<CpuResponseDto>> getByConectividadPcie(@PathVariable Integer conectividadPcie) {
-        return ResponseEntity.ok(cpuService.getByConectividadPcie(conectividadPcie));
-    }
-
-    @GetMapping("/passmark/min/{puntuacionPassmark}")
-    public ResponseEntity<List<CpuResponseDto>> getByPuntuacionPassmarkGreaterThanEqual(@PathVariable Integer puntuacionPassmark) {
-        return ResponseEntity.ok(cpuService.getByPuntuacionPassmarkGreaterThanEqual(puntuacionPassmark));
-    }
-
-    @GetMapping("/passmark/ranking")
-    public ResponseEntity<List<CpuResponseDto>> getAllOrderByPuntuacionPassmarkDesc() {
-        return ResponseEntity.ok(cpuService.getAllOrderByPuntuacionPassmarkDesc());
     }
 }

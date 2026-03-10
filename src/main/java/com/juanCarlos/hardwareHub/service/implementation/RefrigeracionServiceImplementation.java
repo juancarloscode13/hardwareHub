@@ -1,5 +1,11 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.RefrigeracionFilterFields;
+import com.juanCarlos.hardwareHub.dsl.model.FilterCriteria;
+import com.juanCarlos.hardwareHub.dsl.parser.QueryDslParser;
+import com.juanCarlos.hardwareHub.dsl.specification.SpecificationBuilder;
+import com.juanCarlos.hardwareHub.dsl.util.PageableUtils;
+import com.juanCarlos.hardwareHub.dsl.validation.FilterValidator;
 import com.juanCarlos.hardwareHub.dto.mappers.RefrigeracionMapper;
 import com.juanCarlos.hardwareHub.dto.request.RefrigeracionRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.RefrigeracionResponseDto;
@@ -10,6 +16,9 @@ import com.juanCarlos.hardwareHub.service.RefrigeracionService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +31,7 @@ public class RefrigeracionServiceImplementation implements RefrigeracionService 
 
     private final RefrigeracionRepository refrigeracionRepository;
     private final RefrigeracionMapper refrigeracionMapper;
+    private final QueryDslParser parser = new QueryDslParser();
 
     @Override
     public RefrigeracionResponseDto create(RefrigeracionRequestDto requestDto) {
@@ -38,9 +48,18 @@ public class RefrigeracionServiceImplementation implements RefrigeracionService 
     }
 
     @Override
-    public List<RefrigeracionResponseDto> getAll() {
-        List<RefrigeracionEntity> entities = refrigeracionRepository.findAll();
-        return refrigeracionMapper.toResponseDtoList(entities);
+    public Page<RefrigeracionResponseDto> searchAll(String filter, int page, int size, String sort) {
+        List<FilterCriteria> filters = parser.parse(filter);
+
+        FilterValidator.validate(filters, RefrigeracionFilterFields.ALLOWED_FIELDS);
+
+        Specification<RefrigeracionEntity> spec = new SpecificationBuilder<RefrigeracionEntity>().build(filters);
+
+        Pageable pageable = PageableUtils.createPageable(page, size, sort);
+
+        Page<RefrigeracionEntity> result = refrigeracionRepository.findAll(spec, pageable);
+
+        return result.map(refrigeracionMapper::toResponseDto);
     }
 
     @Override
@@ -61,11 +80,5 @@ public class RefrigeracionServiceImplementation implements RefrigeracionService 
             throw new EntityNotFoundException("No se pudo encontrar ninguna refrigeracion con ese id");
         }
         refrigeracionRepository.deleteById(id);
-    }
-
-    @Override
-    public List<RefrigeracionResponseDto> getBySocketCompatible(CpuSocket socketCompatible) {
-        List<RefrigeracionEntity> entities = refrigeracionRepository.getBySocketCompatible(socketCompatible);
-        return refrigeracionMapper.toResponseDtoList(entities);
     }
 }
