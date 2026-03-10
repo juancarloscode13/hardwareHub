@@ -32,6 +32,12 @@ public class GenericSpecification<T> implements Specification<T> {
             case "<":
                 return criteriaBuilder.lessThan(root.get(criteria.getField()), criteria.getValue());
 
+            case "<=":
+                return criteriaBuilder.lessThanOrEqualTo(root.get(criteria.getField()), criteria.getValue());
+
+            case ">=":
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(criteria.getField()), criteria.getValue());
+
             default:
                 return null;
         }
