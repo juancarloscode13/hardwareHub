@@ -2,15 +2,13 @@ package com.juanCarlos.hardwareHub.controller;
 
 import com.juanCarlos.hardwareHub.dto.request.RefrigeracionRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.RefrigeracionResponseDto;
-import com.juanCarlos.hardwareHub.entity.enums.CpuSocket;
 import com.juanCarlos.hardwareHub.service.RefrigeracionService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/refrigeraciones")
@@ -20,8 +18,13 @@ public class RefrigeracionController {
     private final RefrigeracionService refrigeracionService;
 
     @GetMapping
-    public ResponseEntity<List<RefrigeracionResponseDto>> getAll() {
-        return ResponseEntity.ok(refrigeracionService.getAll());
+    public ResponseEntity<Page<RefrigeracionResponseDto>> getAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        return ResponseEntity.ok(refrigeracionService.searchAll(filter, page, size, sort));
     }
 
     @GetMapping("/{id}")
@@ -43,10 +46,5 @@ public class RefrigeracionController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         refrigeracionService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/socket/{socketCompatible}")
-    public ResponseEntity<List<RefrigeracionResponseDto>> getBySocketCompatible(@PathVariable CpuSocket socketCompatible) {
-        return ResponseEntity.ok(refrigeracionService.getBySocketCompatible(socketCompatible));
     }
 }

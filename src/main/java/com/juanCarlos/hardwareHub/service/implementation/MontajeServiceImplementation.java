@@ -1,5 +1,11 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.MontajeFilterFields;
+import com.juanCarlos.hardwareHub.dsl.model.FilterCriteria;
+import com.juanCarlos.hardwareHub.dsl.parser.QueryDslParser;
+import com.juanCarlos.hardwareHub.dsl.specification.SpecificationBuilder;
+import com.juanCarlos.hardwareHub.dsl.util.PageableUtils;
+import com.juanCarlos.hardwareHub.dsl.validation.FilterValidator;
 import com.juanCarlos.hardwareHub.dto.mappers.MontajeMapper;
 import com.juanCarlos.hardwareHub.dto.request.MontajeRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.MontajeResponseDto;
@@ -9,6 +15,9 @@ import com.juanCarlos.hardwareHub.service.MontajeService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +30,7 @@ public class MontajeServiceImplementation implements MontajeService {
 
     private final MontajeRepository montajeRepository;
     private final MontajeMapper montajeMapper;
+    private final QueryDslParser parser = new QueryDslParser();
 
     @Override
     public MontajeResponseDto create(MontajeRequestDto requestDto) {
@@ -37,9 +47,18 @@ public class MontajeServiceImplementation implements MontajeService {
     }
 
     @Override
-    public List<MontajeResponseDto> getAll() {
-        List<MontajeEntity> entities = montajeRepository.findAll();
-        return montajeMapper.toResponseDtoList(entities);
+    public Page<MontajeResponseDto> searchAll(String filter, int page, int size, String sort) {
+        List<FilterCriteria> filters = parser.parse(filter);
+
+        FilterValidator.validate(filters, MontajeFilterFields.ALLOWED_FIELDS);
+
+        Specification<MontajeEntity> spec = new SpecificationBuilder<MontajeEntity>().build(filters);
+
+        Pageable pageable = PageableUtils.createPageable(page, size, sort);
+
+        Page<MontajeEntity> result = montajeRepository.findAll(spec, pageable);
+
+        return result.map(montajeMapper::toResponseDto);
     }
 
     @Override
@@ -62,9 +81,4 @@ public class MontajeServiceImplementation implements MontajeService {
         montajeRepository.deleteById(id);
     }
 
-    @Override
-    public List<MontajeResponseDto> getByUsuarioId(Long usuarioId) {
-        List<MontajeEntity> entities = montajeRepository.getByUsuarioId(usuarioId);
-        return montajeMapper.toResponseDtoList(entities);
-    }
 }
