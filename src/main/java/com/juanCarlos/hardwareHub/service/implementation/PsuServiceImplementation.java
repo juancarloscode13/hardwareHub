@@ -1,5 +1,11 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.PsuFilterFields;
+import com.juanCarlos.hardwareHub.dsl.model.FilterCriteria;
+import com.juanCarlos.hardwareHub.dsl.parser.QueryDslParser;
+import com.juanCarlos.hardwareHub.dsl.specification.SpecificationBuilder;
+import com.juanCarlos.hardwareHub.dsl.util.PageableUtils;
+import com.juanCarlos.hardwareHub.dsl.validation.FilterValidator;
 import com.juanCarlos.hardwareHub.dto.mappers.PsuMapper;
 import com.juanCarlos.hardwareHub.dto.request.PsuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PsuResponseDto;
@@ -10,6 +16,9 @@ import com.juanCarlos.hardwareHub.service.PsuService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +31,7 @@ public class PsuServiceImplementation implements PsuService {
 
     private final PsuRepository psuRepository;
     private final PsuMapper psuMapper;
+    private final QueryDslParser parser = new QueryDslParser();
 
     @Override
     public PsuResponseDto create(PsuRequestDto requestDto) {
@@ -38,9 +48,18 @@ public class PsuServiceImplementation implements PsuService {
     }
 
     @Override
-    public List<PsuResponseDto> getAll() {
-        List<PsuEntity> entities = psuRepository.findAll();
-        return psuMapper.toResponseDtoList(entities);
+    public Page<PsuResponseDto> searchAll(String filter, int page, int size, String sort) {
+        List<FilterCriteria> filters = parser.parse(filter);
+
+        FilterValidator.validate(filters, PsuFilterFields.ALLOWED_FIELDS);
+
+        Specification<PsuEntity> spec = new SpecificationBuilder<PsuEntity>().build(filters);
+
+        Pageable pageable = PageableUtils.createPageable(page, size, sort);
+
+        Page<PsuEntity> result = psuRepository.findAll(spec, pageable);
+
+        return result.map(psuMapper::toResponseDto);
     }
 
     @Override
@@ -61,17 +80,5 @@ public class PsuServiceImplementation implements PsuService {
             throw new EntityNotFoundException("No se pudo encontrar ninguna psu con ese id");
         }
         psuRepository.deleteById(id);
-    }
-
-    @Override
-    public List<PsuResponseDto> getByFactorForma(PsuFactorForma factorForma) {
-        List<PsuEntity> entities = psuRepository.getByFactorForma(factorForma);
-        return psuMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<PsuResponseDto> getByPotenciaGreaterThanEqual(Integer potencia) {
-        List<PsuEntity> entities = psuRepository.getByPotenciaGreaterThanEqual(potencia);
-        return psuMapper.toResponseDtoList(entities);
     }
 }

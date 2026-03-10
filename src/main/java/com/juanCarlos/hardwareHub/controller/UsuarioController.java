@@ -5,6 +5,7 @@ import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
 import com.juanCarlos.hardwareHub.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,14 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<List<UsuarioResponseDto>> getAll() {
-        return ResponseEntity.ok(usuarioService.getAll());
+    public ResponseEntity<Page<UsuarioResponseDto>> searchAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        Page<UsuarioResponseDto> response = usuarioService.searchAll(filter, page, size, sort);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")

@@ -1,5 +1,11 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.FabricanteFilterFields;
+import com.juanCarlos.hardwareHub.dsl.model.FilterCriteria;
+import com.juanCarlos.hardwareHub.dsl.parser.QueryDslParser;
+import com.juanCarlos.hardwareHub.dsl.specification.SpecificationBuilder;
+import com.juanCarlos.hardwareHub.dsl.util.PageableUtils;
+import com.juanCarlos.hardwareHub.dsl.validation.FilterValidator;
 import com.juanCarlos.hardwareHub.dto.mappers.FabricanteMapper;
 import com.juanCarlos.hardwareHub.dto.request.FabricanteRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.FabricanteResponseDto;
@@ -9,6 +15,9 @@ import com.juanCarlos.hardwareHub.service.FabricanteService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +30,7 @@ public class FabricanteServiceImplementation implements FabricanteService {
 
     private final FabricanteRepository fabricanteRepository;
     private final FabricanteMapper fabricanteMapper;
+    private final QueryDslParser parser = new QueryDslParser();
 
     @Override
     public FabricanteResponseDto create(FabricanteRequestDto requestDto) {
@@ -37,9 +47,18 @@ public class FabricanteServiceImplementation implements FabricanteService {
     }
 
     @Override
-    public List<FabricanteResponseDto> getAll() {
-        List<FabricanteEntity> entities = fabricanteRepository.findAll();
-        return fabricanteMapper.toResponseDtoList(entities);
+    public Page<FabricanteResponseDto> searchAll(String filter, int page, int size, String sort) {
+        List<FilterCriteria> filters = parser.parse(filter);
+
+        FilterValidator.validate(filters, FabricanteFilterFields.ALLOWED_FIELDS);
+
+        Specification<FabricanteEntity> spec = new SpecificationBuilder<FabricanteEntity>().build(filters);
+
+        Pageable pageable = PageableUtils.createPageable(page, size, sort);
+
+        Page<FabricanteEntity> result = fabricanteRepository.findAll(spec, pageable);
+
+        return result.map(fabricanteMapper::toResponseDto);
     }
 
     @Override

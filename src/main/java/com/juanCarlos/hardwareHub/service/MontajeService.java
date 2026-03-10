@@ -2,6 +2,7 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.MontajeRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.MontajeResponseDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -11,11 +12,11 @@ public interface MontajeService {
 
     MontajeResponseDto getById(Long id);
 
-    List<MontajeResponseDto> getAll();
+    Page<MontajeResponseDto> searchAll(String filter, int page, int size, String sort);
 
     MontajeResponseDto update(Long id, MontajeRequestDto requestDto);
 
     void deleteById(Long id);
 
-    List<MontajeResponseDto> getByUsuarioId(Long usuarioId);
+    
 }

@@ -1,5 +1,11 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.ComentarioFilterFields;
+import com.juanCarlos.hardwareHub.dsl.model.FilterCriteria;
+import com.juanCarlos.hardwareHub.dsl.parser.QueryDslParser;
+import com.juanCarlos.hardwareHub.dsl.specification.SpecificationBuilder;
+import com.juanCarlos.hardwareHub.dsl.util.PageableUtils;
+import com.juanCarlos.hardwareHub.dsl.validation.FilterValidator;
 import com.juanCarlos.hardwareHub.dto.mappers.ComentarioMapper;
 import com.juanCarlos.hardwareHub.dto.request.ComentarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.ComentarioResponseDto;
@@ -9,6 +15,9 @@ import com.juanCarlos.hardwareHub.service.ComentarioService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +31,7 @@ public class ComentarioServiceImplementation implements ComentarioService {
 
     private final ComentarioRepository comentarioRepository;
     private final ComentarioMapper comentarioMapper;
+    private final QueryDslParser parser = new QueryDslParser();
 
     @Override
     public ComentarioResponseDto create(ComentarioRequestDto requestDto) {
@@ -42,9 +52,18 @@ public class ComentarioServiceImplementation implements ComentarioService {
     }
 
     @Override
-    public List<ComentarioResponseDto> getAll() {
-        List<ComentarioEntity> entities = comentarioRepository.findAll();
-        return comentarioMapper.toResponseDtoList(entities);
+    public Page<ComentarioResponseDto> searchAll(String filter, int page, int size, String sort) {
+        List<FilterCriteria> filters = parser.parse(filter);
+
+        FilterValidator.validate(filters, ComentarioFilterFields.ALLOWED_FIELDS);
+
+        Specification<ComentarioEntity> spec = new SpecificationBuilder<ComentarioEntity>().build(filters);
+
+        Pageable pageable = PageableUtils.createPageable(page, size, sort);
+
+        Page<ComentarioEntity> result = comentarioRepository.findAll(spec, pageable);
+
+        return result.map(comentarioMapper::toResponseDto);
     }
 
     @Override
@@ -66,29 +85,5 @@ public class ComentarioServiceImplementation implements ComentarioService {
             throw new EntityNotFoundException("No se pudo encontrar ningun comentario con ese id");
         }
         comentarioRepository.deleteById(id);
-    }
-
-    @Override
-    public List<ComentarioResponseDto> getAllOrderByFechaDesc() {
-        List<ComentarioEntity> entities = comentarioRepository.findAllByOrderByFechaDesc();
-        return comentarioMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<ComentarioResponseDto> getByUsuarioId(Long usuarioId) {
-        List<ComentarioEntity> entities = comentarioRepository.getByUsuarioId(usuarioId);
-        return comentarioMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<ComentarioResponseDto> getByPublicacionId(Long publicacionId) {
-        List<ComentarioEntity> entities = comentarioRepository.getByPublicacionId(publicacionId);
-        return comentarioMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<ComentarioResponseDto> getByComentarioId(Long comentarioId) {
-        List<ComentarioEntity> entities = comentarioRepository.getByComentarioId(comentarioId);
-        return comentarioMapper.toResponseDtoList(entities);
     }
 }

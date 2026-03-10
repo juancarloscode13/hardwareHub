@@ -2,6 +2,7 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.AlmacenamientoRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.AlmacenamientoResponseDto;
+import org.springframework.data.domain.Page;
 import com.juanCarlos.hardwareHub.entity.enums.AlmacenamientoConectividad;
 import com.juanCarlos.hardwareHub.entity.enums.AlmacenamientoFormato;
 
@@ -13,13 +14,11 @@ public interface AlmacenamientoService {
 
     AlmacenamientoResponseDto getById(Long id);
 
-    List<AlmacenamientoResponseDto> getAll();
+    Page<AlmacenamientoResponseDto> searchAll(String filter, int page, int size, String sort);
 
     AlmacenamientoResponseDto update(Long id, AlmacenamientoRequestDto requestDto);
 
     void deleteById(Long id);
 
-    List<AlmacenamientoResponseDto> getByConectividad(AlmacenamientoConectividad conectividad);
-
-    List<AlmacenamientoResponseDto> getByFormato(AlmacenamientoFormato formato);
+    
 }

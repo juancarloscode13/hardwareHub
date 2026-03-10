@@ -2,8 +2,8 @@ package com.juanCarlos.hardwareHub.controller;
 
 import com.juanCarlos.hardwareHub.dto.request.RamRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.RamResponseDto;
-import com.juanCarlos.hardwareHub.entity.enums.RamTipo;
 import com.juanCarlos.hardwareHub.service.RamService;
+import org.springframework.data.domain.Page;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,13 @@ public class RamController {
     private final RamService ramService;
 
     @GetMapping
-    public ResponseEntity<List<RamResponseDto>> getAll() {
-        return ResponseEntity.ok(ramService.getAll());
+    public ResponseEntity<Page<RamResponseDto>> getAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        return ResponseEntity.ok(ramService.searchAll(filter, page, size, sort));
     }
 
     @GetMapping("/{id}")
@@ -45,8 +50,5 @@ public class RamController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/tipo/{tipo}")
-    public ResponseEntity<List<RamResponseDto>> getByTipo(@PathVariable RamTipo tipo) {
-        return ResponseEntity.ok(ramService.getByTipo(tipo));
-    }
+    
 }
