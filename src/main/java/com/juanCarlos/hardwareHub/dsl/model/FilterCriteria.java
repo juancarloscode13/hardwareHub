@@ -1,0 +1,14 @@
+package com.juanCarlos.hardwareHub.dsl.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class FilterCriteria {
+    private String field;
+    private String operator;
+    private String value;
+}
