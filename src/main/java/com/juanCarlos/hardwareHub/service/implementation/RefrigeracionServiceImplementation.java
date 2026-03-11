@@ -1,18 +1,19 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.RefrigeracionFilterFields;
+import com.juanCarlos.hardwareHub.dsl.search.GenericSearchService;
 import com.juanCarlos.hardwareHub.dto.mappers.RefrigeracionMapper;
 import com.juanCarlos.hardwareHub.dto.request.RefrigeracionRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.RefrigeracionResponseDto;
 import com.juanCarlos.hardwareHub.entity.RefrigeracionEntity;
-import com.juanCarlos.hardwareHub.entity.enums.CpuSocket;
 import com.juanCarlos.hardwareHub.repository.RefrigeracionRepository;
 import com.juanCarlos.hardwareHub.service.RefrigeracionService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -22,6 +23,7 @@ public class RefrigeracionServiceImplementation implements RefrigeracionService 
 
     private final RefrigeracionRepository refrigeracionRepository;
     private final RefrigeracionMapper refrigeracionMapper;
+    private final GenericSearchService searchService;
 
     @Override
     public RefrigeracionResponseDto create(RefrigeracionRequestDto requestDto) {
@@ -38,9 +40,11 @@ public class RefrigeracionServiceImplementation implements RefrigeracionService 
     }
 
     @Override
-    public List<RefrigeracionResponseDto> getAll() {
-        List<RefrigeracionEntity> entities = refrigeracionRepository.findAll();
-        return refrigeracionMapper.toResponseDtoList(entities);
+    public Page<RefrigeracionResponseDto> searchAll(String filter, int page, int size, String sort) {
+        Page<RefrigeracionEntity> result = searchService.search(
+                refrigeracionRepository, filter, page, size, sort,
+                RefrigeracionFilterFields.ALLOWED_FIELDS);
+        return result.map(refrigeracionMapper::toResponseDto);
     }
 
     @Override
@@ -61,11 +65,5 @@ public class RefrigeracionServiceImplementation implements RefrigeracionService 
             throw new EntityNotFoundException("No se pudo encontrar ninguna refrigeracion con ese id");
         }
         refrigeracionRepository.deleteById(id);
-    }
-
-    @Override
-    public List<RefrigeracionResponseDto> getBySocketCompatible(CpuSocket socketCompatible) {
-        List<RefrigeracionEntity> entities = refrigeracionRepository.getBySocketCompatible(socketCompatible);
-        return refrigeracionMapper.toResponseDtoList(entities);
     }
 }

@@ -2,16 +2,13 @@ package com.juanCarlos.hardwareHub.controller;
 
 import com.juanCarlos.hardwareHub.dto.request.AlmacenamientoRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.AlmacenamientoResponseDto;
-import com.juanCarlos.hardwareHub.entity.enums.AlmacenamientoConectividad;
-import com.juanCarlos.hardwareHub.entity.enums.AlmacenamientoFormato;
 import com.juanCarlos.hardwareHub.service.AlmacenamientoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/almacenamientos")
@@ -21,8 +18,13 @@ public class AlmacenamientoController {
     private final AlmacenamientoService almacenamientoService;
 
     @GetMapping
-    public ResponseEntity<List<AlmacenamientoResponseDto>> getAll() {
-        return ResponseEntity.ok(almacenamientoService.getAll());
+    public ResponseEntity<Page<AlmacenamientoResponseDto>> getAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        return ResponseEntity.ok(almacenamientoService.searchAll(filter, page, size, sort));
     }
 
     @GetMapping("/{id}")
@@ -44,15 +46,5 @@ public class AlmacenamientoController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         almacenamientoService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/conectividad/{conectividad}")
-    public ResponseEntity<List<AlmacenamientoResponseDto>> getByConectividad(@PathVariable AlmacenamientoConectividad conectividad) {
-        return ResponseEntity.ok(almacenamientoService.getByConectividad(conectividad));
-    }
-
-    @GetMapping("/formato/{formato}")
-    public ResponseEntity<List<AlmacenamientoResponseDto>> getByFormato(@PathVariable AlmacenamientoFormato formato) {
-        return ResponseEntity.ok(almacenamientoService.getByFormato(formato));
     }
 }

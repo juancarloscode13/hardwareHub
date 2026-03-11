@@ -1,5 +1,7 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.MontajeFilterFields;
+import com.juanCarlos.hardwareHub.dsl.search.GenericSearchService;
 import com.juanCarlos.hardwareHub.dto.mappers.MontajeMapper;
 import com.juanCarlos.hardwareHub.dto.request.MontajeRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.MontajeResponseDto;
@@ -9,9 +11,9 @@ import com.juanCarlos.hardwareHub.service.MontajeService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -21,6 +23,7 @@ public class MontajeServiceImplementation implements MontajeService {
 
     private final MontajeRepository montajeRepository;
     private final MontajeMapper montajeMapper;
+    private final GenericSearchService searchService;
 
     @Override
     public MontajeResponseDto create(MontajeRequestDto requestDto) {
@@ -37,9 +40,11 @@ public class MontajeServiceImplementation implements MontajeService {
     }
 
     @Override
-    public List<MontajeResponseDto> getAll() {
-        List<MontajeEntity> entities = montajeRepository.findAll();
-        return montajeMapper.toResponseDtoList(entities);
+    public Page<MontajeResponseDto> searchAll(String filter, int page, int size, String sort) {
+        Page<MontajeEntity> result = searchService.search(
+                montajeRepository, filter, page, size, sort,
+                MontajeFilterFields.ALLOWED_FIELDS);
+        return result.map(montajeMapper::toResponseDto);
     }
 
     @Override
@@ -62,9 +67,4 @@ public class MontajeServiceImplementation implements MontajeService {
         montajeRepository.deleteById(id);
     }
 
-    @Override
-    public List<MontajeResponseDto> getByUsuarioId(Long usuarioId) {
-        List<MontajeEntity> entities = montajeRepository.getByUsuarioId(usuarioId);
-        return montajeMapper.toResponseDtoList(entities);
-    }
 }

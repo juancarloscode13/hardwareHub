@@ -1,19 +1,19 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.CajaFilterFields;
+import com.juanCarlos.hardwareHub.dsl.search.GenericSearchService;
 import com.juanCarlos.hardwareHub.dto.mappers.CajaMapper;
 import com.juanCarlos.hardwareHub.dto.request.CajaRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.CajaResponseDto;
 import com.juanCarlos.hardwareHub.entity.CajaEntity;
-import com.juanCarlos.hardwareHub.entity.enums.CajaFormato;
-import com.juanCarlos.hardwareHub.entity.enums.PsuFactorForma;
 import com.juanCarlos.hardwareHub.repository.CajaRepository;
 import com.juanCarlos.hardwareHub.service.CajaService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -23,6 +23,7 @@ public class CajaServiceImplementation implements CajaService {
 
     private final CajaRepository cajaRepository;
     private final CajaMapper cajaMapper;
+    private final GenericSearchService searchService;
 
     @Override
     public CajaResponseDto create(CajaRequestDto requestDto) {
@@ -39,9 +40,11 @@ public class CajaServiceImplementation implements CajaService {
     }
 
     @Override
-    public List<CajaResponseDto> getAll() {
-        List<CajaEntity> entities = cajaRepository.findAll();
-        return cajaMapper.toResponseDtoList(entities);
+    public Page<CajaResponseDto> searchAll(String filter, int page, int size, String sort) {
+        Page<CajaEntity> result = searchService.search(
+                cajaRepository, filter, page, size, sort,
+                CajaFilterFields.ALLOWED_FIELDS);
+        return result.map(cajaMapper::toResponseDto);
     }
 
     @Override
@@ -62,23 +65,5 @@ public class CajaServiceImplementation implements CajaService {
             throw new EntityNotFoundException("No se pudo encontrar ninguna caja con ese id");
         }
         cajaRepository.deleteById(id);
-    }
-
-    @Override
-    public List<CajaResponseDto> getByPlacasBaseCompatibles(CajaFormato placasBaseCompatibles) {
-        List<CajaEntity> entities = cajaRepository.getByPlacasBaseCompatibles(placasBaseCompatibles);
-        return cajaMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<CajaResponseDto> getByPsuCompatible(PsuFactorForma psuCompatible) {
-        List<CajaEntity> entities = cajaRepository.getByPsuCompatible(psuCompatible);
-        return cajaMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<CajaResponseDto> getByAlturaMaxEnfriadorCpuGreaterThanEqual(Integer alturaMaxEnfriadorCpu) {
-        List<CajaEntity> entities = cajaRepository.getByAlturaMaxEnfriadorCpuGreaterThanEqual(alturaMaxEnfriadorCpu);
-        return cajaMapper.toResponseDtoList(entities);
     }
 }

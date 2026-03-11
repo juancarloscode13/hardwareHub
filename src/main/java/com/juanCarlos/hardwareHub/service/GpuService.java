@@ -2,6 +2,7 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.GpuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.GpuResponseDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -11,17 +12,9 @@ public interface GpuService {
 
     GpuResponseDto getById(Long id);
 
-    List<GpuResponseDto> getAll();
+    Page<GpuResponseDto> searchAll(String filter, int page, int size, String sort);
 
     GpuResponseDto update(Long id, GpuRequestDto requestDto);
 
     void deleteById(Long id);
-
-    List<GpuResponseDto> getByConectividadPcie(Integer conectividadPcie);
-
-    List<GpuResponseDto> getByAltoGpuLessThanEqual(Integer altoGpu);
-
-    List<GpuResponseDto> getByPuntuacionPassmarkGreaterThanEqual(Integer puntuacionPassmark);
-
-    List<GpuResponseDto> getAllOrderByPuntuacionPassmarkDesc();
 }

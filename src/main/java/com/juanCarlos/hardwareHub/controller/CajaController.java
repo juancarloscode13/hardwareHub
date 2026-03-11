@@ -2,16 +2,13 @@ package com.juanCarlos.hardwareHub.controller;
 
 import com.juanCarlos.hardwareHub.dto.request.CajaRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.CajaResponseDto;
-import com.juanCarlos.hardwareHub.entity.enums.CajaFormato;
-import com.juanCarlos.hardwareHub.entity.enums.PsuFactorForma;
 import com.juanCarlos.hardwareHub.service.CajaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/cajas")
@@ -21,8 +18,13 @@ public class CajaController {
     private final CajaService cajaService;
 
     @GetMapping
-    public ResponseEntity<List<CajaResponseDto>> getAll() {
-        return ResponseEntity.ok(cajaService.getAll());
+    public ResponseEntity<Page<CajaResponseDto>> getAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        return ResponseEntity.ok(cajaService.searchAll(filter, page, size, sort));
     }
 
     @GetMapping("/{id}")
@@ -44,20 +46,5 @@ public class CajaController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         cajaService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/placas-base/{placasBaseCompatibles}")
-    public ResponseEntity<List<CajaResponseDto>> getByPlacasBaseCompatibles(@PathVariable CajaFormato placasBaseCompatibles) {
-        return ResponseEntity.ok(cajaService.getByPlacasBaseCompatibles(placasBaseCompatibles));
-    }
-
-    @GetMapping("/psu/{psuCompatible}")
-    public ResponseEntity<List<CajaResponseDto>> getByPsuCompatible(@PathVariable PsuFactorForma psuCompatible) {
-        return ResponseEntity.ok(cajaService.getByPsuCompatible(psuCompatible));
-    }
-
-    @GetMapping("/altura-enfriador/min/{alturaMaxEnfriadorCpu}")
-    public ResponseEntity<List<CajaResponseDto>> getByAlturaMaxEnfriadorCpuGreaterThanEqual(@PathVariable Integer alturaMaxEnfriadorCpu) {
-        return ResponseEntity.ok(cajaService.getByAlturaMaxEnfriadorCpuGreaterThanEqual(alturaMaxEnfriadorCpu));
     }
 }

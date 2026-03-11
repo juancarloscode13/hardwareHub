@@ -2,6 +2,7 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.CajaRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.CajaResponseDto;
+import org.springframework.data.domain.Page;
 import com.juanCarlos.hardwareHub.entity.enums.CajaFormato;
 import com.juanCarlos.hardwareHub.entity.enums.PsuFactorForma;
 
@@ -13,15 +14,11 @@ public interface CajaService {
 
     CajaResponseDto getById(Long id);
 
-    List<CajaResponseDto> getAll();
+    Page<CajaResponseDto> searchAll(String filter, int page, int size, String sort);
 
     CajaResponseDto update(Long id, CajaRequestDto requestDto);
 
     void deleteById(Long id);
 
-    List<CajaResponseDto> getByPlacasBaseCompatibles(CajaFormato placasBaseCompatibles);
-
-    List<CajaResponseDto> getByPsuCompatible(PsuFactorForma psuCompatible);
-
-    List<CajaResponseDto> getByAlturaMaxEnfriadorCpuGreaterThanEqual(Integer alturaMaxEnfriadorCpu);
+    
 }
