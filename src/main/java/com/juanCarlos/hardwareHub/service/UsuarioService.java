@@ -2,6 +2,7 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.UsuarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
+import com.juanCarlos.hardwareHub.entity.UsuarioEntity;
 import org.springframework.data.domain.Page;
 
 public interface UsuarioService {
@@ -15,4 +16,6 @@ public interface UsuarioService {
     UsuarioResponseDto update(Long id, UsuarioRequestDto requestDto);
 
     void deleteById(Long id);
+
+    UsuarioEntity getByEmail(String email);
 }
