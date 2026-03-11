@@ -69,9 +69,8 @@ public class CajaEntity {
     private PsuFactorForma psuCompatible;
 
     @Null
-    @JdbcTypeCode(value = SqlTypes.JSON)
-    @Column(name = "espacio_max_gpu")
-    private Map<String, Object> espacioMaxGpu;
+    @Column(name = "longitud_max_gpu")
+    private Integer longitudMaxGpu;
 
     @Null
     @Column(name = "bahias_25")
