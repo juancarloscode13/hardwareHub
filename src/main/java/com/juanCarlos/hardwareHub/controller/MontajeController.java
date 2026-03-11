@@ -5,6 +5,7 @@ import com.juanCarlos.hardwareHub.dto.response.MontajeResponseDto;
 import com.juanCarlos.hardwareHub.service.MontajeService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,14 @@ public class MontajeController {
     private final MontajeService montajeService;
 
     @GetMapping
-    public ResponseEntity<List<MontajeResponseDto>> getAll() {
-        return ResponseEntity.ok(montajeService.getAll());
+    public ResponseEntity<Page<MontajeResponseDto>> searchAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        Page<MontajeResponseDto> response = montajeService.searchAll(filter, page, size, sort);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
@@ -42,10 +49,5 @@ public class MontajeController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         montajeService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<MontajeResponseDto>> getByUsuarioId(@PathVariable Long usuarioId) {
-        return ResponseEntity.ok(montajeService.getByUsuarioId(usuarioId));
     }
 }

@@ -1,5 +1,7 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.FabricanteFilterFields;
+import com.juanCarlos.hardwareHub.dsl.search.GenericSearchService;
 import com.juanCarlos.hardwareHub.dto.mappers.FabricanteMapper;
 import com.juanCarlos.hardwareHub.dto.request.FabricanteRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.FabricanteResponseDto;
@@ -9,9 +11,9 @@ import com.juanCarlos.hardwareHub.service.FabricanteService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -21,6 +23,7 @@ public class FabricanteServiceImplementation implements FabricanteService {
 
     private final FabricanteRepository fabricanteRepository;
     private final FabricanteMapper fabricanteMapper;
+    private final GenericSearchService searchService;
 
     @Override
     public FabricanteResponseDto create(FabricanteRequestDto requestDto) {
@@ -37,9 +40,11 @@ public class FabricanteServiceImplementation implements FabricanteService {
     }
 
     @Override
-    public List<FabricanteResponseDto> getAll() {
-        List<FabricanteEntity> entities = fabricanteRepository.findAll();
-        return fabricanteMapper.toResponseDtoList(entities);
+    public Page<FabricanteResponseDto> searchAll(String filter, int page, int size, String sort) {
+        Page<FabricanteEntity> result = searchService.search(
+                fabricanteRepository, filter, page, size, sort,
+                FabricanteFilterFields.ALLOWED_FIELDS);
+        return result.map(fabricanteMapper::toResponseDto);
     }
 
     @Override

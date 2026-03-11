@@ -2,8 +2,7 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.UsuarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface UsuarioService {
 
@@ -11,7 +10,7 @@ public interface UsuarioService {
 
     UsuarioResponseDto getById(Long id);
 
-    List<UsuarioResponseDto> getAll();
+    Page<UsuarioResponseDto> searchAll(String filter, int page, int size, String sort);
 
     UsuarioResponseDto update(Long id, UsuarioRequestDto requestDto);
 
