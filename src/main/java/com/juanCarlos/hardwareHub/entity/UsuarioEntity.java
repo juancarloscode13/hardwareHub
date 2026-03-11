@@ -1,5 +1,6 @@
 package com.juanCarlos.hardwareHub.entity;
 
+import com.juanCarlos.hardwareHub.entity.enums.UsuarioRol;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
@@ -35,4 +36,9 @@ public class UsuarioEntity {
     @Null
     @Column(name = "contraseña")
     private String contrasena;
+
+    @NonNull
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "rol")
+    private UsuarioRol rol;
 }

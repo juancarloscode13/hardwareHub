@@ -66,4 +66,9 @@ public class UsuarioServiceImplementation implements UsuarioService {
         }
         usuarioRepository.deleteById(id);
     }
+
+    @Override
+    public UsuarioEntity getByEmail(String email) {
+        return usuarioRepository.getByEmail(email);
+    }
 }
