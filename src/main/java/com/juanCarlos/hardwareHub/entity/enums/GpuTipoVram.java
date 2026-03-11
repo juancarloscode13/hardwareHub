@@ -1,7 +1,16 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.GpuEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+/**
+ * Contiene valores normalizados para el tipo de Vram que puede tener una tarjeta gráfica.
+ * Importante: diferenciar entre Ram y Vram.
+ *
+ * @author Juan Carlos
+ * @see GpuEntity
+ */
 
 @AllArgsConstructor
 @Getter

@@ -9,6 +9,12 @@ import lombok.NonNull;
 
 import java.time.LocalDateTime;
 
+/**
+ * Clase que representa a la tabla publicacion de la base de datos.
+ *
+ * @author Juan Carlos
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

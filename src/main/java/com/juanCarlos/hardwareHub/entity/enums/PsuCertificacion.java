@@ -1,7 +1,15 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.PsuEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+/**
+ * Contiene valores normalizados sobre la certificación que puede tener una fuente de alimentación.
+ *
+ * @author Juan Carlos
+ * @see PsuEntity
+ */
 
 @AllArgsConstructor
 @Getter

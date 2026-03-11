@@ -14,6 +14,12 @@ import org.hibernate.type.SqlTypes;
 import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * Clase que representa a la tabla caja de la base de datos.
+ *
+ * @author Juan Carlos
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

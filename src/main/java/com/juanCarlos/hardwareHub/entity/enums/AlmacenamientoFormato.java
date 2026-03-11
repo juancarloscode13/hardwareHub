@@ -1,7 +1,15 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.AlmacenamientoEntity;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
+
+/**
+ * Contiene valores normalizados para el formato que puede tener un almacenamiento de tipo SSD o HDD.
+ *
+ * @author Juan Carlos
+ * @see AlmacenamientoEntity
+ */
 
 @AllArgsConstructor
 @Getter

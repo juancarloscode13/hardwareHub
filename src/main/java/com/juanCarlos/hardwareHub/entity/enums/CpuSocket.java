@@ -1,7 +1,15 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.CpuEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+/**
+ * Contiene valores normalizados sobre el socket que puede tener una cpu.
+ *
+ * @author Juan Carlos
+ * @see CpuEntity
+ */
 
 @AllArgsConstructor
 @Getter
