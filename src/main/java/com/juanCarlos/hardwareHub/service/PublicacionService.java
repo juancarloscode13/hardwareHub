@@ -2,6 +2,7 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.PublicacionRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PublicacionResponseDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -11,15 +12,11 @@ public interface PublicacionService {
 
     PublicacionResponseDto getById(Long id);
 
-    List<PublicacionResponseDto> getAll();
+    Page<PublicacionResponseDto> searchAll(String filter, int page, int size, String sort);
 
     PublicacionResponseDto update(Long id, PublicacionRequestDto requestDto);
 
     void deleteById(Long id);
 
-    List<PublicacionResponseDto> getAllOrderByFechaDesc();
-
-    List<PublicacionResponseDto> getByUsuarioId(Long usuarioId);
-
-    List<PublicacionResponseDto> getByMontajeId(Long montajeId);
+    
 }

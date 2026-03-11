@@ -1,5 +1,7 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.PublicacionFilterFields;
+import com.juanCarlos.hardwareHub.dsl.search.GenericSearchService;
 import com.juanCarlos.hardwareHub.dto.mappers.PublicacionMapper;
 import com.juanCarlos.hardwareHub.dto.request.PublicacionRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PublicacionResponseDto;
@@ -12,9 +14,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -24,6 +26,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
 
     private final PublicacionRepository publicacionRepository;
     private final PublicacionMapper publicacionMapper;
+    private final GenericSearchService searchService;
 
     @Override
     public PublicacionResponseDto create(PublicacionRequestDto requestDto) {
@@ -45,9 +48,11 @@ public class PublicacionServiceImplementation implements PublicacionService {
     }
 
     @Override
-    public List<PublicacionResponseDto> getAll() {
-        List<PublicacionEntity> entities = publicacionRepository.findAll();
-        return publicacionMapper.toResponseDtoList(entities);
+    public Page<PublicacionResponseDto> searchAll(String filter, int page, int size, String sort) {
+        Page<PublicacionEntity> result = searchService.search(
+                publicacionRepository, filter, page, size, sort,
+                PublicacionFilterFields.ALLOWED_FIELDS);
+        return result.map(publicacionMapper::toResponseDto);
     }
 
     @Override
@@ -72,24 +77,6 @@ public class PublicacionServiceImplementation implements PublicacionService {
         publicacionRepository.deleteById(id);
     }
 
-    @Override
-    public List<PublicacionResponseDto> getAllOrderByFechaDesc() {
-        List<PublicacionEntity> entities = publicacionRepository.findAllByOrderByFechaDesc();
-        return publicacionMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<PublicacionResponseDto> getByUsuarioId(Long usuarioId) {
-        List<PublicacionEntity> entities = publicacionRepository.getByUsuarioId(usuarioId);
-        return publicacionMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<PublicacionResponseDto> getByMontajeId(Long montajeId) {
-        List<PublicacionEntity> entities = publicacionRepository.getByMontajeId(montajeId);
-        return publicacionMapper.toResponseDtoList(entities);
-    }
-
     private void validateMontajeMultimediaRule(PublicacionEntity entity) {
         boolean hasMontaje = entity.getMontaje() != null;
         boolean hasMultimedia = entity.getMultimedia() != null;
@@ -97,8 +84,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
         if (hasMontaje && hasMultimedia) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Una publicacion no puede tener montaje y multimedia al mismo tiempo"
-            );
+                    "Una publicacion no puede tener montaje y multimedia al mismo tiempo");
         }
     }
 }

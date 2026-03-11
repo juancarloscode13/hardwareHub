@@ -1,5 +1,7 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.GpuFilterFields;
+import com.juanCarlos.hardwareHub.dsl.search.GenericSearchService;
 import com.juanCarlos.hardwareHub.dto.mappers.GpuMapper;
 import com.juanCarlos.hardwareHub.dto.request.GpuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.GpuResponseDto;
@@ -9,9 +11,9 @@ import com.juanCarlos.hardwareHub.service.GpuService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -21,6 +23,7 @@ public class GpuServiceImplementation implements GpuService {
 
     private final GpuRepository gpuRepository;
     private final GpuMapper gpuMapper;
+    private final GenericSearchService searchService;
 
     @Override
     public GpuResponseDto create(GpuRequestDto requestDto) {
@@ -37,9 +40,11 @@ public class GpuServiceImplementation implements GpuService {
     }
 
     @Override
-    public List<GpuResponseDto> getAll() {
-        List<GpuEntity> entities = gpuRepository.findAll();
-        return gpuMapper.toResponseDtoList(entities);
+    public Page<GpuResponseDto> searchAll(String filter, int page, int size, String sort) {
+        Page<GpuEntity> result = searchService.search(
+                gpuRepository, filter, page, size, sort,
+                GpuFilterFields.ALLOWED_FIELDS);
+        return result.map(gpuMapper::toResponseDto);
     }
 
     @Override
@@ -60,29 +65,5 @@ public class GpuServiceImplementation implements GpuService {
             throw new EntityNotFoundException("No se pudo encontrar ninguna gpu con ese id");
         }
         gpuRepository.deleteById(id);
-    }
-
-    @Override
-    public List<GpuResponseDto> getByConectividadPcie(Integer conectividadPcie) {
-        List<GpuEntity> entities = gpuRepository.getByConectividadPcie(conectividadPcie);
-        return gpuMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<GpuResponseDto> getByAltoGpuLessThanEqual(Integer altoGpu) {
-        List<GpuEntity> entities = gpuRepository.getByAltoGpuLessThanEqual(altoGpu);
-        return gpuMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<GpuResponseDto> getByPuntuacionPassmarkGreaterThanEqual(Integer puntuacionPassmark) {
-        List<GpuEntity> entities = gpuRepository.getByPuntuacionPassmarkGreaterThanEqual(puntuacionPassmark);
-        return gpuMapper.toResponseDtoList(entities);
-    }
-
-    @Override
-    public List<GpuResponseDto> getAllOrderByPuntuacionPassmarkDesc() {
-        List<GpuEntity> entities = gpuRepository.findAllByOrderByPuntuacionPassmarkDesc();
-        return gpuMapper.toResponseDtoList(entities);
     }
 }

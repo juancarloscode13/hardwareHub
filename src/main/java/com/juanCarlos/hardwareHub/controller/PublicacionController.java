@@ -5,6 +5,7 @@ import com.juanCarlos.hardwareHub.dto.response.PublicacionResponseDto;
 import com.juanCarlos.hardwareHub.service.PublicacionService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +20,20 @@ public class PublicacionController {
     private final PublicacionService publicacionService;
 
     @GetMapping
-    public ResponseEntity<List<PublicacionResponseDto>> getAll() {
-        return ResponseEntity.ok(publicacionService.getAll());
+    public ResponseEntity<Page<PublicacionResponseDto>> searchAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        Page<PublicacionResponseDto> response = publicacionService.searchAll(filter, page, size, sort);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PublicacionResponseDto> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(publicacionService.getById(id));
+        PublicacionResponseDto responseDto = publicacionService.getById(id);
+        return ResponseEntity.ok(responseDto);
     }
 
     @PostMapping
@@ -39,23 +47,10 @@ public class PublicacionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         publicacionService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/fecha/desc")
-    public ResponseEntity<List<PublicacionResponseDto>> getAllOrderByFechaDesc() {
-        return ResponseEntity.ok(publicacionService.getAllOrderByFechaDesc());
-    }
-
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<PublicacionResponseDto>> getByUsuarioId(@PathVariable Long usuarioId) {
-        return ResponseEntity.ok(publicacionService.getByUsuarioId(usuarioId));
-    }
-
-    @GetMapping("/montaje/{montajeId}")
-    public ResponseEntity<List<PublicacionResponseDto>> getByMontajeId(@PathVariable Long montajeId) {
-        return ResponseEntity.ok(publicacionService.getByMontajeId(montajeId));
-    }
+    // legacy endpoints removed; use paginated `GET /api/publicaciones?filter=...` instead
 }

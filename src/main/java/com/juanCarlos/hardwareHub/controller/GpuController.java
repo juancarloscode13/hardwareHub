@@ -5,11 +5,10 @@ import com.juanCarlos.hardwareHub.dto.response.GpuResponseDto;
 import com.juanCarlos.hardwareHub.service.GpuService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/gpus")
@@ -19,8 +18,13 @@ public class GpuController {
     private final GpuService gpuService;
 
     @GetMapping
-    public ResponseEntity<List<GpuResponseDto>> getAll() {
-        return ResponseEntity.ok(gpuService.getAll());
+    public ResponseEntity<Page<GpuResponseDto>> getAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        return ResponseEntity.ok(gpuService.searchAll(filter, page, size, sort));
     }
 
     @GetMapping("/{id}")
@@ -42,25 +46,5 @@ public class GpuController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         gpuService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/pcie/{conectividadPcie}")
-    public ResponseEntity<List<GpuResponseDto>> getByConectividadPcie(@PathVariable Integer conectividadPcie) {
-        return ResponseEntity.ok(gpuService.getByConectividadPcie(conectividadPcie));
-    }
-
-    @GetMapping("/alto/max/{altoGpu}")
-    public ResponseEntity<List<GpuResponseDto>> getByAltoGpuLessThanEqual(@PathVariable Integer altoGpu) {
-        return ResponseEntity.ok(gpuService.getByAltoGpuLessThanEqual(altoGpu));
-    }
-
-    @GetMapping("/passmark/min/{puntuacionPassmark}")
-    public ResponseEntity<List<GpuResponseDto>> getByPuntuacionPassmarkGreaterThanEqual(@PathVariable Integer puntuacionPassmark) {
-        return ResponseEntity.ok(gpuService.getByPuntuacionPassmarkGreaterThanEqual(puntuacionPassmark));
-    }
-
-    @GetMapping("/passmark/ranking")
-    public ResponseEntity<List<GpuResponseDto>> getAllOrderByPuntuacionPassmarkDesc() {
-        return ResponseEntity.ok(gpuService.getAllOrderByPuntuacionPassmarkDesc());
     }
 }

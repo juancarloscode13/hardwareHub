@@ -5,11 +5,10 @@ import com.juanCarlos.hardwareHub.dto.response.ComentarioResponseDto;
 import com.juanCarlos.hardwareHub.service.ComentarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/comentarios")
@@ -19,8 +18,13 @@ public class ComentarioController {
     private final ComentarioService comentarioService;
 
     @GetMapping
-    public ResponseEntity<List<ComentarioResponseDto>> getAll() {
-        return ResponseEntity.ok(comentarioService.getAll());
+    public ResponseEntity<Page<ComentarioResponseDto>> getAll(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String sort
+    ) {
+        return ResponseEntity.ok(comentarioService.searchAll(filter, page, size, sort));
     }
 
     @GetMapping("/{id}")
@@ -42,25 +46,5 @@ public class ComentarioController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         comentarioService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/fecha/desc")
-    public ResponseEntity<List<ComentarioResponseDto>> getAllOrderByFechaDesc() {
-        return ResponseEntity.ok(comentarioService.getAllOrderByFechaDesc());
-    }
-
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<ComentarioResponseDto>> getByUsuarioId(@PathVariable Long usuarioId) {
-        return ResponseEntity.ok(comentarioService.getByUsuarioId(usuarioId));
-    }
-
-    @GetMapping("/publicacion/{publicacionId}")
-    public ResponseEntity<List<ComentarioResponseDto>> getByPublicacionId(@PathVariable Long publicacionId) {
-        return ResponseEntity.ok(comentarioService.getByPublicacionId(publicacionId));
-    }
-
-    @GetMapping("/comentario/{comentarioId}")
-    public ResponseEntity<List<ComentarioResponseDto>> getByComentarioId(@PathVariable Long comentarioId) {
-        return ResponseEntity.ok(comentarioService.getByComentarioId(comentarioId));
     }
 }

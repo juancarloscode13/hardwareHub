@@ -1,5 +1,7 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
+import com.juanCarlos.hardwareHub.dsl.filters.UsuarioFilterFields;
+import com.juanCarlos.hardwareHub.dsl.search.GenericSearchService;
 import com.juanCarlos.hardwareHub.dto.mappers.UsuarioMapper;
 import com.juanCarlos.hardwareHub.dto.request.UsuarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
@@ -9,9 +11,9 @@ import com.juanCarlos.hardwareHub.service.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -21,6 +23,7 @@ public class UsuarioServiceImplementation implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final GenericSearchService searchService;
 
     @Override
     public UsuarioResponseDto create(UsuarioRequestDto requestDto) {
@@ -37,9 +40,11 @@ public class UsuarioServiceImplementation implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioResponseDto> getAll() {
-        List<UsuarioEntity> entities = usuarioRepository.findAll();
-        return usuarioMapper.toResponseDtoList(entities);
+    public Page<UsuarioResponseDto> searchAll(String filter, int page, int size, String sort) {
+        Page<UsuarioEntity> result = searchService.search(
+                usuarioRepository, filter, page, size, sort,
+                UsuarioFilterFields.ALLOWED_FIELDS);
+        return result.map(usuarioMapper::toResponseDto);
     }
 
     @Override
