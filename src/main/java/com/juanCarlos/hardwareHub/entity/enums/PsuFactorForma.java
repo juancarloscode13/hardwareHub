@@ -1,7 +1,15 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.PsuEntity;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
+
+/**
+ * Contiene valores normalizados sobre el factor de forma que puede tener una fuente de alimentación.
+ *
+ * @author Juan Carlos
+ * @see PsuEntity
+ */
 
 @AllArgsConstructor
 @Getter

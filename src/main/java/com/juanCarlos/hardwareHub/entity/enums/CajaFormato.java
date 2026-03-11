@@ -1,7 +1,15 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.CajaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+/**
+ * Contiene valores normalizados sobre el formato que puede tener una caja de pc.
+ *
+ * @author Juan Carlos
+ * @see CajaEntity
+ */
 
 @AllArgsConstructor
 @Getter

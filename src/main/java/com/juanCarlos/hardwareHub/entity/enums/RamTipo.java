@@ -1,7 +1,15 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.RamEntity;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
+
+/**
+ * Contiene valores normalizados de el tipo del que puede ser una memoria ram.
+ *
+ * @author Juan Carlos
+ * @see RamEntity
+ */
 
 @AllArgsConstructor
 @Getter
