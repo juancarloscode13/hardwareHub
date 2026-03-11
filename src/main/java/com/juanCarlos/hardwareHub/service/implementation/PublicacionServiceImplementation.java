@@ -1,11 +1,7 @@
 package com.juanCarlos.hardwareHub.service.implementation;
 
 import com.juanCarlos.hardwareHub.dsl.filters.PublicacionFilterFields;
-import com.juanCarlos.hardwareHub.dsl.model.FilterCriteria;
-import com.juanCarlos.hardwareHub.dsl.parser.QueryDslParser;
-import com.juanCarlos.hardwareHub.dsl.specification.SpecificationBuilder;
-import com.juanCarlos.hardwareHub.dsl.util.PageableUtils;
-import com.juanCarlos.hardwareHub.dsl.validation.FilterValidator;
+import com.juanCarlos.hardwareHub.dsl.search.GenericSearchService;
 import com.juanCarlos.hardwareHub.dto.mappers.PublicacionMapper;
 import com.juanCarlos.hardwareHub.dto.request.PublicacionRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PublicacionResponseDto;
@@ -19,11 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -33,7 +26,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
 
     private final PublicacionRepository publicacionRepository;
     private final PublicacionMapper publicacionMapper;
-    private final QueryDslParser parser = new QueryDslParser();
+    private final GenericSearchService searchService;
 
     @Override
     public PublicacionResponseDto create(PublicacionRequestDto requestDto) {
@@ -56,16 +49,9 @@ public class PublicacionServiceImplementation implements PublicacionService {
 
     @Override
     public Page<PublicacionResponseDto> searchAll(String filter, int page, int size, String sort) {
-        List<FilterCriteria> filters = parser.parse(filter);
-
-        FilterValidator.validate(filters, PublicacionFilterFields.ALLOWED_FIELDS);
-
-        Specification<PublicacionEntity> spec = new SpecificationBuilder<PublicacionEntity>().build(filters);
-
-        Pageable pageable = PageableUtils.createPageable(page, size, sort);
-
-        Page<PublicacionEntity> result = publicacionRepository.findAll(spec, pageable);
-
+        Page<PublicacionEntity> result = searchService.search(
+                publicacionRepository, filter, page, size, sort,
+                PublicacionFilterFields.ALLOWED_FIELDS);
         return result.map(publicacionMapper::toResponseDto);
     }
 
@@ -98,8 +84,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
         if (hasMontaje && hasMultimedia) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Una publicacion no puede tener montaje y multimedia al mismo tiempo"
-            );
+                    "Una publicacion no puede tener montaje y multimedia al mismo tiempo");
         }
     }
 }
