@@ -5,13 +5,21 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
+/**
+ * Combina todos los filtros en una sola consulta de base de datos. Recibe la lista de filtros individuales y los va
+ * uniendo con AND, de forma que el resultado final cumple todas las condiciones a la vez.
+ *
+ * @author Juan Carlos
+ * @see FilterCriteria
+ * @see GenericSpecification
+ */
 public class SpecificationBuilder<T> {
 
-    public Specification<T> build(List<FilterCriteria>filters){
+    public Specification<T> build(List<FilterCriteria> filters) {
 
-        Specification<T>spec = Specification.where((Specification<T>) null);
+        Specification<T> spec = Specification.where((Specification<T>) null);
 
-        for (FilterCriteria filter : filters){
+        for (FilterCriteria filter : filters) {
             spec = spec.and(new GenericSpecification<>(filter));
         }
         return spec;

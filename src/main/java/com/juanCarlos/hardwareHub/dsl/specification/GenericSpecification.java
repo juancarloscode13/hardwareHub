@@ -9,6 +9,13 @@ import lombok.AllArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.jpa.domain.Specification;
 
+/**
+ * Traduce un filtro individual (FilterCriteria) a una condición real de base de datos. Según el operador que tenga el
+ * filtro (==, ~, >, <, >=, <=), genera la consulta correspondiente.
+ *
+ * @author Juan Carlos
+ * @see FilterCriteria
+ */
 @AllArgsConstructor
 public class GenericSpecification<T> implements Specification<T> {
 
@@ -16,15 +23,14 @@ public class GenericSpecification<T> implements Specification<T> {
 
     @Override
     public @Nullable Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        switch (criteria.getOperator()){
+        switch (criteria.getOperator()) {
             case "==":
                 return criteriaBuilder.equal(root.get(criteria.getField()), criteria.getValue());
 
             case "~":
                 return criteriaBuilder.like(
                         criteriaBuilder.lower(root.get(criteria.getField())),
-                        "%" + criteria.getValue().toLowerCase() + "%"
-                );
+                        "%" + criteria.getValue().toLowerCase() + "%");
 
             case ">":
                 return criteriaBuilder.greaterThan(root.get(criteria.getField()), criteria.getValue());
