@@ -1,7 +1,16 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.GpuEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+/**
+ * Contiene valores normalizados sobre las posibles ensambladoras que puede tener una tarjeta gráfica.
+ * Importante: diferenciar ensambladora y fabricante.
+ *
+ * @author Juan Carlos
+ * @see GpuEntity
+ */
 
 @AllArgsConstructor
 @Getter

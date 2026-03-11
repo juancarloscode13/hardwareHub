@@ -1,7 +1,15 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.GpuEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+/**
+ * Contiene valores normalizados sobre la arquitectura que puede tener una tarjeta gráfica.
+ *
+ * @author Juan Carlos
+ * @see GpuEntity
+ */
 
 @AllArgsConstructor
 @Getter

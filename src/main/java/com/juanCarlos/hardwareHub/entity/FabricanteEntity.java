@@ -6,6 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Clase que representa a la tabla fabricante de la base de datos.
+ *
+ * @author Juan Carlos
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

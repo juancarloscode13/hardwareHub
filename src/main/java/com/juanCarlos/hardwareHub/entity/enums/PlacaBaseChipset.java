@@ -1,7 +1,15 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.PlacaBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+/**
+ * Contiene valores normalizados del posible chipset con el que puede contar una placa base.
+ *
+ * @author Juan Carlos
+ * @see PlacaBaseEntity
+ */
 
 @AllArgsConstructor
 @Getter

@@ -12,6 +12,12 @@ import lombok.NonNull;
 
 import java.math.BigDecimal;
 
+/**
+ * Clase que representa a la tabla almacenamiento de la base de datos.
+ *
+ * @author Juan Carlos
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

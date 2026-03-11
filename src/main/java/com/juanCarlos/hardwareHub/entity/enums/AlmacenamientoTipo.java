@@ -1,7 +1,15 @@
 package com.juanCarlos.hardwareHub.entity.enums;
 
+import com.juanCarlos.hardwareHub.entity.AlmacenamientoEntity;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
+
+/**
+ * Contiene valores normalizados sobre el tipo del que puede ser un almacenamiento.
+ *
+ * @author Juan Carlos
+ * @see AlmacenamientoEntity
+ */
 
 @AllArgsConstructor
 @Getter
