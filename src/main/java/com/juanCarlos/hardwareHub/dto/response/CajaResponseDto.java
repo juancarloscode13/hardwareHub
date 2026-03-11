@@ -23,7 +23,7 @@ public class CajaResponseDto {
     private String color;
     private Map<String, Object> dimensiones;
     private PsuFactorForma psuCompatible;
-    private Map<String, Object> espacioMaxGpu;
+    private Integer longitudMaxGpu;
     private Integer bahias25;
     private Integer bahias35;
     private Map<String, Object> espacioVentiladores;

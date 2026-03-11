@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS cpu(
     modelo VARCHAR(75) NOT NULL,
     id_fabricante INTEGER UNSIGNED NOT NULL,
     cpu_socket VARCHAR(15) NOT NULL,
-    cores JSON NOT NULL,
+    cores JSON NOT NULL, -- si fabricante = intel, power cores y efficient cores; si fabricante = amd, cores y ccd
     cache_apilada BOOLEAN, -- 3d-v cache
     arquitectura varchar(25) NOT NULL,
     precio DECIMAL(7, 2),
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS gpu(
     modelo VARCHAR(75) NOT NULL,
     id_fabricante INTEGER UNSIGNED NOT NULL,
     ensambladora VARCHAR(25) NOT NULL,
-    nucleos JSON,
+    nucleos JSON, -- si fabricante = nvidia, cuda y tensor; si fabricante = amd, unidades de computo (CU); si fabricante = intel, Xe Cores.
     frecuencia_max DECIMAL(5, 3),
     frecuencia_min DECIMAL(5, 3),
 	temperatura_max TINYINT,
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS refrigeracion(
     precio DECIMAL(7, 2),
     socket_compatible VARCHAR(15) NOT NULL,
     tipo VARCHAR(20) NOT NULL,
-    atributos JSON
+    atributos JSON -- si tipo = liquida, tamaño_radiador; si tipo = aire, alto y numero_ventiladores
 );
 
 CREATE TABLE IF NOT EXISTS caja(
@@ -102,15 +102,15 @@ CREATE TABLE IF NOT EXISTS caja(
     formato VARCHAR(15) NOT NULL,
     placas_base_compatibles VARCHAR(15) NOT NULL,
     color VARCHAR(25),
-    dimensiones JSON NOT NULL,
+    dimensiones JSON NOT NULL, -- alto, ancho, largo
     psu_compatible VARCHAR(10),
-    espacio_max_gpu JSON,
+    longitud_max_gpu SMALLINT,
     bahias_25 TINYINT,
     bahias_35 TINYINT,
-    espacio_ventiladores JSON,
+    espacio_ventiladores JSON, -- superiores, laterales, frontal, trasero, inferior
     ventiladores_incluidos BOOLEAN,
-    soportes_radiador JSON,
-    conectividad_frontal JSON,
+    soportes_radiador JSON, -- superior, inferior, frontal, lateral
+    conectividad_frontal JSON, -- tipo de puerto y numero
     rgb BOOLEAN,
     altura_max_enfriador_cpu SMALLINT
 );
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS placa_base(
     ranuras_expansion TINYINT,
     ranuras_almacenamiento TINYINT,
     puertos_usb TINYINT,
-    conectividad_interna JSON,
+    conectividad_interna JSON, -- tipo de puerto y numero
     wifi_soportado VARCHAR(10)
 );
 
