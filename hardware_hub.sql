@@ -1,5 +1,6 @@
 DROP DATABASE IF EXISTS hardware_hub;
-CREATE DATABASE IF NOT EXISTS hardware_hub CHARACTER SET latin1 COLLATE latin_spanish_1;
+CREATE DATABASE IF NOT EXISTS hardware_hub CHARACTER SET latin1;
+USE hardware_hub;
 
 -- ################################################################
 -- TABLAS
@@ -242,11 +243,7 @@ ADD CONSTRAINT fk_publicacion_usuario
     ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT fk_publicacion_montaje
     FOREIGN KEY (id_montaje) REFERENCES montaje(id)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT ck_publicacion_montaje_xor_multimedia
-    CHECK (
-        (id_montaje IS NULL OR multimedia IS NULL)
-    );
+    ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- Tabla comentario
 ALTER TABLE comentario
@@ -260,32 +257,48 @@ ADD CONSTRAINT fk_comentario_publicacion
 	FOREIGN KEY (id_publicacion) REFERENCES publicacion(id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
--- Tabla fabricante
+-- Relaciones con fabricante
+ALTER TABLE cpu
+ADD CONSTRAINT fk_cpu_fabricante
+    FOREIGN KEY (id_fabricante) REFERENCES fabricante(id)
+    ON UPDATE CASCADE;
+
+ALTER TABLE gpu
+ADD CONSTRAINT fk_gpu_fabricante
+    FOREIGN KEY (id_fabricante) REFERENCES fabricante(id)
+    ON UPDATE CASCADE;
+
+ALTER TABLE psu
+ADD CONSTRAINT fk_psu_fabricante
+    FOREIGN KEY (id_fabricante) REFERENCES fabricante(id)
+    ON UPDATE CASCADE;
+
+ALTER TABLE ram
+ADD CONSTRAINT fk_ram_fabricante
+    FOREIGN KEY (id_fabricante) REFERENCES fabricante(id)
+    ON UPDATE CASCADE;
+
+ALTER TABLE almacenamiento
+ADD CONSTRAINT fk_almacenamiento_fabricante
+    FOREIGN KEY (id_fabricante) REFERENCES fabricante(id)
+    ON UPDATE CASCADE;
+
+ALTER TABLE refrigeracion
+ADD CONSTRAINT fk_refrigeracion_fabricante
+    FOREIGN KEY (id_fabricante) REFERENCES fabricante(id)
+    ON UPDATE CASCADE;
+
+ALTER TABLE caja
+ADD CONSTRAINT fk_caja_fabricante
+    FOREIGN KEY (id_fabricante) REFERENCES fabricante(id)
+    ON UPDATE CASCADE;
+
+ALTER TABLE placa_base
+ADD CONSTRAINT fk_placa_base_fabricante
+    FOREIGN KEY (id_fabricante) REFERENCES fabricante(id)
+    ON UPDATE CASCADE;
+
 ALTER TABLE fabricante
-ADD CONSTRAINT fk_fabricante_cpu
-    FOREIGN KEY (id) REFERENCES cpu(id_fabricante)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT fk_fabricante_gpu
-    FOREIGN KEY (id) REFERENCES gpu(id_fabricante)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT fk_fabricante_psu
-    FOREIGN KEY (id) REFERENCES psu(id_fabricante)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT fk_fabricante_ram
-    FOREIGN KEY (id) REFERENCES ram(id_fabricante)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT fk_fabricante_almacenamiento
-    FOREIGN KEY (id) REFERENCES almacenamiento(id_fabricante)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT fk_fabricante_refrigeracion
-    FOREIGN KEY (id) REFERENCES refrigeracion(id_fabricante)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT fk_fabricante_caja
-    FOREIGN KEY (id) REFERENCES caja(id_fabricante)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT fk_fabricante_placa_base
-    FOREIGN KEY (id) REFERENCES placa_base(id_fabricante)
-    ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT uq_fabricante_nombre
     UNIQUE (nombre);
 
