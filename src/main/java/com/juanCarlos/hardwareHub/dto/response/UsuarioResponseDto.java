@@ -22,4 +22,10 @@ public class UsuarioResponseDto {
     private String contrasena;
     @Schema(description = "Rol del usuario en la plataforma", example = "USER")
     private UsuarioRol rol;
+
+    @Schema(description = "Número de seguidores del usuario", example = "42")
+    private int followersCount;
+
+    @Schema(description = "Número de usuarios a los que sigue", example = "15")
+    private int followingCount;
 }

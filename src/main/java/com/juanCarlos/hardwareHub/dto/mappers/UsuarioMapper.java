@@ -14,6 +14,7 @@ public interface UsuarioMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "usuariosSeguidos", ignore = true)
     @Mapping(target = "seguidores", ignore = true)
+    @Mapping(target = "reacciones", ignore = true)
     UsuarioEntity toEntity(UsuarioRequestDto requestDto);
 
     @Mapping(target = "followersCount",
