@@ -163,7 +163,6 @@ CREATE TABLE IF NOT EXISTS publicacion(
 	id INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     contenido_texto VARCHAR(300),
     multimedia MEDIUMBLOB,
-    likes INTEGER UNSIGNED NOT NULL DEFAULT 0,
     fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_montaje INTEGER UNSIGNED NULL,
     id_usuario INTEGER UNSIGNED NOT NULL
@@ -177,6 +176,29 @@ CREATE TABLE IF NOT EXISTS comentario(
     id_usuario INTEGER UNSIGNED NOT NULL,
     id_comentario INTEGER UNSIGNED NULL,
     id_publicacion INTEGER UNSIGNED NULL
+);
+-- Tabla intermedia para implementar la lógica de seguidores entre usuarios. Un usuario puede seguir a muchos otros usuarios, y un usuario puede ser seguido por muchos otros usuarios.
+-- Se establece una restricción para evitar que un usuario se siga a sí mismo.
+CREATE TABLE IF NOT EXISTS usuario_seguidor (
+    id_seguidor INTEGER UNSIGNED NOT NULL,
+    id_seguido  INTEGER UNSIGNED NOT NULL,
+    PRIMARY KEY (id_seguidor, id_seguido),
+    CONSTRAINT fk_us_seguidor FOREIGN KEY (id_seguidor) REFERENCES usuario(id) ON DELETE CASCADE,
+    CONSTRAINT fk_us_seguido  FOREIGN KEY (id_seguido)  REFERENCES usuario(id) ON DELETE CASCADE,
+    CONSTRAINT ck_no_self_follow CHECK (id_seguidor <> id_seguido)
+);
+
+-- Tabla de reacciones: cada usuario puede tener exactamente una reacción por publicación.
+-- La clave primaria compuesta (id_usuario, id_publicacion) garantiza la unicidad.
+CREATE TABLE IF NOT EXISTS reaccion (
+    id_usuario INTEGER UNSIGNED NOT NULL,
+    id_publicacion INTEGER UNSIGNED NOT NULL,
+    tipo ENUM('LIKE','DISLIKE','LOVE','FUNNY','INTERESTING') NOT NULL,
+    PRIMARY KEY (id_usuario, id_publicacion),
+    CONSTRAINT fk_reaccion_usuario
+        FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_reaccion_publicacion
+        FOREIGN KEY (id_publicacion) REFERENCES publicacion(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- ################################################################

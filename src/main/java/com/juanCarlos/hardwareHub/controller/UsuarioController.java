@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/usuarios")
 @AllArgsConstructor
@@ -28,8 +30,7 @@ public class UsuarioController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String sort
     ) {
-        Page<UsuarioResponseDto> response = usuarioService.searchAll(filter, page, size, sort);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(usuarioService.searchAll(filter, page, size, sort));
     }
 
     @GetMapping("/{id}")
@@ -55,5 +56,37 @@ public class UsuarioController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // ---- Sistema de seguidores ----
+
+    @PostMapping("/{id}/follow/{targetId}")
+    @Operation(summary = "El usuario {id} sigue al usuario {targetId}")
+    public ResponseEntity<UsuarioResponseDto> followUser(
+            @PathVariable Long id,
+            @PathVariable Long targetId
+    ) {
+        return ResponseEntity.ok(usuarioService.followUser(id, targetId));
+    }
+
+    @DeleteMapping("/{id}/follow/{targetId}")
+    @Operation(summary = "El usuario {id} deja de seguir al usuario {targetId}")
+    public ResponseEntity<UsuarioResponseDto> unfollowUser(
+            @PathVariable Long id,
+            @PathVariable Long targetId
+    ) {
+        return ResponseEntity.ok(usuarioService.unfollowUser(id, targetId));
+    }
+
+    @GetMapping("/{id}/followers")
+    @Operation(summary = "Obtener la lista de seguidores del usuario {id}")
+    public ResponseEntity<List<UsuarioResponseDto>> getFollowers(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.getFollowers(id));
+    }
+
+    @GetMapping("/{id}/following")
+    @Operation(summary = "Obtener la lista de usuarios a los que sigue el usuario {id}")
+    public ResponseEntity<List<UsuarioResponseDto>> getFollowing(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.getFollowing(id));
     }
 }

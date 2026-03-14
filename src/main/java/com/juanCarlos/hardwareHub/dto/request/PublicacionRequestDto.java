@@ -17,8 +17,6 @@ public class PublicacionRequestDto {
     private byte[] multimedia;
     @Schema(description = "ID del montaje asociado a la publicación", example = "1")
     private Long montajeId;
-    @Schema(description = "Número de likes", example = "0")
-    private Integer likes;
     @Schema(description = "ID del usuario autor de la publicación", example = "1")
     private Long usuarioId;
 }
