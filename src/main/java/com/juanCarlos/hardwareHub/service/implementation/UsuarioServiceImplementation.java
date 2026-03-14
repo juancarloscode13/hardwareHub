@@ -14,7 +14,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -35,7 +37,7 @@ public class UsuarioServiceImplementation implements UsuarioService {
     @Override
     public UsuarioResponseDto getById(Long id) {
         UsuarioEntity entity = usuarioRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("No se pudo encontrar ningun usuario con ese id"));
+                .orElseThrow(() -> new NoSuchElementException("No se pudo encontrar ningún usuario con id: " + id));
         return usuarioMapper.toResponseDto(entity);
     }
 
@@ -50,9 +52,8 @@ public class UsuarioServiceImplementation implements UsuarioService {
     @Override
     public UsuarioResponseDto update(Long id, UsuarioRequestDto requestDto) {
         if (!usuarioRepository.existsById(id)) {
-            throw new EntityNotFoundException("No se pudo encontrar ningun usuario con ese id");
+            throw new EntityNotFoundException("No se pudo encontrar ningún usuario con id: " + id);
         }
-
         UsuarioEntity entity = usuarioMapper.toEntity(requestDto);
         entity.setId(id);
         UsuarioEntity savedEntity = usuarioRepository.save(entity);
@@ -62,7 +63,7 @@ public class UsuarioServiceImplementation implements UsuarioService {
     @Override
     public void deleteById(Long id) {
         if (!usuarioRepository.existsById(id)) {
-            throw new EntityNotFoundException("No se pudo encontrar ningun usuario con ese id");
+            throw new EntityNotFoundException("No se pudo encontrar ningún usuario con id: " + id);
         }
         usuarioRepository.deleteById(id);
     }
@@ -70,5 +71,59 @@ public class UsuarioServiceImplementation implements UsuarioService {
     @Override
     public UsuarioEntity getByEmail(String email) {
         return usuarioRepository.getByEmail(email);
+    }
+
+    // ---- Sistema de seguidores ----
+
+    @Override
+    public UsuarioResponseDto followUser(Long followerId, Long followedId) {
+        if (followerId.equals(followedId)) {
+            throw new IllegalArgumentException("Un usuario no puede seguirse a sí mismo");
+        }
+        UsuarioEntity follower = usuarioRepository.findById(followerId)
+                .orElseThrow(() -> new NoSuchElementException("No se pudo encontrar ningún usuario con id: " + followerId));
+        UsuarioEntity followed = usuarioRepository.findById(followedId)
+                .orElseThrow(() -> new NoSuchElementException("No se pudo encontrar ningún usuario con id: " + followedId));
+
+        // Evitar duplicados silenciosamente (la PK de la tabla ya lo previene en BD)
+        if (!usuarioRepository.isFollowing(followerId, followedId)) {
+            follower.getUsuariosSeguidos().add(followed);
+            usuarioRepository.save(follower);
+        }
+        return usuarioMapper.toResponseDto(follower);
+    }
+
+    @Override
+    public UsuarioResponseDto unfollowUser(Long followerId, Long followedId) {
+        UsuarioEntity follower = usuarioRepository.findById(followerId)
+                .orElseThrow(() -> new NoSuchElementException("No se pudo encontrar ningún usuario con id: " + followerId));
+        UsuarioEntity followed = usuarioRepository.findById(followedId)
+                .orElseThrow(() -> new NoSuchElementException("No se pudo encontrar ningún usuario con id: " + followedId));
+
+        follower.getUsuariosSeguidos().remove(followed);
+        usuarioRepository.save(follower);
+        return usuarioMapper.toResponseDto(follower);
+    }
+
+    @Override
+    public List<UsuarioResponseDto> getFollowers(Long userId) {
+        if (!usuarioRepository.existsById(userId)) {
+            throw new NoSuchElementException("No se pudo encontrar ningún usuario con id: " + userId);
+        }
+        return usuarioRepository.findSeguidoresByUserId(userId)
+                .stream()
+                .map(usuarioMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UsuarioResponseDto> getFollowing(Long userId) {
+        if (!usuarioRepository.existsById(userId)) {
+            throw new NoSuchElementException("No se pudo encontrar ningún usuario con id: " + userId);
+        }
+        return usuarioRepository.findSeguidosByUserId(userId)
+                .stream()
+                .map(usuarioMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 }

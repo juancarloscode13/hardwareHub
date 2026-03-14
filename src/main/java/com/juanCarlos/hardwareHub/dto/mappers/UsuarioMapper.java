@@ -12,8 +12,14 @@ import java.util.List;
 public interface UsuarioMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "usuariosSeguidos", ignore = true)
+    @Mapping(target = "seguidores", ignore = true)
     UsuarioEntity toEntity(UsuarioRequestDto requestDto);
 
+    @Mapping(target = "followersCount",
+             expression = "java(entity.getSeguidores() != null ? entity.getSeguidores().size() : 0)")
+    @Mapping(target = "followingCount",
+             expression = "java(entity.getUsuariosSeguidos() != null ? entity.getUsuariosSeguidos().size() : 0)")
     UsuarioResponseDto toResponseDto(UsuarioEntity entity);
 
     List<UsuarioResponseDto> toResponseDtoList(List<UsuarioEntity> entities);
