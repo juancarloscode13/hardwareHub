@@ -1,7 +1,5 @@
 package com.juanCarlos.hardwareHub.security;
 
-import com.juanCarlos.hardwareHub.security.services.JwtService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -12,48 +10,55 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-
-import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Bean
-    @Order(0)
-    public SecurityFilterChain swaggerSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .securityMatcher("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger", "/api-docs/**")
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable)
-                .build();
-    }
+    /** Rutas de Swagger / OpenAPI: completamente públicas (solo desarrollo). */
+    private static final String[] SWAGGER_PATHS = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/swagger",
+            "/api-docs/**"
+    };
 
+    /** Endpoints de autenticación que no requieren JWT. */
+    private static final String[] PUBLIC_AUTH_PATHS = {
+            "/auth/login",
+            "/auth/logout"
+    };
+
+    /**
+     * Cadena de seguridad para Swagger/OpenAPI.
+     * Sin autenticación, sin sesión, sin CSRF.
+     */
     @Bean
     @Order(1)
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, Set<String> allowedEnpoints){
+    public SecurityFilterChain swaggerSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher(allowedEnpoints.toArray(String[]::new))
+                .securityMatcher(SWAGGER_PATHS)
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
                 .build();
     }
 
+    /**
+     * Cadena de seguridad para endpoints públicos de autenticación (login y logout).
+     * No requieren JWT. CORS habilitado para compatibilidad con el frontend.
+     */
     @Bean
     @Order(2)
-    public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, Set<String> allowedEndpoints){
+    public SecurityFilterChain publicAuthFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher(allowedEndpoints.toArray(String[]::new))
+                .securityMatcher(PUBLIC_AUTH_PATHS)
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
@@ -61,12 +66,22 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Cadena de seguridad principal (catch-all).
+     * Cubre todos los endpoints de /api/** y /auth/** que no fueron capturados antes (p. ej. /auth/me).
+     * Requiere JWT válido. El filtro JWT se ejecuta antes que UsernamePasswordAuthenticationFilter.
+     * CORS habilitado para compatibilidad con el frontend.
+     */
     @Bean
     @Order(3)
-    public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationProvider authenticationProvider, AccessDeniedHandler accessDeniedHandler, AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
+    public SecurityFilterChain apiSecurityFilterChain(
+            HttpSecurity http,
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            AuthenticationProvider authenticationProvider,
+            AccessDeniedHandler accessDeniedHandler,
+            AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
         return http
-                .securityMatcher("/api/**")
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz

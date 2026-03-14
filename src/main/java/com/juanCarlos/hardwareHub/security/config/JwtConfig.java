@@ -23,7 +23,13 @@ import java.security.interfaces.RSAPublicKey;
 public class JwtConfig {
 
     @Value("${app.jwt.expiration:86400}")
-    private long jwtExpiration; // 1 día
+    private long jwtExpiration; // 1 día por defecto
+
+    /** Expone el valor de expiración JWT como bean para poder inyectarlo en JwtService. */
+    @Bean
+    public long jwtExpiration() {
+        return jwtExpiration;
+    }
 
     @Bean
     public KeyPair keypair(){
