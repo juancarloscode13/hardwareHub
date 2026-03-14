@@ -27,6 +27,17 @@ import java.util.Set;
 public class SecurityConfig {
 
     @Bean
+    @Order(0)
+    public SecurityFilterChain swaggerSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .securityMatcher("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger", "/api-docs/**")
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(AbstractHttpConfigurer::disable)
+                .build();
+    }
+
+    @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http, Set<String> allowedEnpoints){
         return http
