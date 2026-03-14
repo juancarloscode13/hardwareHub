@@ -1,8 +1,11 @@
 package com.juanCarlos.hardwareHub.controller;
 
 import com.juanCarlos.hardwareHub.dto.request.PublicacionRequestDto;
+import com.juanCarlos.hardwareHub.dto.request.ReaccionRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PublicacionResponseDto;
+import com.juanCarlos.hardwareHub.dto.response.ReaccionConteoDto;
 import com.juanCarlos.hardwareHub.service.PublicacionService;
+import com.juanCarlos.hardwareHub.service.ReaccionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class PublicacionController {
 
     private final PublicacionService publicacionService;
+    private final ReaccionService reaccionService;
 
     @GetMapping
     @Operation(summary = "Listar todas las publicaciones con paginación y filtros opcionales")
@@ -28,15 +32,13 @@ public class PublicacionController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String sort
     ) {
-        Page<PublicacionResponseDto> response = publicacionService.searchAll(filter, page, size, sort);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(publicacionService.searchAll(filter, page, size, sort));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Obtener una publicación por su ID")
     public ResponseEntity<PublicacionResponseDto> getById(@PathVariable Long id) {
-        PublicacionResponseDto responseDto = publicacionService.getById(id);
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(publicacionService.getById(id));
     }
 
     @PostMapping
@@ -47,7 +49,10 @@ public class PublicacionController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar una publicación existente por su ID")
-    public ResponseEntity<PublicacionResponseDto> update(@PathVariable Long id, @Valid @RequestBody PublicacionRequestDto requestDto) {
+    public ResponseEntity<PublicacionResponseDto> update(
+            @PathVariable Long id,
+            @Valid @RequestBody PublicacionRequestDto requestDto
+    ) {
         return ResponseEntity.ok(publicacionService.update(id, requestDto));
     }
 
@@ -56,5 +61,34 @@ public class PublicacionController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         publicacionService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // ---- Endpoints de reacciones ----
+
+    @PostMapping("/{id}/reaccion")
+    @Operation(summary = "Añadir o actualizar la reacción del usuario sobre la publicación")
+    public ResponseEntity<ReaccionConteoDto> addOrUpdateReaction(
+            @PathVariable Long id,
+            @Valid @RequestBody ReaccionRequestDto requestDto
+    ) {
+        return ResponseEntity.ok(
+                reaccionService.addOrUpdateReaction(id, requestDto.getUsuarioId(), requestDto.getTipo())
+        );
+    }
+
+    @DeleteMapping("/{id}/reaccion/{usuarioId}")
+    @Operation(summary = "Eliminar la reacción del usuario sobre la publicación")
+    public ResponseEntity<Void> removeReaction(
+            @PathVariable Long id,
+            @PathVariable Long usuarioId
+    ) {
+        reaccionService.removeReaction(id, usuarioId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/reacciones")
+    @Operation(summary = "Obtener el conteo de reacciones agrupadas por tipo de una publicación")
+    public ResponseEntity<ReaccionConteoDto> getReacciones(@PathVariable Long id) {
+        return ResponseEntity.ok(reaccionService.getReactionsByPublication(id));
     }
 }
