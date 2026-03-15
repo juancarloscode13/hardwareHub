@@ -1,9 +1,6 @@
 package com.juanCarlos.hardwareHub.security.services;
 
-import com.juanCarlos.hardwareHub.dto.mappers.UsuarioMapper;
-import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
 import com.juanCarlos.hardwareHub.entity.enums.UsuarioRol;
-import com.juanCarlos.hardwareHub.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +11,6 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Map;
-import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +18,6 @@ public class JwtService {
     private final JwtEncoder jwtEncoder;
     private final JwtDecoder jwtDecoder;
     private final long jwtExpiration;
-    private final UsuarioService usuarioService;
-    private final UsuarioMapper usuarioMapper;
 
     public String generateToken(UserDetails userDetails){
         Instant now = Instant.now();
@@ -41,7 +34,7 @@ public class JwtService {
                 .expiresAt(expiry)
                 .subject(userDetails.getUsername())
                 .claim("role", role)
-                .claim("email", usuarioService.getByEmail(userDetails.getUsername()))
+                .claim("email", userDetails.getUsername())
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
