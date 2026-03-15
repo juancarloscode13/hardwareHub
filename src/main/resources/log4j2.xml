@@ -2,7 +2,7 @@
 <Configuration status="WARN">
     <Properties>
         <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %c{1} - %msg%n</Property>
-        <Property name="LOG_FILE_NAME">logs/log_${date:yyyy-MM-dd_HH-mm-ss-SSS}.txt</Property>
+        <Property name="LOG_FILE_NAME">${sys:user.dir}/log/log_${date:yyyy-MM-dd_HH-mm-ss-SSS}.txt</Property>
     </Properties>
 
     <Appenders>

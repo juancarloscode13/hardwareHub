@@ -1,6 +1,8 @@
 package com.juanCarlos.hardwareHub.security.config;
 
+import com.juanCarlos.hardwareHub.security.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -21,7 +23,7 @@ public class AuthenticationConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(20);
+        return new BCryptPasswordEncoder(10);
     }
 
     /**
@@ -39,6 +41,20 @@ public class AuthenticationConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    /**
+     * Impide que Spring Boot registre JwtAuthenticationFilter como servlet filter genérico.
+     * Sin esto, el filtro se ejecuta DOS VECES: una fuera de Spring Security (como servlet filter)
+     * y otra dentro del SecurityFilterChain, lo que interfiere con el SecurityContextHolder
+     * y provoca 401 en rutas públicas como /auth/login.
+     */
+    @Bean
+    @SuppressWarnings("unchecked")
+    public FilterRegistrationBean<?> jwtFilterRegistration(JwtAuthenticationFilter filter) {
+        FilterRegistrationBean registration = new FilterRegistrationBean(filter);
+        registration.setEnabled(false);
+        return registration;
     }
 
     /**

@@ -2,7 +2,6 @@ package com.juanCarlos.hardwareHub.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -36,55 +35,26 @@ public class SecurityConfig {
     };
 
     /**
-     * Cadena de seguridad para Swagger/OpenAPI.
-     * Sin autenticación, sin sesión, sin CSRF.
+     * Único SecurityFilterChain para toda la aplicación.
+     * - Rutas de Swagger y auth son públicas (permitAll).
+     * - El resto requiere JWT válido.
+     * - El JwtAuthenticationFilter se añade antes del filtro estándar de usuario/contraseña.
      */
     @Bean
-    @Order(1)
-    public SecurityFilterChain swaggerSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .securityMatcher(SWAGGER_PATHS)
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable)
-                .build();
-    }
-
-    /**
-     * Cadena de seguridad para endpoints públicos de autenticación (login y logout).
-     * No requieren JWT. CORS habilitado para compatibilidad con el frontend.
-     */
-    @Bean
-    @Order(2)
-    public SecurityFilterChain publicAuthFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .securityMatcher(PUBLIC_AUTH_PATHS)
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .build();
-    }
-
-    /**
-     * Cadena de seguridad principal (catch-all).
-     * Cubre todos los endpoints de /api/** y /auth/** que no fueron capturados antes (p. ej. /auth/me).
-     * Requiere JWT válido. El filtro JWT se ejecuta antes que UsernamePasswordAuthenticationFilter.
-     * CORS habilitado para compatibilidad con el frontend.
-     */
-    @Bean
-    @Order(3)
-    public SecurityFilterChain apiSecurityFilterChain(
+    public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             JwtAuthenticationFilter jwtAuthenticationFilter,
             AuthenticationProvider authenticationProvider,
             AccessDeniedHandler accessDeniedHandler,
             AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
+
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authz -> authz
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(SWAGGER_PATHS).permitAll()
+                        .requestMatchers(PUBLIC_AUTH_PATHS).permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptions -> exceptions

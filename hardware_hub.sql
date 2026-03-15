@@ -359,3 +359,147 @@ INSERT INTO fabricante (nombre) VALUES
 ('Seasonic'), ('Sparkle'), ('Synology'), ('Tempest'),
 ('Thermaltake'), ('TUF Gaming'), ('Valkyrie'), ('Western Digital'),
 ('XFX'), ('Zotac');
+
+-- ################################################################
+-- INSERTS DE PRUEBA
+-- ################################################################
+
+-- CPU
+-- Fabricantes: AMD=5, Intel=27
+-- cores JSON: Intel -> {"power_cores": N, "efficient_cores": N} | AMD -> {"cores": N, "ccd": N}
+INSERT INTO cpu (modelo, id_fabricante, cpu_socket, cores, cache_apilada, arquitectura, precio, hilos, hyperthreading, frecuencia_max, frecuencia_min, cantidad_cache, tdp, temperatura_max, conectividad_pcie, graficos_integrados, puntuacion_passmark) VALUES
+('Intel Core i9-13900K',  27, 'LGA1700', '{"power_cores": 8, "efficient_cores": 16}', FALSE, 'Raptor Lake', 599.99, 32, TRUE,  5.800, 3.000, 36,  125, 100, 20, 'Intel UHD Graphics 770', 59000),
+('Intel Core i7-13700K',  27, 'LGA1700', '{"power_cores": 8, "efficient_cores": 8}',  FALSE, 'Raptor Lake', 409.99, 24, TRUE,  5.400, 3.400, 30,  125, 100, 20, 'Intel UHD Graphics 770', 47000),
+('Intel Core i5-13600KF', 27, 'LGA1700', '{"power_cores": 6, "efficient_cores": 8}',  FALSE, 'Raptor Lake', 299.99, 20, TRUE,  5.100, 3.500, 24,  125, 100, 20, NULL,                    29000),
+('AMD Ryzen 9 7950X',     5,  'AM5',     '{"cores": 16, "ccd": 2}',                    FALSE, 'Zen 4',       699.99, 32, TRUE,  5.700, 4.500, 64,  170, 95,  24, NULL,                    73000),
+('AMD Ryzen 9 7900X3D',   5,  'AM5',     '{"cores": 12, "ccd": 2}',                    TRUE,  'Zen 4',       449.99, 24, TRUE,  5.600, 4.400, 128, 120, 89,  24, NULL,                    60000);
+
+-- GPU
+-- Fabricantes chip: Nvidia=38, AMD=5
+-- nucleos JSON: Nvidia -> {"cuda": N, "tensor": N} | AMD -> {"unidades_computo": N}
+INSERT INTO gpu (modelo, id_fabricante, ensambladora, nucleos, frecuencia_max, frecuencia_min, temperatura_max, cantidad_vram, tipo_vram, ancho_banda, arquitectura, tdp, conectividad_pcie, precio, generacion, alto_gpu, puntuacion_passmark) VALUES
+('MSI GeForce RTX 4090 Gaming X Trio',         38, 'MSI',      '{"cuda": 16384, "tensor": 512}', 2.610, 2.235, 84,  24, 'GDDR6X', 1008, 'Ada Lovelace', 450, 4, 1899.99, 'RTX 40',   336, 38000),
+('Asus TUF Gaming GeForce RTX 4070 Ti',        38, 'Asus',     '{"cuda": 7680, "tensor": 240}',  2.610, 2.310, 84,  12, 'GDDR6X', 504,  'Ada Lovelace', 285, 4,  849.99, 'RTX 40',   300, 27000),
+('Gigabyte GeForce RTX 4060 Gaming OC',        38, 'Gigabyte', '{"cuda": 3072, "tensor": 96}',   2.505, 1.830, 87,  8,  'GDDR6',  272,  'Ada Lovelace', 115, 4,  329.99, 'RTX 40',   250, 14000),
+('Sapphire NITRO+ Radeon RX 7900 XTX',         5,  'Sapphire', '{"unidades_computo": 96}',       2.615, 1.855, 110, 24, 'GDDR6',  960,  'RDNA 3',       355, 4,  999.99, 'RX 7000',  320, 25000),
+('XFX Speedster MERC 310 Radeon RX 7800 XT',  5,  'XFX',      '{"unidades_computo": 60}',       2.565, 1.295, 110, 16, 'GDDR6',  624,  'RDNA 3',       263, 4,  499.99, 'RX 7000',  275, 18000);
+
+-- PSU
+INSERT INTO psu (modelo, id_fabricante, precio, modular, potencia, certificacion, factor_forma) VALUES
+('Corsair RM1000x Shift',        14, 159.99, TRUE,  1000, '80 Plus Gold',     'ATX'),
+('Seasonic Focus GX-850',        49, 134.99, TRUE,  850,  '80 Plus Gold',     'ATX'),
+('Be quiet Pure Power 12 M 750W',11,  94.99, TRUE,  750,  '80 Plus Gold',     'ATX'),
+('Corsair RM750x',               14, 109.99, TRUE,  750,  '80 Plus Gold',     'ATX');
+
+-- RAM
+INSERT INTO ram (modelo, id_fabricante, precio, velocidad, cantidad, modulos, capacidad_por_modulo, tipo, latencia) VALUES
+('G.Skill Trident Z5 RGB DDR5-6000 32GB', 23, 149.99, 6000, 32, 2, 16, 'DDR5', 30),
+('Corsair Vengeance DDR5-5600 32GB',      14, 129.99, 5600, 32, 2, 16, 'DDR5', 36),
+('Kingston Fury Beast DDR4-3200 16GB',    28,  44.99, 3200, 16, 2,  8, 'DDR4', 16),
+('Crucial Ballistix DDR4-3600 32GB',      16,  79.99, 3600, 32, 2, 16, 'DDR4', 18);
+
+-- ALMACENAMIENTO
+-- capacidad en TB: DECIMAL(4,3)
+INSERT INTO almacenamiento (modelo, id_fabricante, precio, capacidad, tipo, formato, velocidad_lectura, velocidad_escritura, conectividad) VALUES
+('Samsung 990 Pro 1TB',      45, 109.99, 1.000, 'NVMe SSD',  'M.2 2280', 7450, 6900, 'PCIe 4.0 x4'),
+('WD Black SN850X 2TB',      56, 189.99, 2.000, 'NVMe SSD',  'M.2 2280', 7300, 6600, 'PCIe 4.0 x4'),
+('Seagate Barracuda 2TB',    48,  54.99, 2.000, 'HDD',       '3.5"',      220,  220, 'SATA III'),
+('Samsung 870 EVO 1TB',      45,  79.99, 1.000, 'SATA SSD',  '2.5"',      560,  530, 'SATA III');
+
+-- REFRIGERACION
+-- atributos JSON: aire -> {"alto": N, "numero_ventiladores": N} | liquida -> {"tamanio_radiador": N}
+INSERT INTO refrigeracion (modelo, id_fabricante, precio, socket_compatible, tipo, atributos) VALUES
+('DeepCool AK620',                  17,  69.99, 'LGA1700/AM5', 'aire',    '{"alto": 160, "numero_ventiladores": 2}'),
+('Be quiet Dark Rock Pro 4',        11,  89.99, 'LGA1700/AM5', 'aire',    '{"alto": 163, "numero_ventiladores": 2}'),
+('Corsair iCUE H150i Elite Capellix',14, 199.99, 'LGA1700/AM5', 'liquida', '{"tamanio_radiador": 360}'),
+('Arctic Liquid Freezer II 360',     8, 109.99, 'LGA1700/AM5', 'liquida', '{"tamanio_radiador": 360}');
+
+-- CAJA
+INSERT INTO caja (modelo, id_fabricante, precio, formato, placas_base_compatibles, color, dimensiones, psu_compatible, longitud_max_gpu, bahias_25, bahias_35, espacio_ventiladores, ventiladores_incluidos, soportes_radiador, conectividad_frontal, rgb, altura_max_enfriador_cpu) VALUES
+('NZXT H510 Flow',
+ 37, 89.99, 'Mid Tower', 'ATX', 'Negro',
+ '{"alto": 460, "ancho": 210, "largo": 428}', 'ATX', 381, 2, 0,
+ '{"superiores": 0, "laterales": 0, "frontal": 2, "trasero": 1, "inferior": 0}', TRUE,
+ '{"superior": 280, "inferior": 0, "frontal": 280, "lateral": 0}',
+ '{"USB_A": 1, "USB_C": 1, "audio": 1}', FALSE, 165),
+
+('Fractal Design Meshify 2',
+ 20, 129.99, 'Mid Tower', 'ATX', 'Negro',
+ '{"alto": 474, "ancho": 232, "largo": 474}', 'ATX', 460, 4, 3,
+ '{"superiores": 3, "laterales": 0, "frontal": 3, "trasero": 1, "inferior": 0}', TRUE,
+ '{"superior": 360, "inferior": 0, "frontal": 360, "lateral": 0}',
+ '{"USB_A": 2, "USB_C": 1, "audio": 1}', FALSE, 185),
+
+('Phanteks Eclipse P500A',
+ 41, 119.99, 'Mid Tower', 'ATX', 'Negro',
+ '{"alto": 510, "ancho": 230, "largo": 480}', 'ATX', 435, 4, 2,
+ '{"superiores": 3, "laterales": 0, "frontal": 3, "trasero": 1, "inferior": 0}', TRUE,
+ '{"superior": 360, "inferior": 0, "frontal": 360, "lateral": 0}',
+ '{"USB_A": 2, "USB_C": 1, "audio": 1}', FALSE, 185),
+
+('Lian-Li Lancool III',
+ 29, 149.99, 'Mid Tower', 'ATX', 'Negro',
+ '{"alto": 494, "ancho": 259, "largo": 501}', 'ATX', 435, 2, 2,
+ '{"superiores": 3, "laterales": 3, "frontal": 3, "trasero": 1, "inferior": 0}', TRUE,
+ '{"superior": 360, "inferior": 0, "frontal": 360, "lateral": 360}',
+ '{"USB_A": 2, "USB_C": 1, "audio": 1}', FALSE, 190);
+
+-- PLACA BASE
+INSERT INTO placa_base (modelo, id_fabricante, precio, socket_compatible, chipset, memoria_maxima, espacios_ram, tipo_ram_soportada, formato, ranuras_expansion, ranuras_almacenamiento, puertos_usb, conectividad_interna, wifi_soportado) VALUES
+('Asus ROG Strix Z790-E Gaming WiFi', 10, 499.99, 'LGA1700', 'Z790',  192, 4, 'DDR5', 'ATX', 5, 5, 10, '{"SATA": 6, "M2": 5, "USB_headers": 4}', 'WiFi 6E'),
+('MSI MAG X670E Tomahawk WiFi',       34, 349.99, 'AM5',     'X670E', 128, 4, 'DDR5', 'ATX', 4, 4,  8, '{"SATA": 6, "M2": 4, "USB_headers": 3}', 'WiFi 6E'),
+('Gigabyte Z790 Aorus Master',        24, 449.99, 'LGA1700', 'Z790',  192, 4, 'DDR5', 'ATX', 5, 5, 10, '{"SATA": 6, "M2": 5, "USB_headers": 4}', 'WiFi 6E'),
+('Asrock B650E Taichi',                9, 299.99, 'AM5',     'B650E', 128, 4, 'DDR5', 'ATX', 4, 3,  8, '{"SATA": 4, "M2": 3, "USB_headers": 3}', 'WiFi 6E');
+
+-- USUARIO
+-- Contraseñas: admin -> "admin123" | resto -> "user1234"  (BCrypt strength=10)
+INSERT INTO usuario (nombre, email, contraseña, rol) VALUES
+('admin',      'admin@hardwarehub.com',  '$2a$10$tR1wy.Tbq5MmuwNxUPqA8.PCc4/S.qKj1pVzQygucHF3LcJrEtc1.', 'ROL_ADMIN'),
+('juan_carlos','juancarlos@email.com',   '$2a$10$o2G8f49QS13IpIx1sHTnsumAhYwQAj.g09SPhgIRQZckjgK8RCQQ.', 'ROL_USUARIO'),
+('maria_g',    'mariag@email.com',       '$2a$10$o2G8f49QS13IpIx1sHTnsumAhYwQAj.g09SPhgIRQZckjgK8RCQQ.', 'ROL_USUARIO'),
+('tech_pete',  'techpete@email.com',     '$2a$10$o2G8f49QS13IpIx1sHTnsumAhYwQAj.g09SPhgIRQZckjgK8RCQQ.', 'ROL_USUARIO');
+
+-- MONTAJE
+-- Montaje 1: Intel top gaming  -> cpu LGA1700 + placa LGA1700/DDR5 + ram DDR5
+-- Montaje 2: AMD workstation   -> cpu AM5    + placa AM5/DDR5    + ram DDR5
+-- Montaje 3: Budget gaming     -> cpu LGA1700 + placa LGA1700/DDR5 + ram DDR5
+INSERT INTO montaje (id_cpu, id_gpu, id_ram, id_placa_base, id_psu, id_refrigeracion, id_almacenamiento, id_caja, id_usuario) VALUES
+(1, 1, 1, 1, 1, 3, 1, 1, 2),  -- Build gaming tope: i9-13900K + RTX 4090 (juan_carlos)
+(4, 4, 2, 2, 2, 4, 2, 2, 3),  -- Workstation AMD: Ryzen 9 7950X + RX 7900 XTX (maria_g)
+(3, 3, 1, 3, 3, 1, 4, 3, 4);  -- Budget gaming: i5-13600KF + RTX 4060 (tech_pete)
+
+-- PUBLICACION
+INSERT INTO publicacion (contenido_texto, multimedia, fecha, id_montaje, id_usuario) VALUES
+('Mi nuevo build gaming tope de gama! i9-13900K + RTX 4090, va a todo sin problema.',          NULL, '2026-01-15 10:30:00', 1, 2),
+('Workstation AMD para render 3D y compilacion. El Ryzen 9 7950X es una autentica bestia.',    NULL, '2026-01-20 14:00:00', 2, 3),
+('Nuevo setup de streaming listo. Proximamente subo el video con el proceso de montaje.',      NULL, '2026-02-01 18:45:00', NULL, 2),
+('Build de presupuesto para gaming 1080p. i5-13600KF + RTX 4060, muy contento con el resultado.', NULL, '2026-02-10 09:15:00', 3, 4);
+
+-- COMENTARIO
+-- Comentarios raiz: id_comentario = NULL, id_publicacion = N
+-- Respuestas:       id_comentario = N (padre), id_publicacion = NULL
+INSERT INTO comentario (texto_contenido, likes, fecha, id_usuario, id_comentario, id_publicacion) VALUES
+('Que bestia de build! Cuanto has gastado en total?',               5, '2026-01-15 11:00:00', 3,    NULL, 1),
+('Como va el rendimiento en juegos? Hay cuello de botella?',        3, '2026-01-15 12:30:00', 4,    NULL, 1),
+('Ninguno! Va fluido al 100% en todos los titulos a 4K.',           2, '2026-01-15 13:15:00', 2,    2,    NULL),
+('Increible setup para trabajar, envidia te tengo.',                7, '2026-01-21 10:00:00', 2,    NULL, 2),
+('El i5-13600KF con la RTX 4060 para 1080p es una ganga total.',   4, '2026-02-11 08:00:00', 3,    NULL, 4);
+
+-- USUARIO_SEGUIDOR
+INSERT INTO usuario_seguidor (id_seguidor, id_seguido) VALUES
+(2, 3),  -- juan_carlos sigue a maria_g
+(2, 4),  -- juan_carlos sigue a tech_pete
+(3, 2),  -- maria_g sigue a juan_carlos
+(4, 2),  -- tech_pete sigue a juan_carlos
+(4, 3);  -- tech_pete sigue a maria_g
+
+-- REACCION
+INSERT INTO reaccion (id_usuario, id_publicacion, tipo) VALUES
+(3, 1, 'LOVE'),        -- maria_g ama el build gaming de juan_carlos
+(4, 1, 'LIKE'),        -- tech_pete le da like al build de juan_carlos
+(1, 1, 'INTERESTING'), -- admin lo encuentra interesante
+(2, 2, 'LOVE'),        -- juan_carlos ama el workstation de maria_g
+(4, 2, 'INTERESTING'), -- tech_pete lo encuentra interesante
+(3, 4, 'LIKE'),        -- maria_g le da like al budget build
+(2, 4, 'FUNNY');       -- juan_carlos lo encuentra gracioso
+
