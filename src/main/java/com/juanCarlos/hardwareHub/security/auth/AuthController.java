@@ -35,7 +35,6 @@ public class AuthController {
         UserDetails userDetails =(UserDetails) authentication.getPrincipal();
 
         String token = jwtService.generateToken(userDetails);
-        String expiresIn = jwtService.getExpirationFromToken(token);
         return ResponseEntity.ok(new LoginResponseDto(token, "Bearer", userDetails.getUsername()));
     }
 

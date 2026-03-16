@@ -3,9 +3,6 @@ package com.juanCarlos.hardwareHub.service;
 import com.juanCarlos.hardwareHub.dto.request.PsuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PsuResponseDto;
 import org.springframework.data.domain.Page;
-import com.juanCarlos.hardwareHub.entity.enums.PsuFactorForma;
-
-import java.util.List;
 
 public interface PsuService {
 

@@ -4,8 +4,6 @@ import com.juanCarlos.hardwareHub.dto.request.GpuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.GpuResponseDto;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface GpuService {
 
     GpuResponseDto create(GpuRequestDto requestDto);

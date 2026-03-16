@@ -2,7 +2,7 @@ package com.juanCarlos.hardwareHub.controller;
 
 import com.juanCarlos.hardwareHub.dto.request.CpuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.CpuResponseDto;
-import com.juanCarlos.hardwareHub.entity.enums.CpuSocket;
+
 import com.juanCarlos.hardwareHub.service.CpuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,8 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/cpus")

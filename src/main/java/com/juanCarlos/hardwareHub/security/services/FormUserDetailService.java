@@ -1,6 +1,5 @@
 package com.juanCarlos.hardwareHub.security.services;
 
-import com.juanCarlos.hardwareHub.dto.mappers.UsuarioMapper;
 import com.juanCarlos.hardwareHub.entity.UsuarioEntity;
 import com.juanCarlos.hardwareHub.entity.enums.UsuarioRol;
 import com.juanCarlos.hardwareHub.service.UsuarioService;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 public class FormUserDetailService implements UserDetailsService {
 
     private final UsuarioService usuarioService;
-    private final UsuarioMapper usuarioMapper;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

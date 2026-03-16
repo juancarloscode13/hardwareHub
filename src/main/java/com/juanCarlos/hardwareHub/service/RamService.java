@@ -3,9 +3,6 @@ package com.juanCarlos.hardwareHub.service;
 import com.juanCarlos.hardwareHub.dto.request.RamRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.RamResponseDto;
 import org.springframework.data.domain.Page;
-import com.juanCarlos.hardwareHub.entity.enums.RamTipo;
-
-import java.util.List;
 
 public interface RamService {
 

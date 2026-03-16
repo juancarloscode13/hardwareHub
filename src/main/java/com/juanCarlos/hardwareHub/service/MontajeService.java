@@ -4,8 +4,6 @@ import com.juanCarlos.hardwareHub.dto.request.MontajeRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.MontajeResponseDto;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface MontajeService {
 
     MontajeResponseDto create(MontajeRequestDto requestDto);
