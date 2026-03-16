@@ -4,8 +4,6 @@ import com.juanCarlos.hardwareHub.dto.request.ComentarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.ComentarioResponseDto;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface ComentarioService {
 
     ComentarioResponseDto create(ComentarioRequestDto requestDto);
