@@ -216,3 +216,11 @@ export interface UsuarioResponseDto {
   followersCount: number;
   followingCount: number;
 }
+
+// ── Auth ──────────────────────────────────────────────────────────────────
+export interface LoginResponseDto {
+  token: string;
+  type: string;
+  email: string;
+}
+

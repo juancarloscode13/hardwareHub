@@ -1,13 +1,2 @@
-import axios from 'axios'
-
-const API_BASE_URL : string = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
-
-export const httpClient = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-
-export default httpClient
+// Re-export the shared Axios instance as httpClient for backward compatibility
+export { api as httpClient, default } from './axios';
