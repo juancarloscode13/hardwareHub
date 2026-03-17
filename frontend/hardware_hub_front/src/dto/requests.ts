@@ -186,3 +186,10 @@ export interface UsuarioRequestDto {
   contrasena: string;
   rol: UsuarioRol;
 }
+
+// ── Auth ──────────────────────────────────────────────────────────────────
+export interface LoginRequestDto {
+  email: string;
+  password: string;
+}
+
