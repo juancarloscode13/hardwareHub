@@ -14,6 +14,8 @@ public class UsuarioResponseDto {
 
     @Schema(description = "Identificador único", example = "1")
     private Long id;
+    @Schema(description = "Icono de perfil del usuario (imagen en bytes)")
+    private byte[] iconoPerfil;
     @Schema(description = "Nombre de usuario", example = "juan_carlos")
     private String nombre;
     @Schema(description = "Correo electrónico", example = "juan@hardwarehub.es")
