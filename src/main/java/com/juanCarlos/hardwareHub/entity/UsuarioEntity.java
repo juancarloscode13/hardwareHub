@@ -29,6 +29,10 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Lob
+    @Column(name = "icono_perfil", columnDefinition = "MEDIUMBLOB")
+    private byte[] iconoPerfil;
+
     @NonNull
     @Column(name = "nombre")
     private String nombre;

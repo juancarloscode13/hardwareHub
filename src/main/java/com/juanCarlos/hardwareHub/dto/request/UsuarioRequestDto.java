@@ -12,6 +12,8 @@ import com.juanCarlos.hardwareHub.entity.enums.UsuarioRol;
 @Schema(description = "Datos de entrada para crear o actualizar un usuario")
 public class UsuarioRequestDto {
 
+    @Schema(description = "Icono de perfil del usuario (imagen en bytes)")
+    private byte[] iconoPerfil;
     @Schema(description = "Nombre de usuario", example = "juan_carlos")
     private String nombre;
     @Schema(description = "Correo electrónico", example = "juan@hardwarehub.es")
