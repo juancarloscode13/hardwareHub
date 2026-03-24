@@ -3,7 +3,7 @@ package com.juanCarlos.hardwareHub.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.juanCarlos.hardwareHub.entity.enums.UsuarioRol;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.HashSet;
@@ -41,7 +41,7 @@ public class UsuarioEntity {
     @Column(name = "email")
     private String email;
 
-    @Null
+    @NotNull
     @Column(name = "contraseña")
     private String contrasena;
 
