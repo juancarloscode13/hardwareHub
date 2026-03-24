@@ -11,6 +11,9 @@ import java.util.Set;
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long>, JpaSpecificationExecutor<UsuarioEntity> {
 	UsuarioEntity getByEmail(String email);
 
+	/** Comprueba si ya existe un usuario con el email dado. */
+	boolean existsByEmail(String email);
+
 	/** Devuelve todos los usuarios que siguen al usuario con el id dado. */
 	@Query("SELECT u.seguidores FROM UsuarioEntity u WHERE u.id = :userId")
 	Set<UsuarioEntity> findSeguidoresByUserId(@Param("userId") Long userId);

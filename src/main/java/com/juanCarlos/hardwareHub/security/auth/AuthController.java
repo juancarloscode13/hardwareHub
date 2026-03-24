@@ -5,10 +5,12 @@ import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
 import com.juanCarlos.hardwareHub.entity.UsuarioEntity;
 import com.juanCarlos.hardwareHub.security.auth.dto.LoginRequestDto;
 import com.juanCarlos.hardwareHub.security.auth.dto.LoginResponseDto;
+import com.juanCarlos.hardwareHub.security.auth.dto.RegisterRequestDto;
 import com.juanCarlos.hardwareHub.security.services.JwtService;
 import com.juanCarlos.hardwareHub.service.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,12 @@ public class AuthController {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UsuarioMapper usuarioMapper;
+
+    @PostMapping("/register")
+    public ResponseEntity<UsuarioResponseDto> register(@Valid @RequestBody RegisterRequestDto registerRequest) {
+        UsuarioResponseDto response = usuarioService.register(registerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto>login(@RequestBody LoginRequestDto loginRequest, HttpServletRequest request){

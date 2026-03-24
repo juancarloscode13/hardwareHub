@@ -31,7 +31,8 @@ public class SecurityConfig {
     /** Endpoints de autenticación que no requieren JWT. */
     private static final String[] PUBLIC_AUTH_PATHS = {
             "/auth/login",
-            "/auth/logout"
+            "/auth/logout",
+            "/auth/register"
     };
 
     /**

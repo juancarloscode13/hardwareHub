@@ -6,12 +6,16 @@ import com.juanCarlos.hardwareHub.dto.mappers.UsuarioMapper;
 import com.juanCarlos.hardwareHub.dto.request.UsuarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
 import com.juanCarlos.hardwareHub.entity.UsuarioEntity;
+import com.juanCarlos.hardwareHub.entity.enums.UsuarioRol;
+import com.juanCarlos.hardwareHub.exception.EmailAlreadyExistsException;
 import com.juanCarlos.hardwareHub.repository.UsuarioRepository;
+import com.juanCarlos.hardwareHub.security.auth.dto.RegisterRequestDto;
 import com.juanCarlos.hardwareHub.service.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +30,24 @@ public class UsuarioServiceImplementation implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
     private final GenericSearchService searchService;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public UsuarioResponseDto register(RegisterRequestDto requestDto) {
+        if (usuarioRepository.existsByEmail(requestDto.getEmail())) {
+            throw new EmailAlreadyExistsException("Ya existe un usuario registrado con el email: " + requestDto.getEmail());
+        }
+
+        UsuarioEntity entity = new UsuarioEntity();
+        entity.setNombre(requestDto.getNombre());
+        entity.setEmail(requestDto.getEmail());
+        entity.setContrasena(passwordEncoder.encode(requestDto.getContrasena()));
+        entity.setIconoPerfil(requestDto.getIconoPerfil());
+        entity.setRol(UsuarioRol.ROL_USUARIO);
+
+        UsuarioEntity savedEntity = usuarioRepository.save(entity);
+        return usuarioMapper.toResponseDto(savedEntity);
+    }
 
     @Override
     public UsuarioResponseDto create(UsuarioRequestDto requestDto) {

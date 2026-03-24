@@ -3,11 +3,14 @@ package com.juanCarlos.hardwareHub.service;
 import com.juanCarlos.hardwareHub.dto.request.UsuarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
 import com.juanCarlos.hardwareHub.entity.UsuarioEntity;
+import com.juanCarlos.hardwareHub.security.auth.dto.RegisterRequestDto;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface UsuarioService {
+
+    UsuarioResponseDto register(RegisterRequestDto requestDto);
 
     UsuarioResponseDto create(UsuarioRequestDto requestDto);
 
