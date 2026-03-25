@@ -45,12 +45,10 @@ public class CajaEntity {
     private BigDecimal precio;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "formato")
     private CajaFormato formato;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "placas_base_compatibles")
     private CajaFormato placasBaseCompatibles;
 
@@ -64,7 +62,6 @@ public class CajaEntity {
     private Map<String, Object> dimensiones;
 
     @Null
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "psu_compatible")
     private PsuFactorForma psuCompatible;
 

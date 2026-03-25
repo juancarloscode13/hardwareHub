@@ -14,7 +14,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum GpuEnsambladora {
+public enum GpuEnsambladora implements DescribedEnum {
 
     GPU_ENSAMBLADORA_ACER("Acer"),
     GPU_ENSAMBLADORA_ASROCK("Asrock"),

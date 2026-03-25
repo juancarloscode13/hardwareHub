@@ -13,10 +13,10 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Getter
-public enum AlmacenamientoConectividad {
+public enum AlmacenamientoConectividad implements DescribedEnum {
 
-    ALMACENAMIENTO_CONECTIVIDAD_PCIE("PCIE"),
-    ALMACENAMIENTO_CONECTIVIDAD_SATA("SATA");
+    ALMACENAMIENTO_CONECTIVIDAD_PCIE("PCIe 4.0 x4"),
+    ALMACENAMIENTO_CONECTIVIDAD_SATA("SATA III");
 
     private String desc;
 }

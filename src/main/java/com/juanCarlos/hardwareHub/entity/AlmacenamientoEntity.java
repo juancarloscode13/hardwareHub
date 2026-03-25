@@ -47,12 +47,10 @@ public class AlmacenamientoEntity {
     private BigDecimal capacidad;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "tipo")
     private AlmacenamientoTipo tipo;
 
     @Null
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "formato")
     private AlmacenamientoFormato formato;
 
@@ -65,7 +63,6 @@ public class AlmacenamientoEntity {
     private Integer velocidadEscritura;
 
     @Null
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "conectividad")
     private AlmacenamientoConectividad conectividad;
 }

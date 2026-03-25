@@ -1,6 +1,5 @@
 package com.juanCarlos.hardwareHub.dto.request;
 
-import com.juanCarlos.hardwareHub.entity.enums.CpuSocket;
 import com.juanCarlos.hardwareHub.entity.enums.RefrigeracionTipo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -22,10 +21,10 @@ public class RefrigeracionRequestDto {
     private Long fabricanteId;
     @Schema(description = "Precio en euros", example = "99.99")
     private BigDecimal precio;
-    @Schema(description = "Socket de CPU compatible", example = "AM5")
-    private CpuSocket socketCompatible;
-    @Schema(description = "Tipo de refrigeración", example = "AIRE")
+    @Schema(description = "Sockets compatibles, puede ser multivalor separado por '/' (ej. 'LGA1700/AM5')", example = "LGA1700/AM5")
+    private String socketCompatible;
+    @Schema(description = "Tipo de refrigeracion", example = "Aire")
     private RefrigeracionTipo tipo;
-    @Schema(description = "Atributos adicionales (tamaño radiador, RPM, etc.)")
+    @Schema(description = "Atributos adicionales (tamanio radiador, RPM, etc.)")
     private Map<String, Object> atributos;
 }

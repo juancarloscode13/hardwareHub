@@ -41,7 +41,6 @@ public class CpuEntity {
     private FabricanteEntity fabricante;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "cpu_socket")
     private CpuSocket cpuSocket;
 
@@ -55,7 +54,6 @@ public class CpuEntity {
     private Boolean cacheApilada;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "arquitectura")
     private CpuArquitectura arquitectura;
 

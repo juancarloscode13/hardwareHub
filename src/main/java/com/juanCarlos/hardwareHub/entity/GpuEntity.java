@@ -43,7 +43,6 @@ public class GpuEntity {
     private FabricanteEntity fabricante;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "ensambladora")
     private GpuEnsambladora ensambladora;
 
@@ -69,7 +68,6 @@ public class GpuEntity {
     private Integer cantidadVram;
 
     @Null
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "tipo_vram")
     private GpuTipoVram tipoVram;
 
@@ -78,7 +76,6 @@ public class GpuEntity {
     private Integer anchoBanda;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "arquitectura")
     private GpuArquitectura arquitectura;
 
@@ -95,7 +92,6 @@ public class GpuEntity {
     private BigDecimal precio;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "generacion")
     private GpuGeneracion generacion;
 

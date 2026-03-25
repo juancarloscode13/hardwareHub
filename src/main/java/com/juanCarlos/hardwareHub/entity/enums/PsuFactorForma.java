@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Getter
-public enum PsuFactorForma {
+public enum PsuFactorForma implements DescribedEnum {
 
     PSU_FACTOR_FORMA_ATX("ATX"),
     PSU_FACTOR_FORMA_SFX("SFX"),

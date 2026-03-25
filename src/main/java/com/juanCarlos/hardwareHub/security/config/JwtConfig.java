@@ -6,7 +6,6 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -22,14 +21,6 @@ import java.security.interfaces.RSAPublicKey;
 @Configuration
 public class JwtConfig {
 
-    @Value("${app.jwt.expiration:86400}")
-    private long jwtExpiration; // 1 día por defecto
-
-    /** Expone el valor de expiración JWT como bean para poder inyectarlo en JwtService. */
-    @Bean
-    public long jwtExpiration() {
-        return jwtExpiration;
-    }
 
     @Bean
     public KeyPair keypair(){

@@ -161,6 +161,17 @@ CREATE TABLE IF NOT EXISTS usuario(
     rol VARCHAR(40)
 );
 
+-- Tabla refresh_token para almacenar tokens de usuarios.
+CREATE TABLE IF NOT EXISTS refresh_token (
+    id          INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    token       VARCHAR(255) NOT NULL UNIQUE,
+    id_usuario  INTEGER UNSIGNED NOT NULL,
+    expiracion  DATETIME NOT NULL,
+    revocado    BOOLEAN NOT NULL DEFAULT FALSE,
+    creado_en   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_refresh_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS publicacion(
 	id INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     contenido_texto VARCHAR(300),
@@ -387,10 +398,10 @@ INSERT INTO gpu (modelo, id_fabricante, ensambladora, nucleos, frecuencia_max, f
 
 -- PSU
 INSERT INTO psu (modelo, id_fabricante, precio, modular, potencia, certificacion, factor_forma) VALUES
-('Corsair RM1000x Shift',        14, 159.99, TRUE,  1000, '80 Plus Gold',     'ATX'),
-('Seasonic Focus GX-850',        49, 134.99, TRUE,  850,  '80 Plus Gold',     'ATX'),
-('Be quiet Pure Power 12 M 750W',11,  94.99, TRUE,  750,  '80 Plus Gold',     'ATX'),
-('Corsair RM750x',               14, 109.99, TRUE,  750,  '80 Plus Gold',     'ATX');
+('Corsair RM1000x Shift',        14, 159.99, TRUE,  1000, '80 PLUS Gold',     'ATX'),
+('Seasonic Focus GX-850',        49, 134.99, TRUE,  850,  '80 PLUS Gold',     'ATX'),
+('Be quiet Pure Power 12 M 750W',11,  94.99, TRUE,  750,  '80 PLUS Gold',     'ATX'),
+('Corsair RM750x',               14, 109.99, TRUE,  750,  '80 PLUS Gold',     'ATX');
 
 -- RAM
 INSERT INTO ram (modelo, id_fabricante, precio, velocidad, cantidad, modulos, capacidad_por_modulo, tipo, latencia) VALUES
@@ -404,8 +415,8 @@ INSERT INTO ram (modelo, id_fabricante, precio, velocidad, cantidad, modulos, ca
 INSERT INTO almacenamiento (modelo, id_fabricante, precio, capacidad, tipo, formato, velocidad_lectura, velocidad_escritura, conectividad) VALUES
 ('Samsung 990 Pro 1TB',      45, 109.99, 1.000, 'NVMe SSD',  'M.2 2280', 7450, 6900, 'PCIe 4.0 x4'),
 ('WD Black SN850X 2TB',      56, 189.99, 2.000, 'NVMe SSD',  'M.2 2280', 7300, 6600, 'PCIe 4.0 x4'),
-('Seagate Barracuda 2TB',    48,  54.99, 2.000, 'HDD',       '3.5"',      220,  220, 'SATA III'),
-('Samsung 870 EVO 1TB',      45,  79.99, 1.000, 'SATA SSD',  '2.5"',      560,  530, 'SATA III');
+('Seagate Barracuda 2TB',    48,  54.99, 2.000, 'HDD',       '3.5',      220,  220, 'SATA III'),
+('Samsung 870 EVO 1TB',      45,  79.99, 1.000, 'SATA SSD',  '2.5',      560,  530, 'SATA III');
 
 -- REFRIGERACION
 -- atributos JSON: aire -> {"alto": N, "numero_ventiladores": N} | liquida -> {"tamanio_radiador": N}

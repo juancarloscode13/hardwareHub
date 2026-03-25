@@ -13,8 +13,9 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Getter
-public enum AlmacenamientoFormato {
+public enum AlmacenamientoFormato implements DescribedEnum {
 
+    ALMACENAMIENTO_FORMATO_M2_2280("M.2 2280"),
     ALMACENAMIENTO_FORMATO_2_5("2.5"),
     ALMACENAMIENTO_FORMATO_3_5("3.5");
 

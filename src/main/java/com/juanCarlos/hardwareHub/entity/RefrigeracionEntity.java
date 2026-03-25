@@ -1,6 +1,5 @@
 package com.juanCarlos.hardwareHub.entity;
 
-import com.juanCarlos.hardwareHub.entity.enums.CpuSocket;
 import com.juanCarlos.hardwareHub.entity.enums.RefrigeracionTipo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Null;
@@ -44,13 +43,12 @@ public class RefrigeracionEntity {
     @Column(name = "precio", precision = 7, scale = 2)
     private BigDecimal precio;
 
+    /** Almacena valores como "LGA1700/AM5" — multi-socket, no se mapea a enum. */
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "socket_compatible")
-    private CpuSocket socketCompatible;
+    private String socketCompatible;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "tipo")
     private RefrigeracionTipo tipo;
 

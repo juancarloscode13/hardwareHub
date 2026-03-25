@@ -14,7 +14,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum GpuTipoVram {
+public enum GpuTipoVram implements DescribedEnum {
 
     GPU_TIPO_VRAM_GDDR6("GDDR6"),
     GPU_TIPO_VRAM_GDDR6X("GDDR6X"),
