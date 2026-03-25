@@ -13,7 +13,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum PsuCertificacion {
+public enum PsuCertificacion implements DescribedEnum {
 
     PSU_CERTIFICACION_80_PLUS_WHITE("80 PLUS White"),
     PSU_CERTIFICACION_80_PLUS_BRONZE("80 PLUS Bronze"),

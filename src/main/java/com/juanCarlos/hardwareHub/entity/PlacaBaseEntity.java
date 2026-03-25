@@ -48,12 +48,10 @@ public class PlacaBaseEntity {
     private BigDecimal precio;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "socket_compatible")
     private CpuSocket socketCompatible;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "chipset")
     private PlacaBaseChipset chipset;
 
@@ -66,12 +64,10 @@ public class PlacaBaseEntity {
     private Integer espaciosRam;
 
     @Null
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "tipo_ram_soportada")
     private RamTipo tipoRamSoportada;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "formato")
     private PlacaBaseFormato formato;
 
@@ -93,7 +89,6 @@ public class PlacaBaseEntity {
     private Map<String, Object> conectividadInterna;
 
     @Null
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "wifi_soportado")
     private PlacaBaseWifiSoportado wifiSoportado;
 }

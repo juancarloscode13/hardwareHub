@@ -2,6 +2,7 @@ package com.juanCarlos.hardwareHub.security.services;
 
 import com.juanCarlos.hardwareHub.entity.enums.UsuarioRol;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -17,11 +18,13 @@ import java.time.Instant;
 public class JwtService {
     private final JwtEncoder jwtEncoder;
     private final JwtDecoder jwtDecoder;
-    private final long jwtExpiration;
 
-    public String generateToken(UserDetails userDetails){
+    @Value("${app.jwt.access-expiration:900}")
+    private long accessTokenExpiration;
+
+    public String generateAccessToken(UserDetails userDetails){
         Instant now = Instant.now();
-        Instant expiry = now.plusSeconds(jwtExpiration);
+        Instant expiry = now.plusSeconds(accessTokenExpiration);
 
         String role = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)

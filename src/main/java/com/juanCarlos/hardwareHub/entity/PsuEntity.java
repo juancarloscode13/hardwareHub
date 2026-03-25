@@ -50,12 +50,10 @@ public class PsuEntity {
     private Integer potencia;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "certificacion")
     private PsuCertificacion certificacion;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "factor_forma")
     private PsuFactorForma factorForma;
 }

@@ -17,7 +17,7 @@ public class SpecificationBuilder<T> {
 
     public Specification<T> build(List<FilterCriteria> filters) {
 
-        Specification<T> spec = Specification.where((Specification<T>) null);
+        Specification<T> spec = (_, _, criteriaBuilder) -> criteriaBuilder.conjunction();
 
         for (FilterCriteria filter : filters) {
             spec = spec.and(new GenericSpecification<>(filter));

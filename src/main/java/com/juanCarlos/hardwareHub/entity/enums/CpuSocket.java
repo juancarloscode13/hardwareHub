@@ -13,11 +13,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum CpuSocket {
+public enum CpuSocket implements DescribedEnum {
     CPU_SOCKET_AM4("AM4"),
     CPU_SOCKET_AM5("AM5"),
-    CPU_SOCKET_LGA1700("LGA 1700"),
-    CPU_SOCKET_LGA1851("LGA 1851");
+    CPU_SOCKET_LGA1700("LGA1700"),
+    CPU_SOCKET_LGA1851("LGA1851");
 
     private String desc;
 }

@@ -13,7 +13,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum PlacaBaseFormato {
+public enum PlacaBaseFormato implements DescribedEnum {
 
     PLACA_BASE_FORMATO_MINI_ITX("Mini-ITX"),
     PLACA_BASE_FORMATO_MICRO_ATX("Micro-ATX"),

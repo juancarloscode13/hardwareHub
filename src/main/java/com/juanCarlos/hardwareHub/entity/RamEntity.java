@@ -57,7 +57,6 @@ public class RamEntity {
     private Integer capacidadPorModulo;
 
     @NonNull
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "tipo")
     private RamTipo tipo;
 

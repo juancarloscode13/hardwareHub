@@ -13,9 +13,9 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Getter
-public enum RefrigeracionTipo {
+public enum RefrigeracionTipo implements DescribedEnum {
 
-    REFRIGERACION_TIPO_LIQUIDA("Líquida"),
+    REFRIGERACION_TIPO_LIQUIDA("Liquida"),
     REFRIGERACION_TIPO_AIRE("Aire");
 
     private String desc;

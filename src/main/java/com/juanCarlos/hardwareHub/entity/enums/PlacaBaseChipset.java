@@ -13,7 +13,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum PlacaBaseChipset {
+public enum PlacaBaseChipset implements DescribedEnum {
 
     PLACA_BASE_CHIPSET_X570("X570"),
     PLACA_BASE_CHIPSET_B550("B550"),
