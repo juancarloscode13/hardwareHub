@@ -1,0 +1,61 @@
+2026-03-26 10:45:24.742 [background-preinit] INFO  Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-03-26 10:45:24.784 [restartedMain] INFO  HardwareHubApplication - Starting HardwareHubApplication using Java 25.0.1 with PID 21044 (C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub\target\classes started by juanc in C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub)
+2026-03-26 10:45:24.786 [restartedMain] INFO  HardwareHubApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-26 10:45:24.823 [restartedMain] INFO  DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-26 10:45:24.824 [restartedMain] INFO  DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-26 10:45:25.954 [restartedMain] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-26 10:45:26.084 [restartedMain] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 122 ms. Found 15 JPA repository interfaces.
+2026-03-26 10:45:26.689 [restartedMain] INFO  TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-03-26 10:45:26.701 [restartedMain] INFO  Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-03-26 10:45:26.702 [restartedMain] INFO  StandardService - Starting service [Tomcat]
+2026-03-26 10:45:26.703 [restartedMain] INFO  StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-26 10:45:26.740 [restartedMain] INFO  WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1915 ms
+2026-03-26 10:45:27.188 [restartedMain] INFO  HikariDataSource - HikariPool-1 - Starting...
+2026-03-26 10:45:27.575 [restartedMain] INFO  HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5ea3fc7b
+2026-03-26 10:45:27.577 [restartedMain] INFO  HikariDataSource - HikariPool-1 - Start completed.
+2026-03-26 10:45:27.599 [restartedMain] INFO  jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-26 10:45:27.649 [restartedMain] INFO  core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-03-26 10:45:28.132 [restartedMain] INFO  SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-26 10:45:28.286 [restartedMain] INFO  pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/hardware_hub]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.41
+	Default catalog/schema: hardware_hub/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-26 10:45:29.492 [restartedMain] INFO  core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-26 10:45:29.497 [restartedMain] INFO  LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-26 10:45:29.571 [restartedMain] INFO  QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-26 10:45:30.189 [restartedMain] INFO  RegistrationBean - Filter jwtFilterRegistration was not registered (disabled)
+2026-03-26 10:45:30.544 [restartedMain] INFO  InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-03-26 10:45:30.544 [restartedMain] WARN  InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-03-26 10:45:30.655 [restartedMain] WARN  JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-26 10:45:31.332 [restartedMain] INFO  EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-03-26 10:45:31.353 [restartedMain] WARN  AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.cache.CacheManager' available: no CacheResolver specified - register a CacheManager bean or remove the @EnableCaching annotation from your configuration.
+2026-03-26 10:45:31.357 [restartedMain] INFO  LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-26 10:45:31.360 [restartedMain] INFO  HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-26 10:45:31.367 [restartedMain] INFO  HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-03-26 10:45:31.369 [restartedMain] INFO  StandardService - Stopping service [Tomcat]
+2026-03-26 10:45:31.378 [restartedMain] INFO  ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-03-26 10:45:31.390 [restartedMain] ERROR LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+A component required a bean of type 'org.springframework.cache.CacheManager' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.cache.CacheManager' in your configuration.
+
