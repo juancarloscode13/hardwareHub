@@ -1,0 +1,158 @@
+2026-03-28 20:27:09.262 [background-preinit] INFO  Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-03-28 20:27:09.335 [restartedMain] INFO  HardwareHubApplication - Starting HardwareHubApplication using Java 25.0.1 with PID 20804 (C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub\target\classes started by juanc in C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub)
+2026-03-28 20:27:09.338 [restartedMain] INFO  HardwareHubApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-28 20:27:09.392 [restartedMain] INFO  DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-28 20:27:09.392 [restartedMain] INFO  DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-28 20:27:10.527 [restartedMain] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-28 20:27:10.618 [restartedMain] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 83 ms. Found 15 JPA repository interfaces.
+2026-03-28 20:27:11.190 [restartedMain] INFO  TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-03-28 20:27:11.204 [restartedMain] INFO  Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-03-28 20:27:11.205 [restartedMain] INFO  StandardService - Starting service [Tomcat]
+2026-03-28 20:27:11.205 [restartedMain] INFO  StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-28 20:27:11.237 [restartedMain] INFO  WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1845 ms
+2026-03-28 20:27:11.723 [restartedMain] INFO  HikariDataSource - HikariPool-1 - Starting...
+2026-03-28 20:27:12.349 [restartedMain] INFO  HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@ee54998
+2026-03-28 20:27:12.350 [restartedMain] INFO  HikariDataSource - HikariPool-1 - Start completed.
+2026-03-28 20:27:12.388 [restartedMain] INFO  jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-28 20:27:12.495 [restartedMain] INFO  core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-03-28 20:27:12.965 [restartedMain] INFO  SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-28 20:27:13.080 [restartedMain] INFO  pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/hardware_hub]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.41
+	Default catalog/schema: hardware_hub/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-28 20:27:14.036 [restartedMain] INFO  core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-28 20:27:14.041 [restartedMain] INFO  LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-28 20:27:14.112 [restartedMain] INFO  QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-28 20:27:14.739 [restartedMain] INFO  RegistrationBean - Filter jwtFilterRegistration was not registered (disabled)
+2026-03-28 20:27:15.111 [restartedMain] INFO  InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-03-28 20:27:15.111 [restartedMain] WARN  InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-03-28 20:27:15.217 [restartedMain] WARN  JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-28 20:27:15.822 [restartedMain] INFO  EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-03-28 20:27:15.866 [restartedMain] INFO  Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-03-28 20:27:15.884 [restartedMain] INFO  TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-03-28 20:27:15.900 [restartedMain] INFO  HardwareHubApplication - Started HardwareHubApplication in 7.069 seconds (process running for 8.133)
+2026-03-28 20:27:15.974 [restartedMain] WARN  SpringDocAppInitializer - SpringDoc /api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-03-28 20:27:15.974 [restartedMain] WARN  SpringDocAppInitializer - SpringDoc /swagger endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-03-28 20:27:44.259 [http-nio-8080-exec-1] INFO  [/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-28 20:27:44.259 [http-nio-8080-exec-1] INFO  DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-28 20:27:44.262 [http-nio-8080-exec-1] INFO  DispatcherServlet - Completed initialization in 2 ms
+2026-03-28 20:32:44.544 [File Watcher] INFO  LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 216 class path changes (0 additions, 216 deletions, 0 modifications)
+2026-03-28 20:32:44.552 [Thread-1] INFO  GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-28 20:32:44.553 [tomcat-shutdown] INFO  Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2026-03-28 20:32:44.565 [tomcat-shutdown] INFO  GracefulShutdown - Graceful shutdown complete
+2026-03-28 20:32:44.566 [Thread-1] INFO  Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2026-03-28 20:32:44.580 [Thread-1] INFO  LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-28 20:32:44.584 [Thread-1] INFO  HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-28 20:32:44.593 [Thread-1] INFO  HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-03-28 20:32:44.757 [restartedMain] INFO  HardwareHubApplication - Starting HardwareHubApplication using Java 25.0.1 with PID 20804 (C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub\target\classes started by juanc in C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub)
+2026-03-28 20:32:44.760 [restartedMain] INFO  HardwareHubApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-28 20:32:45.269 [restartedMain] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-28 20:32:45.282 [restartedMain] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 JPA repository interfaces.
+2026-03-28 20:32:45.535 [restartedMain] INFO  TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-03-28 20:32:45.541 [restartedMain] INFO  Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-03-28 20:32:45.541 [restartedMain] INFO  StandardService - Starting service [Tomcat]
+2026-03-28 20:32:45.542 [restartedMain] INFO  StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-28 20:32:45.602 [restartedMain] INFO  WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 834 ms
+2026-03-28 20:32:45.749 [restartedMain] INFO  HikariDataSource - HikariPool-2 - Starting...
+2026-03-28 20:32:45.778 [restartedMain] INFO  HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@62053cd7
+2026-03-28 20:32:45.778 [restartedMain] INFO  HikariDataSource - HikariPool-2 - Start completed.
+2026-03-28 20:32:45.781 [restartedMain] INFO  jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-28 20:32:45.826 [restartedMain] INFO  SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-28 20:32:45.831 [restartedMain] INFO  pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/hardware_hub]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.41
+	Default catalog/schema: hardware_hub/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-28 20:32:45.859 [restartedMain] INFO  core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-28 20:32:45.861 [restartedMain] INFO  LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-28 20:32:45.958 [restartedMain] WARN  JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-28 20:32:46.347 [restartedMain] WARN  UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 746dbb0d-98d6-472e-b042-8a0c29661812
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-28 20:32:46.384 [restartedMain] INFO  InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-03-28 20:32:46.513 [restartedMain] INFO  EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-03-28 20:32:46.604 [restartedMain] WARN  AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.cache.CacheManager' available: no CacheResolver specified - register a CacheManager bean or remove the @EnableCaching annotation from your configuration.
+2026-03-28 20:32:46.606 [restartedMain] INFO  LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-28 20:32:46.607 [restartedMain] INFO  HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-03-28 20:32:46.611 [restartedMain] INFO  HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-03-28 20:32:46.613 [restartedMain] INFO  StandardService - Stopping service [Tomcat]
+2026-03-28 20:32:46.621 [restartedMain] INFO  ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-03-28 20:32:46.643 [restartedMain] ERROR LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+A component required a bean of type 'org.springframework.cache.CacheManager' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.cache.CacheManager' in your configuration.
+
+2026-03-28 20:32:50.784 [restartedMain] INFO  HardwareHubApplication - Starting HardwareHubApplication using Java 25.0.1 with PID 20804 (C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub\target\classes started by juanc in C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub)
+2026-03-28 20:32:50.785 [restartedMain] INFO  HardwareHubApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-28 20:32:51.485 [restartedMain] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-28 20:32:51.611 [restartedMain] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 123 ms. Found 15 JPA repository interfaces.
+2026-03-28 20:32:51.959 [restartedMain] INFO  TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-03-28 20:32:51.961 [restartedMain] INFO  Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-03-28 20:32:51.961 [restartedMain] INFO  StandardService - Starting service [Tomcat]
+2026-03-28 20:32:51.961 [restartedMain] INFO  StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-28 20:32:52.002 [restartedMain] INFO  WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1211 ms
+2026-03-28 20:32:54.028 [restartedMain] INFO  HikariDataSource - HikariPool-3 - Starting...
+2026-03-28 20:32:54.052 [restartedMain] INFO  HikariPool - HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@309752f6
+2026-03-28 20:32:54.052 [restartedMain] INFO  HikariDataSource - HikariPool-3 - Start completed.
+2026-03-28 20:32:54.054 [restartedMain] INFO  jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-28 20:32:54.126 [restartedMain] INFO  SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-28 20:32:54.131 [restartedMain] INFO  pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/hardware_hub]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.41
+	Default catalog/schema: hardware_hub/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-28 20:32:54.762 [restartedMain] INFO  core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-28 20:32:54.764 [restartedMain] INFO  LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-28 20:32:55.121 [restartedMain] INFO  RegistrationBean - Filter jwtFilterRegistration was not registered (disabled)
+2026-03-28 20:32:55.890 [restartedMain] INFO  InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-03-28 20:32:55.891 [restartedMain] WARN  InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-03-28 20:32:56.051 [restartedMain] WARN  JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-28 20:32:56.832 [restartedMain] INFO  EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-03-28 20:32:56.880 [restartedMain] INFO  Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-03-28 20:32:56.897 [restartedMain] INFO  TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-03-28 20:32:56.910 [restartedMain] INFO  HardwareHubApplication - Started HardwareHubApplication in 6.181 seconds (process running for 349.142)
+2026-03-28 20:32:56.912 [restartedMain] WARN  SpringDocAppInitializer - SpringDoc /api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-03-28 20:32:56.913 [restartedMain] WARN  SpringDocAppInitializer - SpringDoc /swagger endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-03-28 20:32:56.916 [restartedMain] INFO  ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-03-28 20:33:25.547 [SpringApplicationShutdownHook] INFO  GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-28 20:33:25.551 [tomcat-shutdown] INFO  GracefulShutdown - Graceful shutdown complete
+2026-03-28 20:33:25.553 [SpringApplicationShutdownHook] INFO  LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-28 20:33:25.554 [SpringApplicationShutdownHook] INFO  HikariDataSource - HikariPool-3 - Shutdown initiated...
+2026-03-28 20:33:25.558 [SpringApplicationShutdownHook] INFO  HikariDataSource - HikariPool-3 - Shutdown completed.

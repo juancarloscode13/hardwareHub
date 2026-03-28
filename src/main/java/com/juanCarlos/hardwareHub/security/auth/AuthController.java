@@ -26,7 +26,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -77,10 +76,10 @@ public class AuthController {
         addTokenCookies(response, accessToken, refreshToken.getToken());
 
         // 4. Body sin datos sensibles
-        String role = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .findFirst()
-                .orElse(UsuarioRol.ROL_USUARIO.getDesc());
+        // Usamos usuario.getRol().name() → "ROL_ADMIN" / "ROL_USUARIO"
+        // getAuthority() devolvería "ROLE_ADMIN" (con prefijo de Spring Security)
+        // lo que es inconsistente con el valor que devuelve /auth/me.
+        String role = usuario.getRol().name();
 
         return ResponseEntity.ok(new LoginResponseDto(userDetails.getUsername(), role));
     }
