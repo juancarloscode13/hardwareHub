@@ -13,12 +13,38 @@ import org.springframework.data.domain.Sort;
 public class PageableUtils {
 
     public static Pageable createPageable(int page, int size, String sort) {
-        if (sort == null)
+        if (sort == null || sort.isBlank())
             return PageRequest.of(page, size);
 
-        if (sort.startsWith("-"))
-            return PageRequest.of(page, size, Sort.by(sort.substring(1)).descending());
+        String normalized = sort.trim();
 
-        return PageRequest.of(page, size, Sort.by(sort).ascending());
+        // Formato legacy: -campo
+        if (normalized.startsWith("-")) {
+            return PageRequest.of(page, size, Sort.by(normalized.substring(1)).descending());
+        }
+
+        // Formato recomendado por frontend: campo:desc | campo:asc
+        if (normalized.contains(":")) {
+            String[] parts = normalized.split(":", 2);
+            String property = parts[0].trim();
+            String direction = parts[1].trim();
+            Sort.Direction dir = "desc".equalsIgnoreCase(direction)
+                    ? Sort.Direction.DESC
+                    : Sort.Direction.ASC;
+            return PageRequest.of(page, size, Sort.by(dir, property));
+        }
+
+        // Compatibilidad extra: campo,desc | campo,asc
+        if (normalized.contains(",")) {
+            String[] parts = normalized.split(",", 2);
+            String property = parts[0].trim();
+            String direction = parts[1].trim();
+            Sort.Direction dir = "desc".equalsIgnoreCase(direction)
+                    ? Sort.Direction.DESC
+                    : Sort.Direction.ASC;
+            return PageRequest.of(page, size, Sort.by(dir, property));
+        }
+
+        return PageRequest.of(page, size, Sort.by(normalized).ascending());
     }
 }

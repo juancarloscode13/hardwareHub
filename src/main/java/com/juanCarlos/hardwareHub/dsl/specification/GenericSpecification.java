@@ -25,17 +25,49 @@ public class GenericSpecification<T> implements Specification<T> {
 
     @Override
     public @Nullable Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        Path<?> path = root.get(criteria.getField());
+        Path<?> path = resolvePath(root, criteria.getField());
 
         return switch (criteria.getOperator()) {
             case "==" -> criteriaBuilder.equal(path, convertValue(path.getJavaType(), criteria.getValue()));
             case "!=" -> criteriaBuilder.notEqual(path, convertValue(path.getJavaType(), criteria.getValue()));
             case "~"  -> criteriaBuilder.like(
-                    criteriaBuilder.lower(root.get(criteria.getField())),
+                    criteriaBuilder.lower(path.as(String.class)),
                     "%" + criteria.getValue().toLowerCase() + "%");
             case ">", "<", ">=", "<=" -> buildComparisonPredicate(criteriaBuilder, path, criteria.getOperator(), criteria.getValue());
             default -> null;
         };
+    }
+
+    /**
+     * Resuelve el path real del filtro.
+     *
+     * Casos soportados:
+     * - campo simple: "fecha"
+     * - campo anidado: "usuario.id"
+     * - alias relacional por id: "usuarioId" -> "usuario.id"
+     */
+    private Path<?> resolvePath(Root<T> root, String field) {
+        // Path anidado explícito: usuario.id
+        if (field.contains(".")) {
+            String[] parts = field.split("\\.");
+            Path<?> path = root.get(parts[0]);
+            for (int i = 1; i < parts.length; i++) {
+                path = path.get(parts[i]);
+            }
+            return path;
+        }
+
+        // Campo directo de la entidad
+        try {
+            return root.get(field);
+        } catch (IllegalArgumentException ignored) {
+            // Alias común de FK: usuarioId -> usuario.id
+            if (field.endsWith("Id") && field.length() > 2) {
+                String relation = field.substring(0, field.length() - 2);
+                return root.get(relation).get("id");
+            }
+            throw ignored;
+        }
     }
 
     /**
