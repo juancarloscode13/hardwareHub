@@ -93,6 +93,18 @@
 			</exclusions>
 		</dependency>
 
+		<!-- Dependencia para soporte de WebSocket + STOMP (mensajería en tiempo real). -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<!-- Dependencia para documentación y UI de OpenAPI/Swagger en aplicaciones Spring Boot. -->
 		<dependency>
 			<groupId>org.springdoc</groupId>

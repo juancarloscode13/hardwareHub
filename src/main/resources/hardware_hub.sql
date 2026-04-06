@@ -214,6 +214,29 @@ CREATE TABLE IF NOT EXISTS reaccion (
         FOREIGN KEY (id_publicacion) REFERENCES publicacion(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Tabla de conversaciones de mensajería directa entre dos usuarios.
+CREATE TABLE IF NOT EXISTS conversation (
+    id INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    user_a_id INTEGER UNSIGNED NOT NULL,
+    user_b_id INTEGER UNSIGNED NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_conv_user_a FOREIGN KEY (user_a_id) REFERENCES usuario(id) ON DELETE CASCADE,
+    CONSTRAINT fk_conv_user_b FOREIGN KEY (user_b_id) REFERENCES usuario(id) ON DELETE CASCADE,
+    CONSTRAINT ck_no_self_chat CHECK (user_a_id <> user_b_id)
+);
+
+-- Tabla de mensajes dentro de una conversación.
+CREATE TABLE IF NOT EXISTS message (
+    id INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    conversation_id INTEGER UNSIGNED NOT NULL,
+    sender_id INTEGER UNSIGNED NOT NULL,
+    content TEXT NOT NULL,
+    sent_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_read BOOLEAN NOT NULL DEFAULT FALSE,
+    CONSTRAINT fk_msg_conversation FOREIGN KEY (conversation_id) REFERENCES conversation(id) ON DELETE CASCADE,
+    CONSTRAINT fk_msg_sender FOREIGN KEY (sender_id) REFERENCES usuario(id) ON DELETE CASCADE
+);
+
 -- ################################################################
 -- Relaciones y constraints
 -- ################################################################
@@ -514,4 +537,17 @@ INSERT INTO reaccion (id_usuario, id_publicacion, tipo) VALUES
 (4, 2, 'INTERESTING'), -- tech_pete lo encuentra interesante
 (3, 4, 'LIKE'),        -- maria_g le da like al budget build
 (2, 4, 'FUNNY');       -- juan_carlos lo encuentra gracioso
+
+-- CONVERSATION (mensajería directa)
+INSERT INTO conversation (user_a_id, user_b_id, created_at) VALUES
+(2, 3, '2026-02-15 10:00:00'),  -- juan_carlos ↔ maria_g
+(2, 4, '2026-02-20 14:00:00');  -- juan_carlos ↔ tech_pete
+
+-- MESSAGE
+INSERT INTO message (conversation_id, sender_id, content, sent_at, is_read) VALUES
+(1, 2, 'Hola Maria! Me ha encantado tu workstation, qué pasada.', '2026-02-15 10:05:00', TRUE),
+(1, 3, 'Gracias Juan! El tuyo con la 4090 es una bestia también.', '2026-02-15 10:10:00', TRUE),
+(1, 2, 'Estoy pensando en meterle refrigeración líquida, algún consejo?', '2026-02-15 10:15:00', FALSE),
+(2, 4, 'Ey Juan, qué fuente usaste para tu build?', '2026-02-20 14:05:00', TRUE),
+(2, 2, 'Una Corsair RM1000x, va sobrada para todo.', '2026-02-20 14:10:00', FALSE);
 

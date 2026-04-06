@@ -1,0 +1,71 @@
+2026-04-06 12:50:55.379 [background-preinit] INFO  Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-04-06 12:50:55.409 [restartedMain] INFO  HardwareHubApplication - Starting HardwareHubApplication using Java 25.0.1 with PID 25916 (C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub\target\classes started by juanc in C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub)
+2026-04-06 12:50:55.411 [restartedMain] INFO  HardwareHubApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-06 12:50:55.445 [restartedMain] INFO  DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-04-06 12:50:55.451 [restartedMain] INFO  DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-04-06 12:50:56.292 [restartedMain] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-06 12:50:56.376 [restartedMain] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 17 JPA repository interfaces.
+2026-04-06 12:50:56.831 [restartedMain] INFO  TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-04-06 12:50:56.847 [restartedMain] INFO  Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-04-06 12:50:56.848 [restartedMain] INFO  StandardService - Starting service [Tomcat]
+2026-04-06 12:50:56.848 [restartedMain] INFO  StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-04-06 12:50:56.887 [restartedMain] INFO  WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1435 ms
+2026-04-06 12:50:57.392 [restartedMain] INFO  HikariDataSource - HikariPool-1 - Starting...
+2026-04-06 12:50:57.601 [restartedMain] INFO  HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@aef25fd
+2026-04-06 12:50:57.602 [restartedMain] INFO  HikariDataSource - HikariPool-1 - Start completed.
+2026-04-06 12:50:57.617 [restartedMain] INFO  jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-06 12:50:57.645 [restartedMain] INFO  core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-04-06 12:50:57.920 [restartedMain] INFO  SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-06 12:50:57.999 [restartedMain] INFO  pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/hardware_hub]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.41
+	Default catalog/schema: hardware_hub/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-06 12:50:58.852 [restartedMain] INFO  core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-06 12:50:58.856 [restartedMain] INFO  LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-06 12:50:58.915 [restartedMain] INFO  QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-06 12:50:59.426 [restartedMain] INFO  RegistrationBean - Filter jwtFilterRegistration was not registered (disabled)
+2026-04-06 12:50:59.964 [restartedMain] INFO  InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-04-06 12:50:59.964 [restartedMain] WARN  InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-04-06 12:51:00.096 [restartedMain] WARN  JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-06 12:51:00.687 [restartedMain] INFO  EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-04-06 12:51:00.738 [restartedMain] INFO  SimpleBrokerMessageHandler - Starting...
+2026-04-06 12:51:00.738 [restartedMain] INFO  SimpleBrokerMessageHandler - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7204747a]]
+2026-04-06 12:51:00.739 [restartedMain] INFO  SimpleBrokerMessageHandler - Started.
+2026-04-06 12:51:00.739 [restartedMain] INFO  Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-04-06 12:51:00.750 [restartedMain] INFO  TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-04-06 12:51:00.756 [restartedMain] INFO  HardwareHubApplication - Started HardwareHubApplication in 5.581 seconds (process running for 6.291)
+2026-04-06 12:51:00.798 [restartedMain] WARN  SpringDocAppInitializer - SpringDoc /api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-04-06 12:51:00.798 [restartedMain] WARN  SpringDocAppInitializer - SpringDoc /swagger endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-04-06 12:51:00.832 [http-nio-8080-exec-3] INFO  [/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-06 12:51:00.832 [http-nio-8080-exec-3] INFO  DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-06 12:51:00.833 [http-nio-8080-exec-3] INFO  DispatcherServlet - Completed initialization in 1 ms
+2026-04-06 12:51:00.884 [http-nio-8080-exec-1] WARN  DefaultSockJsService - Origin check enabled but transport 'jsonp' does not support it.
+2026-04-06 12:51:00.884 [http-nio-8080-exec-3] WARN  DefaultSockJsService - Origin check enabled but transport 'jsonp' does not support it.
+2026-04-06 12:51:11.550 [http-nio-8080-exec-2] WARN  DefaultSockJsService - Origin check enabled but transport 'jsonp' does not support it.
+2026-04-06 12:51:11.574 [http-nio-8080-exec-7] WARN  DefaultSockJsService - Origin check enabled but transport 'jsonp' does not support it.
+2026-04-06 12:51:28.533 [http-nio-8080-exec-9] WARN  SpringDataJackson3Configuration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-04-06 12:52:00.725 [MessageBroker-10] INFO  WebSocketMessageBrokerStats - WebSocketSession[2 current WS(2)-HttpStream(0)-HttpPoll(0), 3 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(3)-CONNECTED(3)-DISCONNECT(1)], stompBrokerRelay[null], inboundChannel[pool size = 24, active threads = 0, queued tasks = 0, completed tasks = 117], outboundChannel[pool size = 24, active threads = 0, queued tasks = 0, completed tasks = 26], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 4, completed tasks = 8]
+2026-04-06 13:22:00.759 [MessageBroker-6] INFO  WebSocketMessageBrokerStats - WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 3 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(3)-CONNECTED(3)-DISCONNECT(1)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 144], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 27], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 3, completed tasks = 497]
+2026-04-06 13:52:00.808 [MessageBroker-3] INFO  WebSocketMessageBrokerStats - WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 5 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(5)-CONNECTED(5)-DISCONNECT(2)], stompBrokerRelay[null], inboundChannel[pool size = 18, active threads = 0, queued tasks = 0, completed tasks = 201], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 32], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 3, completed tasks = 928]
+2026-04-06 14:22:00.820 [MessageBroker-11] INFO  WebSocketMessageBrokerStats - WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 8 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(8)-CONNECTED(8)-DISCONNECT(3)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 291], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 41], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 3, completed tasks = 1352]
+2026-04-06 14:52:00.832 [MessageBroker-6] INFO  WebSocketMessageBrokerStats - WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 15 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(15)-CONNECTED(15)-DISCONNECT(5)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 564], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 59], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 3, completed tasks = 1780]
+2026-04-06 15:22:00.864 [MessageBroker-8] INFO  WebSocketMessageBrokerStats - WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 19 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(19)-CONNECTED(19)-DISCONNECT(5)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 684], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 67], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 3, completed tasks = 2212]
+2026-04-06 15:50:51.560 [SpringApplicationShutdownHook] INFO  GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-06 15:50:51.573 [tomcat-shutdown] INFO  GracefulShutdown - Graceful shutdown complete
+2026-04-06 15:50:51.576 [SpringApplicationShutdownHook] INFO  SimpleBrokerMessageHandler - Stopping...
+2026-04-06 15:50:51.576 [SpringApplicationShutdownHook] INFO  SimpleBrokerMessageHandler - BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7204747a]]
+2026-04-06 15:50:51.576 [SpringApplicationShutdownHook] INFO  SimpleBrokerMessageHandler - Stopped.
+2026-04-06 15:50:51.589 [SpringApplicationShutdownHook] INFO  LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-06 15:50:51.595 [SpringApplicationShutdownHook] INFO  HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-04-06 15:50:51.599 [SpringApplicationShutdownHook] INFO  HikariDataSource - HikariPool-1 - Shutdown completed.

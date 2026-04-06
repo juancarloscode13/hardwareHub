@@ -21,6 +21,9 @@ public class FormUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         UsuarioEntity usuario = usuarioService.getByEmail(email);
+        if (usuario == null) {
+            throw new UsernameNotFoundException("No existe usuario con email: " + email);
+        }
         UsuarioRol rol = usuario.getRol();
 
         return User.withUsername(usuario.getEmail())
