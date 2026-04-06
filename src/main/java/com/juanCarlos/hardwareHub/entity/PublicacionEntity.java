@@ -2,7 +2,6 @@ package com.juanCarlos.hardwareHub.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Null;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -31,16 +30,13 @@ public class PublicacionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Null
     @Column(name = "contenido_texto")
     private String contenidoTexto;
 
-    @Null
     @Lob
     @Column(name = "multimedia")
     private byte[] multimedia;
 
-    @Null
     @ManyToOne
     @JoinColumn(name = "id_montaje")
     private MontajeEntity montaje;

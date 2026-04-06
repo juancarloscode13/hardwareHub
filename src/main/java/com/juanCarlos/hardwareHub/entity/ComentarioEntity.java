@@ -1,7 +1,6 @@
 package com.juanCarlos.hardwareHub.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Null;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -51,13 +50,12 @@ public class ComentarioEntity {
      * Comentario padre (auto-referencia).
      * Excluido de hashCode/equals/toString para evitar recursión infinita.
      */
-    @Null
     @ManyToOne
     @JoinColumn(name = "id_comentario")
     private ComentarioEntity comentario;
 
-    @Null
-    @ManyToOne
+    @NonNull
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_publicacion")
     private PublicacionEntity publicacion;
 }
