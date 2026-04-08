@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 /**
  * Clase que representa a la tabla comentario de la base de datos.
  *
- * <p>El campo {@code comentario} es una auto-referencia (comentario padre).
- * Se excluye explícitamente de {@code hashCode}, {@code equals} y {@code toString}
- * para evitar bucles infinitos cuando existe una cadena cíclica A→B→A.</p>
+ * <p>El campo {@code comentario} es una auto-referencia (comentario padre). Un comentario puede ser respuesta a otro comentario</p>
  *
  * @author Juan Carlos
  */
@@ -46,10 +44,6 @@ public class ComentarioEntity {
     @JoinColumn(name = "id_usuario")
     private UsuarioEntity usuario;
 
-    /**
-     * Comentario padre (auto-referencia).
-     * Excluido de hashCode/equals/toString para evitar recursión infinita.
-     */
     @ManyToOne
     @JoinColumn(name = "id_comentario")
     private ComentarioEntity comentario;

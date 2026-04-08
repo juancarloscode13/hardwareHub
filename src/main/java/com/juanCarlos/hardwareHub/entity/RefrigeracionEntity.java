@@ -43,7 +43,6 @@ public class RefrigeracionEntity {
     @Column(name = "precio", precision = 7, scale = 2)
     private BigDecimal precio;
 
-    /** Almacena valores como "LGA1700/AM5" — multi-socket, no se mapea a enum. */
     @NonNull
     @Column(name = "socket_compatible")
     private String socketCompatible;

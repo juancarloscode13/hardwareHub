@@ -11,6 +11,7 @@ import java.util.List;
  * Clase que representa a la tabla conversation de la base de datos.
  * Modela una conversación de mensajería directa entre dos usuarios.
  *
+ * @see MessageEntity
  * @author Juan Carlos
  */
 @Getter

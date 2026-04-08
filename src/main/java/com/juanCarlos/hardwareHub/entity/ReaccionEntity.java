@@ -14,6 +14,8 @@ import lombok.ToString;
  * La clave primaria es compuesta (id_usuario, id_publicacion), garantizando
  * que cada usuario solo puede tener una reacción por publicación.
  *
+ * @see PublicacionEntity
+ * @see ReaccionId
  * @author Juan Carlos
  */
 @Getter

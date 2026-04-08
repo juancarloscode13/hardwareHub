@@ -11,9 +11,6 @@ import java.util.Set;
 /**
  * Clase que representa a la tabla publicacion de la base de datos.
  *
- * <p>La colección {@code reacciones} se excluye de equals/hashCode/toString
- * para evitar bucles de recursión con {@link ReaccionEntity}.</p>
- *
  * @author Juan Carlos
  */
 @Getter

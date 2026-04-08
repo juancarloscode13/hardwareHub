@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
  * Clase que representa a la tabla message de la base de datos.
  * Modela un mensaje individual dentro de una conversación.
  *
+ * @see ConversationEntity
  * @author Juan Carlos
  */
 @Getter

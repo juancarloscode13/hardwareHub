@@ -13,6 +13,8 @@ import java.io.Serializable;
 /**
  * Clave primaria compuesta de la entidad Reaccion.
  * Un par (id_usuario, id_publicacion) identifica de forma única una reacción.
+ *
+ * @see ReaccionEntity
  */
 @Embeddable
 @Getter
