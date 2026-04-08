@@ -6,6 +6,7 @@ import com.juanCarlos.hardwareHub.dto.response.MessageResponseDto;
 import com.juanCarlos.hardwareHub.entity.UsuarioEntity;
 import com.juanCarlos.hardwareHub.repository.UsuarioRepository;
 import com.juanCarlos.hardwareHub.service.ChatService;
+import com.juanCarlos.hardwareHub.service.implementation.ChatServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,9 +23,9 @@ import java.util.NoSuchElementException;
 /**
  * Controlador REST para el sistema de mensajería directa.
  *
- * <p>Gestiona las operaciones HTTP (historial paginado, creación de conversaciones,
- * marcado de leídos). El tiempo real se maneja en {@link ChatWebSocketController}.</p>
+ * <p>Gestiona las operaciones HTTP. El tiempo real se maneja en {@link ChatWebSocketController}.</p>
  *
+ * @see ChatServiceImplementation
  * @author Juan Carlos
  */
 @RestController

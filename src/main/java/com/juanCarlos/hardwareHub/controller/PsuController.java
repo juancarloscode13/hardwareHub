@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.PsuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PsuResponseDto;
 import com.juanCarlos.hardwareHub.service.PsuService;
+import com.juanCarlos.hardwareHub.service.implementation.PsuServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador para entidad PsuEntity
+ *
+ * @see PsuServiceImplementation
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/api/psus")
 @AllArgsConstructor

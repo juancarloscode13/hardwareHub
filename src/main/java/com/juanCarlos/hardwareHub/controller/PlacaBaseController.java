@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.PlacaBaseRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PlacaBaseResponseDto;
 import com.juanCarlos.hardwareHub.service.PlacaBaseService;
+import com.juanCarlos.hardwareHub.service.implementation.PlacaBaseServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador para entidad PlacaBaseEntity
+ *
+ * @see PlacaBaseServiceImplementation
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/api/placas-base")
 @AllArgsConstructor

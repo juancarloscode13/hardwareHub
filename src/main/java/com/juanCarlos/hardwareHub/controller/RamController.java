@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.RamRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.RamResponseDto;
 import com.juanCarlos.hardwareHub.service.RamService;
+import com.juanCarlos.hardwareHub.service.implementation.RamServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador para entidad RamEntity
+ *
+ * @see RamServiceImplementation
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/api/rams")
 @AllArgsConstructor

@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.UsuarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
 import com.juanCarlos.hardwareHub.service.UsuarioService;
+import com.juanCarlos.hardwareHub.service.implementation.UsuarioServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -14,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador para entidad UsuarioEntity
+ *
+ * @see UsuarioServiceImplementation
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/api/usuarios")
 @AllArgsConstructor
@@ -58,7 +65,7 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
-    // ---- Sistema de seguidores ----
+    //Sistema de seguidores
 
     @PostMapping("/{id}/follow/{targetId}")
     @Operation(summary = "El usuario {id} sigue al usuario {targetId}")

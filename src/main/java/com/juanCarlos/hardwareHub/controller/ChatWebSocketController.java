@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.SendMessageRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.MessageResponseDto;
 import com.juanCarlos.hardwareHub.service.ChatService;
+import com.juanCarlos.hardwareHub.service.implementation.ChatServiceImplementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -18,8 +19,10 @@ import java.util.Map;
  *
  * <p>No es un {@code @RestController} — gestiona mensajes STOMP,
  * no peticiones HTTP. La lógica de negocio vive en {@link ChatService};
- * aquí solo se orquesta la persistencia y el envío al broker.</p>
+ * aquí solo se gestiona la persistencia y el envío al broker.</p>
  *
+ * @see ChatServiceImplementation
+ * @see ChatRestController
  * @author Juan Carlos
  */
 @Controller

@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.GpuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.GpuResponseDto;
 import com.juanCarlos.hardwareHub.service.GpuService;
+import com.juanCarlos.hardwareHub.service.implementation.GpuServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -12,6 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador para entidad GpuEntity
+ *
+ * @see GpuServiceImplementation
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/api/gpus")
 @AllArgsConstructor

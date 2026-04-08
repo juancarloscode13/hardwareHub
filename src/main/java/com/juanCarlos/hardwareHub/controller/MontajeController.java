@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.MontajeRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.MontajeResponseDto;
 import com.juanCarlos.hardwareHub.service.MontajeService;
+import com.juanCarlos.hardwareHub.service.implementation.MontajeServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -12,6 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador para entidad MontajeEntity
+ *
+ * @see MontajeServiceImplementation
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/api/montajes")
 @AllArgsConstructor

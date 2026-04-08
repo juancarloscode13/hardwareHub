@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.AlmacenamientoRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.AlmacenamientoResponseDto;
 import com.juanCarlos.hardwareHub.service.AlmacenamientoService;
+import com.juanCarlos.hardwareHub.service.implementation.AlmacenamientoServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -11,6 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+/**
+ * Controlador para entidad AlmacenamientoEntity
+ *
+ * @see AlmacenamientoServiceImplementation
+ * @author Juan Carlos
+ */
 
 @RestController
 @RequestMapping("/api/almacenamientos")

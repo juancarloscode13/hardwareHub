@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.FabricanteRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.FabricanteResponseDto;
 import com.juanCarlos.hardwareHub.service.FabricanteService;
+import com.juanCarlos.hardwareHub.service.implementation.FabricanteServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -12,6 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador para entidad FabricanteEntity
+ *
+ * @see FabricanteServiceImplementation
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/api/fabricantes")
 @AllArgsConstructor

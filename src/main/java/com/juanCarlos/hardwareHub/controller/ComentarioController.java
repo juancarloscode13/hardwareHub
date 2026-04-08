@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.ComentarioRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.ComentarioResponseDto;
 import com.juanCarlos.hardwareHub.service.ComentarioService;
+import com.juanCarlos.hardwareHub.service.implementation.ComentarioServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -12,6 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador para entidad ComentarioEntity
+ *
+ * @see ComentarioServiceImplementation
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/api/comentarios")
 @AllArgsConstructor

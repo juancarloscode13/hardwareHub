@@ -3,6 +3,7 @@ package com.juanCarlos.hardwareHub.controller;
 import com.juanCarlos.hardwareHub.dto.request.RefrigeracionRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.RefrigeracionResponseDto;
 import com.juanCarlos.hardwareHub.service.RefrigeracionService;
+import com.juanCarlos.hardwareHub.service.implementation.RefrigeracionServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -12,6 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador para entidad RefrigeracionEntity
+ *
+ * @see RefrigeracionServiceImplementation
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/api/refrigeraciones")
 @AllArgsConstructor

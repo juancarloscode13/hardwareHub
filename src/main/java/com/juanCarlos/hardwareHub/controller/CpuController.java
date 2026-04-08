@@ -4,6 +4,7 @@ import com.juanCarlos.hardwareHub.dto.request.CpuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.CpuResponseDto;
 
 import com.juanCarlos.hardwareHub.service.CpuService;
+import com.juanCarlos.hardwareHub.service.implementation.CpuServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -13,6 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador para entidad CpuEntity
+ *
+ * @see CpuServiceImplementation
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/api/cpus")
 @AllArgsConstructor
