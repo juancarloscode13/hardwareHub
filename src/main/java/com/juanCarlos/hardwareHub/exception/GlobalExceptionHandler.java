@@ -73,7 +73,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Manejador para IllegalArgumentException (p.ej. auto-seguimiento).
+     * Manejador para IllegalArgumentException.
      *
      * @return Respuesta Http 400 con detalles del error.
      */
