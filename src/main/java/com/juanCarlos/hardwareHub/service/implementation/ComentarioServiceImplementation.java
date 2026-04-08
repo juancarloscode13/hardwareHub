@@ -17,6 +17,12 @@ import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
 import java.time.LocalDateTime;
 
+/**
+ * Implementacion del servicio de la entidad ComentarioEntity
+ *
+ * @see ComentarioService
+ * @author Juan Carlos
+ */
 @Service
 @Transactional
 @AllArgsConstructor
@@ -29,9 +35,6 @@ public class ComentarioServiceImplementation implements ComentarioService {
     @Override
     public ComentarioResponseDto create(ComentarioRequestDto requestDto) {
         ComentarioEntity entity = comentarioMapper.toEntity(requestDto);
-        if (entity.getLikes() == null) {
-            entity.setLikes(0);
-        }
         entity.setFecha(LocalDateTime.now());
         ComentarioEntity savedEntity = comentarioRepository.save(entity);
         return comentarioMapper.toResponseDto(savedEntity);
@@ -60,7 +63,7 @@ public class ComentarioServiceImplementation implements ComentarioService {
         ComentarioEntity entity = comentarioMapper.toEntity(requestDto);
         entity.setId(id);
         entity.setFecha(existingEntity.getFecha());
-        entity.setLikes(entity.getLikes() == null ? existingEntity.getLikes() : entity.getLikes());
+        entity.setLikes(entity.getLikes());
         ComentarioEntity savedEntity = comentarioRepository.save(entity);
         return comentarioMapper.toResponseDto(savedEntity);
     }

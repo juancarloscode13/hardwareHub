@@ -7,6 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.Instant;
 import java.util.Optional;
 
+/**
+ * Repositorio correspondiente a la entidad RefreshTokenEntity
+ *
+ * @see RefreshTokenEntity
+ * @author Juan Carlos
+ */
 public interface RefreshTokenRepository extends JpaRepository<RefreshTokenEntity, Long> {
 
     Optional<RefreshTokenEntity> findByToken(String token);

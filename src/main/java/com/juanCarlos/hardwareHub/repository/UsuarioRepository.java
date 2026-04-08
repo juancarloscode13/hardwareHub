@@ -8,6 +8,12 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Set;
 
+/**
+ * Repositorio correspondiente a la entidad UsuarioEntity
+ *
+ * @see UsuarioEntity
+ * @author Juan Carlos
+ */
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long>, JpaSpecificationExecutor<UsuarioEntity> {
 	UsuarioEntity getByEmail(String email);
 

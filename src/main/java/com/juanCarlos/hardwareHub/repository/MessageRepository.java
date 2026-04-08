@@ -11,6 +11,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repositorio correspondiente a la entidad MessageEntity
+ *
+ * @see MessageEntity
+ * @author Juan Carlos
+ */
 public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
 
     /** Historial paginado de mensajes de una conversación (más recientes primero). */

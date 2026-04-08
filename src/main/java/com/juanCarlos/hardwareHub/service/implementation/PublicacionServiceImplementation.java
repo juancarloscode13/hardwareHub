@@ -22,6 +22,12 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+/**
+ * Implementacion del servicio de la entidad PublicacionEntity
+ *
+ * @see PublicacionService
+ * @author Juan Carlos
+ */
 @Service
 @Transactional
 @AllArgsConstructor
@@ -76,7 +82,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
         publicacionRepository.deleteById(id);
     }
 
-    // ---- Helpers ----
+    //Helpers
 
     private void validateMontajeMultimediaRule(PublicacionEntity entity) {
         boolean hasMontaje   = entity.getMontaje()    != null;
@@ -88,7 +94,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
         }
     }
 
-    /** Calcula los conteos de reacciones desde la colección lazy (dentro de la transacción). */
+    /* Calcula los conteos de reacciones de cada tipo */
     private PublicacionResponseDto enrichWithCounts(PublicacionResponseDto dto, PublicacionEntity entity) {
         Set<ReaccionEntity> reacciones = entity.getReacciones();
         dto.setLikesCount(count(reacciones, TipoReaccion.LIKE));

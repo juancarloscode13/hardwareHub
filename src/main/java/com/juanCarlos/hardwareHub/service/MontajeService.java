@@ -2,8 +2,15 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.MontajeRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.MontajeResponseDto;
+import com.juanCarlos.hardwareHub.entity.MontajeEntity;
 import org.springframework.data.domain.Page;
 
+/**
+ * Servicio correspondiente a la entidad MontajeEntity
+ *
+ * @see MontajeEntity
+ * @author Juan Carlos
+ */
 public interface MontajeService {
 
     MontajeResponseDto create(MontajeRequestDto requestDto);

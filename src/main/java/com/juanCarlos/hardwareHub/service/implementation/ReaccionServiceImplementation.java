@@ -17,6 +17,12 @@ import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de la entidad ReaccionEntity
+ *
+ * @see ReaccionService
+ * @author Juan Carlos
+ */
 @Service
 @Transactional
 @AllArgsConstructor
@@ -69,9 +75,9 @@ public class ReaccionServiceImplementation implements ReaccionService {
         return buildConteoDto(publicacionId);
     }
 
-    // ---- Helpers ----
+    //Helpers
 
-    /** Construye el DTO de conteo usando queries por tipo para evitar cargar la colección completa. */
+    /* Construye el DTO de conteo */
     private ReaccionConteoDto buildConteoDto(Long publicacionId) {
         return new ReaccionConteoDto(
                 publicacionId,

@@ -1,8 +1,15 @@
 package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.response.ReaccionConteoDto;
+import com.juanCarlos.hardwareHub.entity.ReaccionEntity;
 import com.juanCarlos.hardwareHub.entity.enums.TipoReaccion;
 
+/**
+ * Servicio correspondiente a la entidad ReaccionEntity
+ *
+ * @see ReaccionEntity
+ * @author Juan Carlos
+ */
 public interface ReaccionService {
 
     /**

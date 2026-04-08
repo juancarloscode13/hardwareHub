@@ -2,8 +2,15 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.RamRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.RamResponseDto;
+import com.juanCarlos.hardwareHub.entity.RamEntity;
 import org.springframework.data.domain.Page;
 
+/**
+ * Servicio correspondiente a la entidad RamEntity
+ *
+ * @see RamEntity
+ * @author Juan Carlos
+ */
 public interface RamService {
 
     RamResponseDto create(RamRequestDto requestDto);

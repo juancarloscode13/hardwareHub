@@ -20,6 +20,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Implementacion del servicio de la entidad ConversationEntity
+ *
+ * @see ChatService
+ * @author Juan Carlos
+ */
 @Service
 @Transactional
 @AllArgsConstructor
@@ -136,8 +142,6 @@ public class ChatServiceImplementation implements ChatService {
         }
         return conversation.getUserA().getEmail();
     }
-
-    // ---- Mapeo manual (DTOs con campos computados, MapStruct no aplica aquí) ----
 
     private MessageResponseDto toMessageDto(MessageEntity entity) {
         MessageResponseDto dto = new MessageResponseDto();

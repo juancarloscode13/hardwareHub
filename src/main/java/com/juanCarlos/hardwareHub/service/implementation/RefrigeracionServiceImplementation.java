@@ -16,6 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Implementacion del servicio de la entidad RefrigeracionEntity
+ *
+ * @see RefrigeracionService
+ * @author Juan Carlos
+ */
 @Service
 @Transactional
 @AllArgsConstructor

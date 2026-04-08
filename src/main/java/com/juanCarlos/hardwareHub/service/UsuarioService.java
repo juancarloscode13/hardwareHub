@@ -8,6 +8,12 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+/**
+ * Servicio correspondiente a la entidad UsuarioEntity
+ *
+ * @see UsuarioEntity
+ * @author Juan Carlos
+ */
 public interface UsuarioService {
 
     UsuarioResponseDto register(RegisterRequestDto requestDto);

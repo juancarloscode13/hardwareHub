@@ -10,6 +10,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repositorio correspondiente a la entidad ReaccionEntity
+ *
+ * @see ReaccionEntity
+ * @author Juan Carlos
+ */
 public interface ReaccionRepository extends JpaRepository<ReaccionEntity, ReaccionId> {
 
     List<ReaccionEntity> findByPublicacionId(@Param("id") Long id);

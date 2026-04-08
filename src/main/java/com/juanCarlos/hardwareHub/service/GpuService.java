@@ -2,8 +2,15 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.GpuRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.GpuResponseDto;
+import com.juanCarlos.hardwareHub.entity.GpuEntity;
 import org.springframework.data.domain.Page;
 
+/**
+ * Servicio correspondiente a la entidad GpuEntity
+ *
+ * @see GpuEntity
+ * @author Juan Carlos
+ */
 public interface GpuService {
 
     GpuResponseDto create(GpuRequestDto requestDto);

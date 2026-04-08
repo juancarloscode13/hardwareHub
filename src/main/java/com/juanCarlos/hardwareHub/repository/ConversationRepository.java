@@ -8,6 +8,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repositorio correspondiente a la entidad ConversationEntity
+ *
+ * @see ConversationEntity
+ * @author Juan Carlos
+ */
 public interface ConversationRepository extends JpaRepository<ConversationEntity, Long> {
 
     /** Busca una conversación existente entre dos usuarios (en cualquier dirección). */

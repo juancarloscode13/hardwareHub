@@ -2,8 +2,15 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.request.PublicacionRequestDto;
 import com.juanCarlos.hardwareHub.dto.response.PublicacionResponseDto;
+import com.juanCarlos.hardwareHub.entity.PublicacionEntity;
 import org.springframework.data.domain.Page;
 
+/**
+ * Servicio correspondiente a la entidad PublicacionEntity
+ *
+ * @see PublicacionEntity
+ * @author Juan Carlos
+ */
 public interface PublicacionService {
 
     PublicacionResponseDto create(PublicacionRequestDto requestDto);

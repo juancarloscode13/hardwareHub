@@ -16,6 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Implementacion del servicio de la entidad GpuEntity
+ *
+ * @see GpuService
+ * @author Juan Carlos
+ */
 @Service
 @Transactional
 @AllArgsConstructor

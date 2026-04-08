@@ -2,10 +2,19 @@ package com.juanCarlos.hardwareHub.service;
 
 import com.juanCarlos.hardwareHub.dto.response.ConversationResponseDto;
 import com.juanCarlos.hardwareHub.dto.response.MessageResponseDto;
+import com.juanCarlos.hardwareHub.entity.ConversationEntity;
+import com.juanCarlos.hardwareHub.entity.MessageEntity;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+/**
+ * Servicio correspondiente a la entidad ConversationEntity (con mensajes relacionados)
+ *
+ * @see ConversationEntity
+ * @see MessageEntity
+ * @author Juan Carlos
+ */
 public interface ChatService {
 
     /**

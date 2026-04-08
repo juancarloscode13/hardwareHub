@@ -22,6 +22,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+/**
+ * Implementacion del servicio de la entidad UsuarioEntity
+ *
+ * @see UsuarioService
+ * @author Juan Carlos
+ */
 @Service
 @Transactional
 @AllArgsConstructor
@@ -95,7 +101,7 @@ public class UsuarioServiceImplementation implements UsuarioService {
         return usuarioRepository.getByEmail(email);
     }
 
-    // ---- Sistema de seguidores ----
+    //Sistema de seguidores
 
     @Override
     public UsuarioResponseDto followUser(Long followerId, Long followedId) {

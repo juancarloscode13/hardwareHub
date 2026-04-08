@@ -16,6 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Implementacion del servicio de la entidad PsuEntity
+ *
+ * @see PsuService
+ * @author Juan Carlos
+ */
 @Service
 @Transactional
 @AllArgsConstructor
