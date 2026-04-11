@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Configuración del sistema de caché en memoria.
- * Usa ConcurrentMapCacheManager (incluido en spring-context, sin dependencias extra).
  * Declara explícitamente el bucket "noticias" utilizado por NoticiaServiceImplementation.
  */
 @Configuration

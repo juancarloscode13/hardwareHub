@@ -18,6 +18,13 @@ public class QueryDslParser {
 
     private static final Pattern PATTERN = Pattern.compile("(\\w+)(==|!=|>=|<=|>|<|~)(.+)");
 
+    /**
+     * Parsea la cadena DSL de filtros y devuelve una lista de {@link FilterCriteria}.
+     * El formato esperado es: "campo==valor;otroCampo>10;nombre~texto"
+     *
+     * @param query cadena con expresiones separadas por ';'
+     * @return lista de FilterCriteria (vacía si la query es null o vacía)
+     */
     public List<FilterCriteria> parse(String query) {
         List<FilterCriteria> filters = new ArrayList<>();
 

@@ -13,6 +13,13 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
+/**
+ * Servicio encargado de generar y validar tokens JWT de acceso.
+ * - Genera access tokens con claims básicos (email, role, issuer, timestamps).
+ * - Valida y extrae datos (subject/expiración) de tokens existentes.
+ *
+ * @author Juan Carlos
+ */
 @Service
 @RequiredArgsConstructor
 public class JwtService {
@@ -43,6 +50,10 @@ public class JwtService {
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
+    /**
+     * Valida sintáctica y criptográficamente un JWT usando el `JwtDecoder`.
+     * Devuelve true si el token se puede decodificar correctamente.
+     */
     public boolean isTokenValid(String token){
         try{
             jwtDecoder.decode(token);
@@ -52,10 +63,16 @@ public class JwtService {
         }
     }
 
+    /**
+     * Extrae el subject (username/email) del token decodificado.
+     */
     public String getUsernameFromToken(String token){
         return jwtDecoder.decode(token).getSubject();
     }
 
+    /**
+     * Devuelve la fecha de expiración del token como cadena ISO, o null si no existe.
+     */
     public String getExpirationFromToken(String token){
         Instant expiresAt = jwtDecoder.decode(token).getExpiresAt();
         return expiresAt != null ? expiresAt.toString() : null;

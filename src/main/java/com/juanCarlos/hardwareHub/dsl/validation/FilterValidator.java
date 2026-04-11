@@ -14,6 +14,13 @@ import java.util.Set;
  */
 public class FilterValidator {
 
+    /**
+     * Valida que cada filtro de la lista use únicamente campos permitidos.
+     * Si encuentra un campo no permitido lanza {@link ForbiddenFieldException}.
+     *
+     * @param filters lista de filtros parseados (puede ser null o vacía)
+     * @param allowedFields conjunto de nombres de campos permitidos para la entidad
+     */
     public static void validate(List<FilterCriteria> filters, Set<String> allowedFields) {
         if (filters == null || filters.isEmpty())
             return;

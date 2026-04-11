@@ -15,6 +15,13 @@ import java.util.List;
  */
 public class SpecificationBuilder<T> {
 
+    /**
+     * Combina una lista de filtros individuales en una sola {@link Specification}
+     * usando AND entre cada condición.
+     *
+     * @param filters lista de filtros parseados
+     * @return Specification que representa la conjunción de todos los filtros
+     */
     public Specification<T> build(List<FilterCriteria> filters) {
 
         Specification<T> spec = (_, _, criteriaBuilder) -> criteriaBuilder.conjunction();

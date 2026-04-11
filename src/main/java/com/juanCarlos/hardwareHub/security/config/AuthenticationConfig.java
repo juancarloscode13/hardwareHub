@@ -18,17 +18,27 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.time.LocalDateTime;
 
+/**
+ * Beans relacionados con la autenticación: encoder de contraseñas,
+ * `AuthenticationProvider`, `AuthenticationManager` y control de errores
+ * (401/403) en formato JSON. También deshabilita el registro automático
+ * del filtro JWT para que Spring Security lo gestione manualmente.
+ *
+ * @author Juan Carlos
+ */
 @Configuration
 public class AuthenticationConfig {
 
+    /**
+     * Provee el `PasswordEncoder` (BCrypt) usado para almacenar contraseñas.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
 
     /**
-     * Proveedor de autenticación DAO basado en UserDetailsService + BCrypt.
-     * Devuelve AuthenticationProvider para que pueda inyectarse directamente en SecurityFilterChain.
+     * Proveedor de autenticación basado en UserDetailsService + BCrypt.
      */
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
@@ -43,13 +53,12 @@ public class AuthenticationConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
     /**
-     * Impide que Spring Boot registre JwtAuthenticationFilter como servlet filter genérico.
-     * Sin esto, el filtro se ejecuta DOS VECES: una fuera de Spring Security (como servlet filter)
-     * y otra dentro del SecurityFilterChain, lo que interfiere con el SecurityContextHolder
-     * y provoca 401 en rutas públicas como /auth/login.
+     * Desactiva el registro automático del filtro JWT para que lo gestione
+     * Spring Security a través de la configuración manual (addFilterBefore).
      */
-    @Bean
+     @Bean
     @SuppressWarnings("unchecked")
     public FilterRegistrationBean<?> jwtFilterRegistration(JwtAuthenticationFilter filter) {
         FilterRegistrationBean registration = new FilterRegistrationBean(filter);

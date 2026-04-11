@@ -24,6 +24,7 @@ public class HardwareHubApplication {
 			System.setProperty("app.log.file",
 					System.getProperty("user.dir") + "/log/log_" + timestamp + ".txt");
 		}
+		//Inicializa y ejecuta la aplicación.
 		SpringApplication.run(HardwareHubApplication.class, args);
 	}
 }

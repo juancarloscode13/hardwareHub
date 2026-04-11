@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * DTO para la solicitud de inicio de sesión.
+ * Contiene el email y la contraseña del usuario.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

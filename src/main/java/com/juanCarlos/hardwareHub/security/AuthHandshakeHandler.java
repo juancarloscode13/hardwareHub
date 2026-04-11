@@ -23,6 +23,13 @@ import java.util.Map;
 @Component
 public class AuthHandshakeHandler extends DefaultHandshakeHandler {
 
+
+    /**
+     * Determina el Principal para la sesión WebSocket.
+     * Si el atributo de autenticación fue colocado por el interceptor JWT,
+     * lo devuelve como Principal (UsernamePasswordAuthenticationToken),
+     * permitiendo que STOMP resuelva destinatarios por `Principal.getName()`.
+     */
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
                                       Map<String, Object> attributes) {

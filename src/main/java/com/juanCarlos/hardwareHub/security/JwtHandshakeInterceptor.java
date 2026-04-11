@@ -36,6 +36,13 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     private final UserDetailsService userDetailsService;
 
     @Override
+    /**
+     * Interceptor que se ejecuta antes del handshake WS.
+     * - Extrae el token (cookie o header) y lo valida.
+     * - Si es válido, carga el UserDetails y lo deja como atributo en la sesión WS
+     *   para que el HandshakeHandler lo convierta en el Principal.
+     * - Devuelve true para permitir el handshake o false para rechazarlo.
+     */
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                    WebSocketHandler wsHandler, Map<String, Object> attributes) {
 
@@ -57,11 +64,19 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     }
 
     @Override
+    /**
+     * Método llamado tras el handshake. Aquí no se realiza ninguna acción.
+     */
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                WebSocketHandler wsHandler, Exception exception) {
-        // No-op
+        // Nada
     }
 
+    /**
+     * Extrae el token JWT de la cookie `access_token` si existe.
+     * Como fallback busca el header Authorization Bearer.
+     * Devuelve null si no encuentra token.
+     */
     private String extractToken(HttpServletRequest request) {
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
@@ -70,7 +85,7 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
                 }
             }
         }
-        // Fallback: header Authorization Bearer (útil para testing con Postman)
+        // Fallback: header Authorization Bearer
         String bearer = request.getHeader("Authorization");
         if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
             return bearer.substring(7);

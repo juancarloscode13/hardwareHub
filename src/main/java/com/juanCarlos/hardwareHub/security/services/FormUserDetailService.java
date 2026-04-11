@@ -11,12 +11,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementación de `UserDetailsService` basada en la entidad `UsuarioEntity`.
+ * Carga usuarios por email para los procesos de autenticación y expone un
+ * helper `getCurrentUser()` para obtener la entidad del usuario autenticado.
+ *
+ * @author Juan Carlos
+ */
 @Service
 @RequiredArgsConstructor
 public class FormUserDetailService implements UserDetailsService {
 
     private final UsuarioService usuarioService;
-
+    /**
+     * Carga el usuario por email y construye un `UserDetails` usado por
+     * el proceso de autenticación (DAO). Lanza `UsernameNotFoundException`
+     * si no existe el usuario.
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
@@ -32,6 +43,11 @@ public class FormUserDetailService implements UserDetailsService {
                 .build();
     }
 
+    /**
+     * Helper que intenta resolver la entidad `UsuarioEntity` del usuario
+     * actualmente autenticado en el `SecurityContext`. Devuelve null si no hay
+     * autenticación válida.
+     */
     public UsuarioEntity getCurrentUser(){
         var auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) return null;

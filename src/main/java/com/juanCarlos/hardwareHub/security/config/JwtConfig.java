@@ -21,7 +21,11 @@ import java.security.interfaces.RSAPublicKey;
 @Configuration
 public class JwtConfig {
 
-
+    /**
+     * Genera y devuelve un par de claves RSA (pública y privada) que se usarán
+     * para firmar y verificar los JWTs.
+     * @return KeyPair RSA 2048 bits
+     */
     @Bean
     public KeyPair keypair(){
         try{
@@ -33,6 +37,13 @@ public class JwtConfig {
         }
     }
 
+    /**
+     * Crea una fuente JWK (JSON Web Key) a partir del KeyPair proporcionado.
+     * Esta fuente se utiliza por el encoder para obtener las claves y crear
+     * tokens JWT firmados.
+     * @param keyPair par de claves RSA
+     * @return JWKSource que contiene la JWK construida
+     */
     @Bean
     public JWKSource<SecurityContext> jwkSource(KeyPair keyPair){
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
@@ -47,11 +58,21 @@ public class JwtConfig {
         return new ImmutableJWKSet<>(jwkSet);
     }
 
+    /**
+     * Provee un `JwtEncoder` que firma los JWTs usando la fuente JWK.
+     * @param jwkSource fuente de claves JWK
+     * @return JwtEncoder para generar tokens
+     */
     @Bean
     public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource){
         return new NimbusJwtEncoder(jwkSource);
     }
 
+    /**
+     * Provee un `JwtDecoder` que valida JWTs usando la clave pública RSA.
+     * @param keyPair par de claves RSA (se usa la pública)
+     * @return JwtDecoder para validar tokens entrantes
+     */
     @Bean
     public JwtDecoder jwtDecoder(KeyPair keyPair){
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();

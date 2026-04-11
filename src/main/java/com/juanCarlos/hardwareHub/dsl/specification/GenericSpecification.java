@@ -24,6 +24,15 @@ public class GenericSpecification<T> implements Specification<T> {
     private FilterCriteria criteria;
 
     @Override
+    /**
+     * Convierte el {@link FilterCriteria} de esta especificación a un {@link Predicate}
+     * de JPA Criteria según el operador.
+     *
+     * @param root raíz del query
+     * @param query consulta Criteria
+     * @param criteriaBuilder builder para construir predicados
+     * @return Predicate correspondiente al filtro o null si el operador no es conocido
+     */
     public @Nullable Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         Path<?> path = resolvePath(root, criteria.getField());
 
@@ -40,7 +49,6 @@ public class GenericSpecification<T> implements Specification<T> {
 
     /**
      * Resuelve el path real del filtro.
-     *
      * Casos soportados:
      * - campo simple: "fecha"
      * - campo anidado: "usuario.id"

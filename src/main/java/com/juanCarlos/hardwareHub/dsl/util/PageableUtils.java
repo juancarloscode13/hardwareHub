@@ -12,6 +12,15 @@ import org.springframework.data.domain.Sort;
  */
 public class PageableUtils {
 
+    /**
+     * Crea un objeto Pageable a partir de parámetros de paginación y orden.
+     * Soporta varios formatos de orden: "-campo", "campo:desc", "campo,desc" o simplemente "campo".
+     *
+     * @param page número de página (0-indexed)
+     * @param size tamaño de página
+     * @param sort especificador de orden (opcional)
+     * @return Pageable configurado con página, tamaño y orden
+     */
     public static Pageable createPageable(int page, int size, String sort) {
         if (sort == null || sort.isBlank())
             return PageRequest.of(page, size);
@@ -23,7 +32,7 @@ public class PageableUtils {
             return PageRequest.of(page, size, Sort.by(normalized.substring(1)).descending());
         }
 
-        // Formato recomendado por frontend: campo:desc | campo:asc
+        // Formato estandar: campo:desc | campo:asc
         if (normalized.contains(":")) {
             String[] parts = normalized.split(":", 2);
             String property = parts[0].trim();

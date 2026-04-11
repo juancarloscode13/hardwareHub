@@ -29,7 +29,10 @@ public class CookieUtil {
                 .build();
     }
 
-    /** Cookie de refresh token — path restringido a /auth/refresh. */
+    /**
+     * Construye la cookie HttpOnly para el refresh token.
+     * Path restringido a /auth/refresh para limitar su exposición.
+     */
     public ResponseCookie buildRefreshTokenCookie(String token, long maxAgeSeconds) {
         return ResponseCookie.from("refresh_token", token)
                 .httpOnly(true)
@@ -40,7 +43,10 @@ public class CookieUtil {
                 .build();
     }
 
-    /** Cookie de borrado: Max-Age=0 para eliminarla del navegador. */
+    /**
+     * Construye una cookie con Max-Age=0 para obligar al navegador a borrarla.
+     * Se usa para eliminar cookies de access/refresh al hacer logout.
+     */
     public ResponseCookie buildDeleteCookie(String name, String path) {
         return ResponseCookie.from(name, "")
                 .httpOnly(true)

@@ -32,6 +32,23 @@ public class GenericSearchService {
 
     private final QueryDslParser parser = new QueryDslParser();
 
+    /**
+     * Ejecuta una búsqueda genérica sobre cualquier repositorio que implemente
+     * {@link JpaSpecificationExecutor}.
+     * Pasos:
+     *  - Parsear la cadena de filtros
+     *  - Validar campos permitidos
+     *  - Construir la Specification y la Pageable
+     *  - Ejecutar la consulta paginada
+     *
+     * @param repository repositorio JPA que soporta Specification
+     * @param filter cadena de filtros en formato DSL (ej: "precio>100;marca==Intel")
+     * @param page número de página (0-indexed)
+     * @param size tamaño de página
+     * @param sort especificador de orden
+     * @param allowedFields campos permitidos para filtrar en esta entidad
+     * @return página con los resultados
+     */
     public <T> Page<T> search(
             JpaSpecificationExecutor<T> repository,
             String filter,

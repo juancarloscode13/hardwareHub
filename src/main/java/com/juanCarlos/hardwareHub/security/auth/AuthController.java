@@ -33,6 +33,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+/**
+ * Controlador REST para operaciones de autenticación: registro, login,
+ * refresh de tokens, logout y obtener el usuario actual (`/auth/me`).
+ * Gestiona cookies HttpOnly para access/refresh tokens y la rotación de
+ * refresh tokens persistidos.
+ *
+ * @author Juan Carlos
+ */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -51,12 +59,24 @@ public class AuthController {
     @Value("${app.jwt.refresh-expiration:604800}")
     private long refreshTokenExpiration;
 
+    /**
+     * Registra un nuevo usuario usando los datos del DTO.
+     * Valida el DTO con @Valid y delega la creación al servicio `UsuarioService`.
+     * Devuelve 201 CREATED con el DTO de respuesta del usuario (sin datos sensibles).
+     */
     @PostMapping("/register")
     public ResponseEntity<UsuarioResponseDto> register(@Valid @RequestBody RegisterRequestDto registerRequest) {
         UsuarioResponseDto response = usuarioService.register(registerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    /**
+     * Autentica las credenciales del usuario.
+     * - Realiza la autenticación con `AuthenticationManager`.
+     * - Genera un access token (JWT) y un refresh token persistido.
+     * - Escribe ambos tokens como cookies HttpOnly en la respuesta.
+     * - Devuelve en el body el username y el rol del usuario autenticado.
+     */
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequest,
                                                    HttpServletResponse response) {
@@ -76,14 +96,18 @@ public class AuthController {
         addTokenCookies(response, accessToken, refreshToken.getToken());
 
         // 4. Body sin datos sensibles
-        // Usamos usuario.getRol().name() → "ROL_ADMIN" / "ROL_USUARIO"
-        // getAuthority() devolvería "ROLE_ADMIN" (con prefijo de Spring Security)
-        // lo que es inconsistente con el valor que devuelve /auth/me.
         String role = usuario.getRol().name();
 
         return ResponseEntity.ok(new LoginResponseDto(userDetails.getUsername(), role));
     }
 
+    /**
+     * Endpoint para rotación de refresh token.
+     * - Lee el refresh token de la cookie `refresh_token`.
+     * - Valida el token persistido y genera un nuevo access token.
+     * - Revoca el refresh token antiguo y crea uno nuevo (rotación).
+     * - Devuelve cookies actualizadas con los nuevos tokens.
+     */
     @PostMapping("/refresh")
     public ResponseEntity<Map<String, Boolean>> refresh(HttpServletRequest request,
                                                          HttpServletResponse response) {
@@ -110,6 +134,10 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("refreshed", true));
     }
 
+    /**
+     * Logout: revoca el refresh token (si existe) y borra las cookies de acceso
+     * y refresh del cliente. Limpia el contexto de seguridad.
+     */
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
         // Revocar refresh token si existe
@@ -128,6 +156,10 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Devuelve los datos del usuario actualmente autenticado (sin datos sensibles).
+     * Lanza BadCredentialsException si no hay usuario autenticado en el contexto.
+     */
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponseDto> me() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -142,8 +174,12 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioDto);
     }
 
-    // ---- Métodos auxiliares privados ----
+    //Métodos auxiliares privados
 
+    /**
+     * Helper privado: construye y añade a la respuesta las cookies HttpOnly
+     * para access token y refresh token.
+     */
     private void addTokenCookies(HttpServletResponse response, String accessToken, String refreshToken) {
         ResponseCookie accessCookie = cookieUtil.buildAccessTokenCookie(accessToken, accessTokenExpiration);
         ResponseCookie refreshCookie = cookieUtil.buildRefreshTokenCookie(refreshToken, refreshTokenExpiration);
@@ -151,6 +187,10 @@ public class AuthController {
         response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
     }
 
+    /**
+     * Helper privado: extrae el valor de una cookie por nombre de la request.
+     * Devuelve null si no existe.
+     */
     private String extractCookieValue(HttpServletRequest request, String cookieName) {
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
