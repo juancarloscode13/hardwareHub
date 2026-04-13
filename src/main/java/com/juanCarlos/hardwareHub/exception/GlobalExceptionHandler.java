@@ -140,4 +140,21 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
+
+    /**
+     * Manejador para InvalidPasswordResetTokenException (token de reset inválido, usado o expirado).
+     *
+     * @return Respuesta Http 400 con detalles del error.
+     * @see InvalidPasswordResetTokenException
+     */
+    @ExceptionHandler(InvalidPasswordResetTokenException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleInvalidPasswordResetTokenException(InvalidPasswordResetTokenException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
 }

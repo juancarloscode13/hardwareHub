@@ -39,6 +39,8 @@ public class SecurityConfig {
             "/auth/logout",
             "/auth/register",
             "/auth/refresh",
+            "/auth/forgot-password",
+            "/auth/reset-password",
             "/api/noticias",
             "/ws/**"
     };

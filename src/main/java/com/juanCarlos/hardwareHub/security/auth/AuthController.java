@@ -4,13 +4,15 @@ import com.juanCarlos.hardwareHub.dto.mappers.UsuarioMapper;
 import com.juanCarlos.hardwareHub.dto.response.UsuarioResponseDto;
 import com.juanCarlos.hardwareHub.entity.RefreshTokenEntity;
 import com.juanCarlos.hardwareHub.entity.UsuarioEntity;
-import com.juanCarlos.hardwareHub.entity.enums.UsuarioRol;
+import com.juanCarlos.hardwareHub.security.auth.dto.ForgotPasswordRequestDto;
 import com.juanCarlos.hardwareHub.security.auth.dto.LoginRequestDto;
 import com.juanCarlos.hardwareHub.security.auth.dto.LoginResponseDto;
 import com.juanCarlos.hardwareHub.security.auth.dto.RegisterRequestDto;
+import com.juanCarlos.hardwareHub.security.auth.dto.ResetPasswordRequestDto;
 import com.juanCarlos.hardwareHub.security.services.JwtService;
 import com.juanCarlos.hardwareHub.security.services.RefreshTokenService;
 import com.juanCarlos.hardwareHub.security.util.CookieUtil;
+import com.juanCarlos.hardwareHub.service.PasswordResetService;
 import com.juanCarlos.hardwareHub.service.UsuarioService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,6 +54,7 @@ public class AuthController {
     private final RefreshTokenService refreshTokenService;
     private final CookieUtil cookieUtil;
     private final UserDetailsService userDetailsService;
+    private final PasswordResetService passwordResetService;
 
     @Value("${app.jwt.access-expiration:900}")
     private long accessTokenExpiration;
@@ -172,6 +175,29 @@ public class AuthController {
         UsuarioResponseDto usuarioDto = usuarioMapper.toResponseDto(usuario);
 
         return ResponseEntity.status(HttpStatus.OK).body(usuarioDto);
+    }
+
+    //Métodos de recuperación de contraseña
+
+    /**
+     * Solicita el envío de un email de recuperación de contraseña.
+     * Siempre responde 200 OK para evitar enumeración de usuarios
+     * (no revela si el email existe o no en el sistema).
+     */
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Map<String, String>> forgotPassword(@Valid @RequestBody ForgotPasswordRequestDto request) {
+        passwordResetService.requestPasswordReset(request.getEmail());
+        return ResponseEntity.ok(Map.of("message", "Si el email está registrado, recibirás un correo con instrucciones."));
+    }
+
+    /**
+     * Restablece la contraseña del usuario usando el token de recuperación.
+     * Valida el token, actualiza la contraseña y revoca las sesiones activas.
+     */
+    @PostMapping("/reset-password")
+    public ResponseEntity<Map<String, String>> resetPassword(@Valid @RequestBody ResetPasswordRequestDto request) {
+        passwordResetService.resetPassword(request.getToken(), request.getNuevaContrasena());
+        return ResponseEntity.ok(Map.of("message", "Contraseña restablecida correctamente."));
     }
 
     //Métodos auxiliares privados

@@ -172,6 +172,17 @@ CREATE TABLE IF NOT EXISTS refresh_token (
     CONSTRAINT fk_refresh_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
 
+-- Tabla password_reset_token para almacenar tokens de recuperación de contraseña.
+CREATE TABLE IF NOT EXISTS password_reset_token (
+    id          INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    token       VARCHAR(255) NOT NULL UNIQUE,
+    id_usuario  INTEGER UNSIGNED NOT NULL,
+    expiracion  DATETIME NOT NULL,
+    usado       BOOLEAN NOT NULL DEFAULT FALSE,
+    creado_en   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_password_reset_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS publicacion(
 	id INTEGER UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     contenido_texto VARCHAR(300),
