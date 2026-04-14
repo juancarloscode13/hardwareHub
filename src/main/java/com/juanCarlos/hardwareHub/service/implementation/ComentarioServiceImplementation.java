@@ -12,6 +12,7 @@ import com.juanCarlos.hardwareHub.service.ForumEventPublisher;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class ComentarioServiceImplementation implements ComentarioService {
 
     private final ComentarioRepository comentarioRepository;
@@ -36,19 +38,23 @@ public class ComentarioServiceImplementation implements ComentarioService {
 
     @Override
     public ComentarioResponseDto create(ComentarioRequestDto requestDto) {
+        log.info("Creando nuevo comentario para publicacionId={}", requestDto.getPublicacionId());
         ComentarioEntity entity = comentarioMapper.toEntity(requestDto);
         entity.setFecha(LocalDateTime.now());
         ComentarioEntity savedEntity = comentarioRepository.save(entity);
         ComentarioResponseDto responseDto = comentarioMapper.toResponseDto(savedEntity);
         // Broadcast a todos los usuarios que estén viendo esta publicación
         forumEventPublisher.publishNuevoComentario(responseDto);
+        log.info("Comentario creado exitosamente: id={}, publicacionId={}", savedEntity.getId(), requestDto.getPublicacionId());
         return responseDto;
     }
 
     @Override
     public ComentarioResponseDto getById(Long id) {
+        log.info("Obteniendo comentario: id={}", id);
         ComentarioEntity entity = comentarioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("No se pudo encontrar ningun comentario con ese id"));
+        log.info("Comentario obtenido exitosamente: id={}", id);
         return comentarioMapper.toResponseDto(entity);
     }
 
@@ -75,9 +81,11 @@ public class ComentarioServiceImplementation implements ComentarioService {
 
     @Override
     public void deleteById(Long id) {
+        log.info("Eliminando comentario: id={}", id);
         if (!comentarioRepository.existsById(id)) {
             throw new EntityNotFoundException("No se pudo encontrar ningun comentario con ese id");
         }
         comentarioRepository.deleteById(id);
+        log.info("Comentario eliminado exitosamente: id={}", id);
     }
 }

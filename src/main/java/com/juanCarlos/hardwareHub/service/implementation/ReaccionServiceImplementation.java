@@ -13,6 +13,7 @@ import com.juanCarlos.hardwareHub.service.ForumEventPublisher;
 import com.juanCarlos.hardwareHub.service.ReaccionService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -27,6 +28,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class ReaccionServiceImplementation implements ReaccionService {
 
     private final ReaccionRepository reaccionRepository;
@@ -36,6 +38,7 @@ public class ReaccionServiceImplementation implements ReaccionService {
 
     @Override
     public ReaccionConteoDto addOrUpdateReaction(Long publicacionId, Long usuarioId, TipoReaccion tipo) {
+        log.info("Procesando reacción: publicacionId={}, usuarioId={}, tipo={}", publicacionId, usuarioId, tipo);
         PublicacionEntity publicacion = publicacionRepository.findById(publicacionId)
                 .orElseThrow(() -> new NoSuchElementException("No se pudo encontrar ninguna publicación con id: " + publicacionId));
         UsuarioEntity usuario = usuarioRepository.findById(usuarioId)
@@ -45,10 +48,12 @@ public class ReaccionServiceImplementation implements ReaccionService {
 
         if (existente.isPresent()) {
             // Actualizar el tipo de reacción existente
+            log.debug("Actualizando reacción existente: tipo anterior={}, tipo nuevo={}", existente.get().getTipo(), tipo);
             existente.get().setTipo(tipo);
             reaccionRepository.save(existente.get());
         } else {
             // Crear nueva reacción
+            log.debug("Creando nueva reacción para publicacionId={}, usuarioId={}", publicacionId, usuarioId);
             ReaccionId id = new ReaccionId(usuarioId, publicacionId);
             ReaccionEntity nueva = new ReaccionEntity(id, usuario, publicacion, tipo);
             reaccionRepository.save(nueva);
@@ -57,11 +62,13 @@ public class ReaccionServiceImplementation implements ReaccionService {
         ReaccionConteoDto conteoDto = buildConteoDto(publicacionId);
         // Broadcast a todos los usuarios que estén viendo esta publicación
         forumEventPublisher.publishReaccionUpdate(conteoDto);
+        log.info("Reacción procesada exitosamente: publicacionId={}, usuarioId={}", publicacionId, usuarioId);
         return conteoDto;
     }
 
     @Override
     public void removeReaction(Long publicacionId, Long usuarioId) {
+        log.info("Eliminando reacción: publicacionId={}, usuarioId={}", publicacionId, usuarioId);
         if (!publicacionRepository.existsById(publicacionId)) {
             throw new NoSuchElementException("No se pudo encontrar ninguna publicación con id: " + publicacionId);
         }
@@ -72,6 +79,7 @@ public class ReaccionServiceImplementation implements ReaccionService {
         reaccionRepository.deleteById(id);
         // Broadcast del conteo actualizado tras eliminar la reacción
         forumEventPublisher.publishReaccionUpdate(buildConteoDto(publicacionId));
+        log.info("Reacción eliminada exitosamente: publicacionId={}, usuarioId={}", publicacionId, usuarioId);
     }
 
     @Override

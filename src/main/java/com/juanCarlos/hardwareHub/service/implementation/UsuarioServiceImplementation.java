@@ -14,6 +14,7 @@ import com.juanCarlos.hardwareHub.service.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class UsuarioServiceImplementation implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
@@ -40,7 +42,9 @@ public class UsuarioServiceImplementation implements UsuarioService {
 
     @Override
     public UsuarioResponseDto register(RegisterRequestDto requestDto) {
+        log.info("Registrando nuevo usuario: email={}", requestDto.getEmail());
         if (usuarioRepository.existsByEmail(requestDto.getEmail())) {
+            log.warn("Intento de registro fallido: email duplicado={}", requestDto.getEmail());
             throw new EmailAlreadyExistsException("Ya existe un usuario registrado con el email: " + requestDto.getEmail());
         }
 
@@ -52,6 +56,7 @@ public class UsuarioServiceImplementation implements UsuarioService {
         entity.setRol(UsuarioRol.ROL_USUARIO);
 
         UsuarioEntity savedEntity = usuarioRepository.save(entity);
+        log.info("Usuario registrado exitosamente: id={}, email={}, nombre={}", savedEntity.getId(), requestDto.getEmail(), requestDto.getNombre());
         return usuarioMapper.toResponseDto(savedEntity);
     }
 
@@ -105,7 +110,9 @@ public class UsuarioServiceImplementation implements UsuarioService {
 
     @Override
     public UsuarioResponseDto followUser(Long followerId, Long followedId) {
+        log.info("Usuario {} intenta seguir a usuario {}", followerId, followedId);
         if (followerId.equals(followedId)) {
+            log.warn("Intento de auto-seguimiento rechazado: userId={}", followerId);
             throw new IllegalArgumentException("Un usuario no puede seguirse a sí mismo");
         }
         UsuarioEntity follower = usuarioRepository.findById(followerId)
@@ -117,12 +124,16 @@ public class UsuarioServiceImplementation implements UsuarioService {
         if (!usuarioRepository.isFollowing(followerId, followedId)) {
             follower.getUsuariosSeguidos().add(followed);
             usuarioRepository.save(follower);
+            log.info("Usuario {} ahora sigue a usuario {}", followerId, followedId);
+        } else {
+            log.debug("Ya existía relación de seguimiento: followerId={}, followedId={}", followerId, followedId);
         }
         return usuarioMapper.toResponseDto(follower);
     }
 
     @Override
     public UsuarioResponseDto unfollowUser(Long followerId, Long followedId) {
+        log.info("Usuario {} intenta dejar de seguir a usuario {}", followerId, followedId);
         UsuarioEntity follower = usuarioRepository.findById(followerId)
                 .orElseThrow(() -> new NoSuchElementException("No se pudo encontrar ningún usuario con id: " + followerId));
         UsuarioEntity followed = usuarioRepository.findById(followedId)
@@ -130,6 +141,7 @@ public class UsuarioServiceImplementation implements UsuarioService {
 
         follower.getUsuariosSeguidos().remove(followed);
         usuarioRepository.save(follower);
+        log.info("Usuario {} ya no sigue a usuario {}", followerId, followedId);
         return usuarioMapper.toResponseDto(follower);
     }
 

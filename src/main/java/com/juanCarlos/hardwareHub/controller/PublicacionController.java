@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/publicaciones")
 @AllArgsConstructor
+@Slf4j
 @Tag(name = "Publicación", description = "Gestión de publicaciones de montajes en la plataforma")
 public class PublicacionController {
 
@@ -39,19 +41,28 @@ public class PublicacionController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String sort
     ) {
-        return ResponseEntity.ok(publicacionService.searchAll(filter, page, size, sort));
+        log.info("Buscando publicaciones: filter={}, page={}, size={}, sort={}", filter, page, size, sort);
+        Page<PublicacionResponseDto> result = publicacionService.searchAll(filter, page, size, sort);
+        log.info("Búsqueda completada: {} publicaciones encontradas", result.getTotalElements());
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Obtener una publicación por su ID")
     public ResponseEntity<PublicacionResponseDto> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(publicacionService.getById(id));
+        log.info("Obteniendo publicación con id={}", id);
+        PublicacionResponseDto result = publicacionService.getById(id);
+        log.info("Publicación obtenida exitosamente: id={}", id);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
     @Operation(summary = "Crear una nueva publicación")
     public ResponseEntity<PublicacionResponseDto> create(@Valid @RequestBody PublicacionRequestDto requestDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(publicacionService.create(requestDto));
+        log.info("Creando nueva publicación para usuarioId={}", requestDto.getUsuarioId());
+        PublicacionResponseDto result = publicacionService.create(requestDto);
+        log.info("Publicación creada exitosamente: id={}, usuarioId={}", result.getId(), requestDto.getUsuarioId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PutMapping("/{id}")
@@ -60,13 +71,18 @@ public class PublicacionController {
             @PathVariable Long id,
             @Valid @RequestBody PublicacionRequestDto requestDto
     ) {
-        return ResponseEntity.ok(publicacionService.update(id, requestDto));
+        log.info("Actualizando publicación: id={}", id);
+        PublicacionResponseDto result = publicacionService.update(id, requestDto);
+        log.info("Publicación actualizada exitosamente: id={}", id);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar una publicación por su ID")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Eliminando publicación: id={}", id);
         publicacionService.deleteById(id);
+        log.info("Publicación eliminada exitosamente: id={}", id);
         return ResponseEntity.noContent().build();
     }
 
@@ -78,9 +94,10 @@ public class PublicacionController {
             @PathVariable Long id,
             @Valid @RequestBody ReaccionRequestDto requestDto
     ) {
-        return ResponseEntity.ok(
-                reaccionService.addOrUpdateReaction(id, requestDto.getUsuarioId(), requestDto.getTipo())
-        );
+        log.info("Procesando reacción: publicacionId={}, usuarioId={}, tipo={}", id, requestDto.getUsuarioId(), requestDto.getTipo());
+        ReaccionConteoDto result = reaccionService.addOrUpdateReaction(id, requestDto.getUsuarioId(), requestDto.getTipo());
+        log.info("Reacción procesada exitosamente: publicacionId={}", id);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{id}/reaccion/{usuarioId}")
@@ -89,13 +106,18 @@ public class PublicacionController {
             @PathVariable Long id,
             @PathVariable Long usuarioId
     ) {
+        log.info("Eliminando reacción: publicacionId={}, usuarioId={}", id, usuarioId);
         reaccionService.removeReaction(id, usuarioId);
+        log.info("Reacción eliminada exitosamente: publicacionId={}, usuarioId={}", id, usuarioId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/reacciones")
     @Operation(summary = "Obtener el conteo de reacciones agrupadas por tipo de una publicación")
     public ResponseEntity<ReaccionConteoDto> getReacciones(@PathVariable Long id) {
-        return ResponseEntity.ok(reaccionService.getReactionsByPublication(id));
+        log.info("Obteniendo conteo de reacciones: publicacionId={}", id);
+        ReaccionConteoDto result = reaccionService.getReactionsByPublication(id);
+        log.info("Conteo obtenido exitosamente: publicacionId={}", id);
+        return ResponseEntity.ok(result);
     }
 }

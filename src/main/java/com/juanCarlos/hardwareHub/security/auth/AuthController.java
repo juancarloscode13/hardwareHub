@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
     private final UsuarioService usuarioService;
     private final JwtService jwtService;
@@ -69,7 +71,9 @@ public class AuthController {
      */
     @PostMapping("/register")
     public ResponseEntity<UsuarioResponseDto> register(@Valid @RequestBody RegisterRequestDto registerRequest) {
+        log.info("Intento de registro: email={}", registerRequest.getEmail());
         UsuarioResponseDto response = usuarioService.register(registerRequest);
+        log.info("Registro exitoso: id={}, email={}", response.getId(), registerRequest.getEmail());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -83,25 +87,32 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequest,
                                                    HttpServletResponse response) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-        );
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        log.info("Intento de login: email={}", loginRequest.getEmail());
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+            );
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        // 1. Access token (JWT, 15 min)
-        String accessToken = jwtService.generateAccessToken(userDetails);
+            // 1. Access token (JWT, 15 min)
+            String accessToken = jwtService.generateAccessToken(userDetails);
 
-        // 2. Refresh token (UUID opaco, 7 días)
-        UsuarioEntity usuario = usuarioService.getByEmail(userDetails.getUsername());
-        RefreshTokenEntity refreshToken = refreshTokenService.createRefreshToken(usuario);
+            // 2. Refresh token (UUID opaco, 7 días)
+            UsuarioEntity usuario = usuarioService.getByEmail(userDetails.getUsername());
+            RefreshTokenEntity refreshToken = refreshTokenService.createRefreshToken(usuario);
 
-        // 3. Cookies HttpOnly
-        addTokenCookies(response, accessToken, refreshToken.getToken());
+            // 3. Cookies HttpOnly
+            addTokenCookies(response, accessToken, refreshToken.getToken());
 
-        // 4. Body sin datos sensibles
-        String role = usuario.getRol().name();
+            // 4. Body sin datos sensibles
+            String role = usuario.getRol().name();
 
-        return ResponseEntity.ok(new LoginResponseDto(userDetails.getUsername(), role));
+            log.info("Login exitoso: email={}, role={}", loginRequest.getEmail(), role);
+            return ResponseEntity.ok(new LoginResponseDto(userDetails.getUsername(), role));
+        } catch (BadCredentialsException e) {
+            log.warn("Intento de login fallido: email={}, motivo=credenciales inválidas", loginRequest.getEmail());
+            throw e;
+        }
     }
 
     /**
@@ -114,8 +125,10 @@ public class AuthController {
     @PostMapping("/refresh")
     public ResponseEntity<Map<String, Boolean>> refresh(HttpServletRequest request,
                                                          HttpServletResponse response) {
+        log.info("Intento de refresh token");
         String refreshTokenValue = extractCookieValue(request, "refresh_token");
         if (refreshTokenValue == null) {
+            log.warn("Refresh token no encontrado en cookies");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
@@ -134,6 +147,7 @@ public class AuthController {
         // Cookies actualizadas
         addTokenCookies(response, newAccessToken, newRefreshToken.getToken());
 
+        log.info("Refresh token ejecutado exitosamente: email={}", usuario.getEmail());
         return ResponseEntity.ok(Map.of("refreshed", true));
     }
 
@@ -143,10 +157,12 @@ public class AuthController {
      */
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
+        log.info("Intento de logout");
         // Revocar refresh token si existe
         String refreshTokenValue = extractCookieValue(request, "refresh_token");
         if (refreshTokenValue != null) {
             refreshTokenService.revokeToken(refreshTokenValue);
+            log.debug("Refresh token revocado");
         }
 
         // Borrar cookies
@@ -156,6 +172,7 @@ public class AuthController {
                 cookieUtil.buildDeleteCookie("refresh_token", "/auth/refresh").toString());
 
         SecurityContextHolder.clearContext();
+        log.info("Logout completado: cookies borradas y contexto limpiado");
         return ResponseEntity.noContent().build();
     }
 
@@ -165,15 +182,19 @@ public class AuthController {
      */
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponseDto> me() {
+        log.info("Solicitando datos del usuario autenticado");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
+            log.warn("Intento de acceso a /me sin autenticación");
             throw new BadCredentialsException("No hay usuario autenticado");
         }
 
         String email = authentication.getName();
+        log.debug("Obteniendo datos del usuario: email={}", email);
         UsuarioEntity usuario = usuarioService.getByEmail(email);
         UsuarioResponseDto usuarioDto = usuarioMapper.toResponseDto(usuario);
 
+        log.info("Datos del usuario autenticado obtenidos: id={}, email={}", usuarioDto.getId(), email);
         return ResponseEntity.status(HttpStatus.OK).body(usuarioDto);
     }
 
@@ -186,7 +207,14 @@ public class AuthController {
      */
     @PostMapping("/forgot-password")
     public ResponseEntity<Map<String, String>> forgotPassword(@Valid @RequestBody ForgotPasswordRequestDto request) {
-        passwordResetService.requestPasswordReset(request.getEmail());
+        log.info("Solicitud de recuperación de contraseña: email={}", request.getEmail());
+        try {
+            passwordResetService.requestPasswordReset(request.getEmail());
+            log.info("Procesamiento de recuperación completado: email={}", request.getEmail());
+        } catch (Exception e) {
+            log.warn("Error al procesar recuperación de contraseña: email={}, error={}", request.getEmail(), e.getMessage());
+            // No propagamos el error para evitar enumeración de usuarios
+        }
         return ResponseEntity.ok(Map.of("message", "Si el email está registrado, recibirás un correo con instrucciones."));
     }
 
@@ -196,8 +224,15 @@ public class AuthController {
      */
     @PostMapping("/reset-password")
     public ResponseEntity<Map<String, String>> resetPassword(@Valid @RequestBody ResetPasswordRequestDto request) {
-        passwordResetService.resetPassword(request.getToken(), request.getNuevaContrasena());
-        return ResponseEntity.ok(Map.of("message", "Contraseña restablecida correctamente."));
+        log.info("Intento de reset de contraseña con token");
+        try {
+            passwordResetService.resetPassword(request.getToken(), request.getNuevaContrasena());
+            log.info("Reset de contraseña completado exitosamente");
+            return ResponseEntity.ok(Map.of("message", "Contraseña restablecida correctamente."));
+        } catch (Exception e) {
+            log.warn("Intento de reset de contraseña fallido: error={}", e.getMessage());
+            throw e;
+        }
     }
 
     //Métodos auxiliares privados

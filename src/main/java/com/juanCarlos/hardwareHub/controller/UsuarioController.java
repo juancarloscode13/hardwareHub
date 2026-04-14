@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/usuarios")
 @AllArgsConstructor
+@Slf4j
 @Tag(name = "Usuario", description = "Gestión de usuarios de la plataforma")
 public class UsuarioController {
 
@@ -37,31 +39,45 @@ public class UsuarioController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String sort
     ) {
-        return ResponseEntity.ok(usuarioService.searchAll(filter, page, size, sort));
+        log.info("Buscando usuarios: filter={}, page={}, size={}, sort={}", filter, page, size, sort);
+        Page<UsuarioResponseDto> result = usuarioService.searchAll(filter, page, size, sort);
+        log.info("Búsqueda completada: {} usuarios encontrados", result.getTotalElements());
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Obtener un usuario por su ID")
     public ResponseEntity<UsuarioResponseDto> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(usuarioService.getById(id));
+        log.info("Obteniendo usuario con id={}", id);
+        UsuarioResponseDto result = usuarioService.getById(id);
+        log.info("Usuario obtenido exitosamente: id={}", id);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
     @Operation(summary = "Crear un nuevo usuario")
     public ResponseEntity<UsuarioResponseDto> create(@Valid @RequestBody UsuarioRequestDto requestDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.create(requestDto));
+        log.info("Creando nuevo usuario: email={}", requestDto.getEmail());
+        UsuarioResponseDto result = usuarioService.create(requestDto);
+        log.info("Usuario creado exitosamente: id={}, email={}", result.getId(), requestDto.getEmail());
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar un usuario existente por su ID")
     public ResponseEntity<UsuarioResponseDto> update(@PathVariable Long id, @Valid @RequestBody UsuarioRequestDto requestDto) {
-        return ResponseEntity.ok(usuarioService.update(id, requestDto));
+        log.info("Actualizando usuario: id={}", id);
+        UsuarioResponseDto result = usuarioService.update(id, requestDto);
+        log.info("Usuario actualizado exitosamente: id={}", id);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar un usuario por su ID")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        log.info("Eliminando usuario: id={}", id);
         usuarioService.deleteById(id);
+        log.info("Usuario eliminado exitosamente: id={}", id);
         return ResponseEntity.noContent().build();
     }
 
@@ -73,7 +89,10 @@ public class UsuarioController {
             @PathVariable Long id,
             @PathVariable Long targetId
     ) {
-        return ResponseEntity.ok(usuarioService.followUser(id, targetId));
+        log.info("Usuario {} intenta seguir a usuario {}", id, targetId);
+        UsuarioResponseDto result = usuarioService.followUser(id, targetId);
+        log.info("Usuario {} ahora sigue a usuario {}", id, targetId);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{id}/follow/{targetId}")
@@ -82,18 +101,27 @@ public class UsuarioController {
             @PathVariable Long id,
             @PathVariable Long targetId
     ) {
-        return ResponseEntity.ok(usuarioService.unfollowUser(id, targetId));
+        log.info("Usuario {} intenta dejar de seguir a usuario {}", id, targetId);
+        UsuarioResponseDto result = usuarioService.unfollowUser(id, targetId);
+        log.info("Usuario {} ya no sigue a usuario {}", id, targetId);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}/followers")
     @Operation(summary = "Obtener la lista de seguidores del usuario {id}")
     public ResponseEntity<List<UsuarioResponseDto>> getFollowers(@PathVariable Long id) {
-        return ResponseEntity.ok(usuarioService.getFollowers(id));
+        log.info("Obteniendo lista de seguidores para usuario: id={}", id);
+        List<UsuarioResponseDto> result = usuarioService.getFollowers(id);
+        log.info("Lista de seguidores obtenida: id={}, total={}", id, result.size());
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}/following")
     @Operation(summary = "Obtener la lista de usuarios a los que sigue el usuario {id}")
     public ResponseEntity<List<UsuarioResponseDto>> getFollowing(@PathVariable Long id) {
-        return ResponseEntity.ok(usuarioService.getFollowing(id));
+        log.info("Obteniendo lista de usuarios seguidos por usuario: id={}", id);
+        List<UsuarioResponseDto> result = usuarioService.getFollowing(id);
+        log.info("Lista de usuarios seguidos obtenida: id={}, total={}", id, result.size());
+        return ResponseEntity.ok(result);
     }
 }
