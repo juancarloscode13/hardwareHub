@@ -9,6 +9,7 @@ import com.juanCarlos.hardwareHub.entity.enums.TipoReaccion;
 import com.juanCarlos.hardwareHub.repository.PublicacionRepository;
 import com.juanCarlos.hardwareHub.repository.ReaccionRepository;
 import com.juanCarlos.hardwareHub.repository.UsuarioRepository;
+import com.juanCarlos.hardwareHub.service.ForumEventPublisher;
 import com.juanCarlos.hardwareHub.service.ReaccionService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,7 @@ public class ReaccionServiceImplementation implements ReaccionService {
     private final ReaccionRepository reaccionRepository;
     private final PublicacionRepository publicacionRepository;
     private final UsuarioRepository usuarioRepository;
+    private final ForumEventPublisher forumEventPublisher;
 
     @Override
     public ReaccionConteoDto addOrUpdateReaction(Long publicacionId, Long usuarioId, TipoReaccion tipo) {
@@ -52,7 +54,10 @@ public class ReaccionServiceImplementation implements ReaccionService {
             reaccionRepository.save(nueva);
         }
 
-        return buildConteoDto(publicacionId);
+        ReaccionConteoDto conteoDto = buildConteoDto(publicacionId);
+        // Broadcast a todos los usuarios que estén viendo esta publicación
+        forumEventPublisher.publishReaccionUpdate(conteoDto);
+        return conteoDto;
     }
 
     @Override
@@ -65,6 +70,8 @@ public class ReaccionServiceImplementation implements ReaccionService {
         }
         ReaccionId id = new ReaccionId(usuarioId, publicacionId);
         reaccionRepository.deleteById(id);
+        // Broadcast del conteo actualizado tras eliminar la reacción
+        forumEventPublisher.publishReaccionUpdate(buildConteoDto(publicacionId));
     }
 
     @Override

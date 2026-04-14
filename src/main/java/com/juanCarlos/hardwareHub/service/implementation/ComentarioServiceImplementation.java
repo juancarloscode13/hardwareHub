@@ -8,6 +8,7 @@ import com.juanCarlos.hardwareHub.dto.response.ComentarioResponseDto;
 import com.juanCarlos.hardwareHub.entity.ComentarioEntity;
 import com.juanCarlos.hardwareHub.repository.ComentarioRepository;
 import com.juanCarlos.hardwareHub.service.ComentarioService;
+import com.juanCarlos.hardwareHub.service.ForumEventPublisher;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -31,13 +32,17 @@ public class ComentarioServiceImplementation implements ComentarioService {
     private final ComentarioRepository comentarioRepository;
     private final ComentarioMapper comentarioMapper;
     private final GenericSearchService searchService;
+    private final ForumEventPublisher forumEventPublisher;
 
     @Override
     public ComentarioResponseDto create(ComentarioRequestDto requestDto) {
         ComentarioEntity entity = comentarioMapper.toEntity(requestDto);
         entity.setFecha(LocalDateTime.now());
         ComentarioEntity savedEntity = comentarioRepository.save(entity);
-        return comentarioMapper.toResponseDto(savedEntity);
+        ComentarioResponseDto responseDto = comentarioMapper.toResponseDto(savedEntity);
+        // Broadcast a todos los usuarios que estén viendo esta publicación
+        forumEventPublisher.publishNuevoComentario(responseDto);
+        return responseDto;
     }
 
     @Override

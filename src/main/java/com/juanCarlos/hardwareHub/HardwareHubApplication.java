@@ -15,8 +15,7 @@ public class HardwareHubApplication {
 
 	public static void main(String[] args) {
 		/*
-		 * Fija el nombre del fichero de log UNA SOLA VEZ por arranque.
-		 * Esto se hace asi para evitar problemas de archivos duplicados de log.
+		 * Fija el nombre del fichero en cada arranque.
 		 */
 		if (System.getProperty("app.log.file") == null) {
 			String timestamp = LocalDateTime.now()

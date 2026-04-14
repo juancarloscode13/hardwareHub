@@ -9,6 +9,7 @@ import com.juanCarlos.hardwareHub.entity.PublicacionEntity;
 import com.juanCarlos.hardwareHub.entity.ReaccionEntity;
 import com.juanCarlos.hardwareHub.entity.enums.TipoReaccion;
 import com.juanCarlos.hardwareHub.repository.PublicacionRepository;
+import com.juanCarlos.hardwareHub.service.ForumEventPublisher;
 import com.juanCarlos.hardwareHub.service.PublicacionService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -36,6 +37,7 @@ public class PublicacionServiceImplementation implements PublicacionService {
     private final PublicacionRepository publicacionRepository;
     private final PublicacionMapper publicacionMapper;
     private final GenericSearchService searchService;
+    private final ForumEventPublisher forumEventPublisher;
 
     @Override
     public PublicacionResponseDto create(PublicacionRequestDto requestDto) {
@@ -43,7 +45,10 @@ public class PublicacionServiceImplementation implements PublicacionService {
         validateMontajeMultimediaRule(entity);
         entity.setFecha(LocalDateTime.now());
         PublicacionEntity savedEntity = publicacionRepository.save(entity);
-        return enrichWithCounts(publicacionMapper.toResponseDto(savedEntity), savedEntity);
+        PublicacionResponseDto responseDto = enrichWithCounts(publicacionMapper.toResponseDto(savedEntity), savedEntity);
+        // Broadcast a todos los usuarios conectados al foro
+        forumEventPublisher.publishNuevaPublicacion(savedEntity);
+        return responseDto;
     }
 
     @Override

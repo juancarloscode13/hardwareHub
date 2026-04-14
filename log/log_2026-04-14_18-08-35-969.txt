@@ -1,0 +1,62 @@
+2026-04-14 18:17:24.690 [restartedMain] INFO  c.j.h.HardwareHubApplication - Starting HardwareHubApplication using Java 25.0.1 with PID 22152 (C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub\target\classes started by juanc in C:\Users\juanc\Desktop\TFG-2DAM\hardwareHub)
+2026-04-14 18:17:24.690 [restartedMain] INFO  c.j.h.HardwareHubApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-14 18:17:25.024 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-14 18:17:25.078 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 53 ms. Found 18 JPA repository interfaces.
+2026-04-14 18:17:25.259 [restartedMain] INFO  o.s.b.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-04-14 18:17:25.260 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-04-14 18:17:25.261 [restartedMain] INFO  o.a.c.c.StandardService - Starting service [Tomcat]
+2026-04-14 18:17:25.261 [restartedMain] INFO  o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-04-14 18:17:25.281 [restartedMain] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 589 ms
+2026-04-14 18:17:25.841 [restartedMain] INFO  c.z.h.HikariDataSource - HikariPool-2 - Starting...
+2026-04-14 18:17:25.874 [restartedMain] INFO  c.z.h.p.HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@145c3fc7
+2026-04-14 18:17:25.875 [restartedMain] INFO  c.z.h.HikariDataSource - HikariPool-2 - Start completed.
+2026-04-14 18:17:25.877 [restartedMain] INFO  o.h.o.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-14 18:17:25.928 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-14 18:17:25.932 [restartedMain] INFO  o.h.o.c.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/hardware_hub]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.41
+	Default catalog/schema: hardware_hub/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-14 18:17:26.489 [restartedMain] INFO  o.h.o.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-14 18:17:26.490 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-14 18:17:26.754 [restartedMain] INFO  o.s.b.w.s.RegistrationBean - Filter jwtFilterRegistration was not registered (disabled)
+2026-04-14 18:17:27.221 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-04-14 18:17:27.221 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-04-14 18:17:27.337 [restartedMain] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-14 18:17:27.675 [restartedMain] INFO  o.s.b.a.e.w.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-04-14 18:17:27.691 [restartedMain] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Starting...
+2026-04-14 18:17:27.691 [restartedMain] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2be49233]]
+2026-04-14 18:17:27.691 [restartedMain] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Started.
+2026-04-14 18:17:27.693 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-04-14 18:17:27.694 [restartedMain] INFO  o.s.b.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-04-14 18:17:27.699 [restartedMain] INFO  c.j.h.HardwareHubApplication - Started HardwareHubApplication in 3.031 seconds (process running for 531.963)
+2026-04-14 18:17:27.700 [restartedMain] WARN  o.s.c.e.SpringDocAppInitializer - SpringDoc /api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-04-14 18:17:27.700 [restartedMain] WARN  o.s.c.e.SpringDocAppInitializer - SpringDoc /swagger endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-04-14 18:17:27.702 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-04-14 18:18:27.691 [MessageBroker-2] INFO  o.s.w.s.c.WebSocketMessageBrokerStats - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 3, active threads = 1, queued tasks = 1, completed tasks = 1]
+2026-04-14 18:18:51.205 [http-nio-8080-exec-5] INFO  o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-14 18:18:51.206 [http-nio-8080-exec-5] INFO  o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-14 18:18:51.218 [http-nio-8080-exec-5] INFO  o.s.w.s.DispatcherServlet - Completed initialization in 12 ms
+2026-04-14 18:18:59.585 [http-nio-8080-exec-7] WARN  o.s.d.w.c.SpringDataJackson3Configuration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-04-14 18:19:44.080 [http-nio-8080-exec-7] INFO  c.j.h.s.ForumEventPublisher - Evento nueva publicación publicado en /topic/forum.feed: id=10, usuarioId=5
+2026-04-14 18:19:59.585 [http-nio-8080-exec-2] INFO  c.j.h.s.ForumEventPublisher - Evento reacción publicado en /topic/publicacion.10.reacciones
+2026-04-14 18:20:13.333 [http-nio-8080-exec-7] INFO  c.j.h.s.ForumEventPublisher - Evento nuevo comentario publicado en /topic/publicacion.10.comentarios: id=9
+2026-04-14 18:20:39.125 [http-nio-8080-exec-13] INFO  c.j.h.s.ForumEventPublisher - Evento nuevo comentario publicado en /topic/publicacion.10.comentarios: id=10
+2026-04-14 18:21:20.078 [SpringApplicationShutdownHook] INFO  o.s.b.t.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-14 18:21:20.082 [tomcat-shutdown] INFO  o.s.b.t.GracefulShutdown - Graceful shutdown complete
+2026-04-14 18:21:20.086 [SpringApplicationShutdownHook] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Stopping...
+2026-04-14 18:21:20.087 [SpringApplicationShutdownHook] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2be49233]]
+2026-04-14 18:21:20.087 [SpringApplicationShutdownHook] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Stopped.
+2026-04-14 18:21:20.091 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-14 18:21:20.091 [SpringApplicationShutdownHook] INFO  c.z.h.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-04-14 18:21:20.094 [SpringApplicationShutdownHook] INFO  c.z.h.HikariDataSource - HikariPool-2 - Shutdown completed.
